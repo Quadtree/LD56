@@ -11,6 +11,7 @@ enum class BateriaType : uint8_t
     Gobbler,
     Zoomer,
     Spitter,
+    Max,
 };
 
 class Bacteria

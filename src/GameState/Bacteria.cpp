@@ -16,4 +16,10 @@ vector<shared_ptr<SDL_Texture>> bacteriaTextures;
 
 void Bacteria::Render(SDL_Renderer *rnd, Camera &camera)
 {
+    if (bacteriaTextures.size() == 0)
+    {
+        bacteriaTextures.resize((int)BateriaType::Max);
+
+        bacteriaTextures[(int)BacteriaType::Converter] = LoadTexture("assets/converter1.xcf");
+    }
 }
