@@ -57,5 +57,5 @@ void SubmitToThreadPool(function<void()> func)
         }
     }
 
-    threadPoolWorkQueue.enqueue(func);
+    threadPoolWorkQueue.push(func);
 }
