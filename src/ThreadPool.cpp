@@ -41,7 +41,7 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            this_thread::yield();
+            SDL_Delay(1);
         }
     }
 }
@@ -77,6 +77,6 @@ void WaitForThreadPoolToFinishAllTasks()
                 return;
         }
 
-        this_thread::yield();
+        SDL_Delay(1);
     }
 }
