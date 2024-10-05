@@ -5,7 +5,12 @@
 
 #define MAX_BACTERIA 1024
 
-class GameState
+class MutationQueueTarget
+{
+    QueueMutation(function<void()> mutation);
+};
+
+class GameState : public MutationQueueTarget
 {
 public:
     GameState();
@@ -17,4 +22,6 @@ public:
 
     Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
+
+    QueueMutation(function<void()> mutation);
 };

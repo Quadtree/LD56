@@ -31,7 +31,7 @@ void GameState::DoUpdate(GameState &nextGameState)
                            {
             for (int j = startPos; j < endPos; ++j)
             {
-                BacteriaList[j].Update1(nextGameState.BacteriaList[j], queueMutation);
+                BacteriaList[j].Update1(nextGameState.BacteriaList[j], nextGameState);
             } });
     }
 }
