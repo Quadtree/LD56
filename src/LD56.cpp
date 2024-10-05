@@ -50,7 +50,7 @@ void AltThreadEntryPoint()
 int main(int argc, char *argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO);
-	// TTF_Init();
+	TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
 
 	srand((unsigned int)time(nullptr));
