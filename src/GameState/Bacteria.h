@@ -11,7 +11,7 @@ public:
     uint8_t Faction;
     uint8_t Health;
 
-    void Update1(Bacteria &nextState, MutationQueueTarget& queueMutation) const;
+    void Update1(Bacteria &nextState, class MutationQueueTarget *queueMutation) const;
 
     // void Update1(const Bacteria &currentState, Bacteria &nextState, std::function<void(int)> queueMutation);
 };
