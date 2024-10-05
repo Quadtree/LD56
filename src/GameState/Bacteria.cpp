@@ -1,6 +1,7 @@
 #include "../LD56.h"
 #include "Bacteria.h"
 #include "../Camera.h"
+#include "../Util.h"
 
 void Bacteria::Update1(Bacteria &nextState, class MutationQueue *queueMutation) const
 {
