@@ -103,6 +103,9 @@ void InGameMainLoop()
 
         camera.CenterPos = Vector2(windowW, windowH);
 
+        DUMP(camera.CenterPos.X);
+        DUMP(camera.CenterPos.Y);
+
         auto camTest = camera.RealToScreen(Vector2(0, 0));
         DUMP(camTest.X);
         DUMP(camTest.Y);
