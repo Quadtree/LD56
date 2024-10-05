@@ -8,6 +8,7 @@ queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
 thread::id mainThreadId;
+bool hasDeterminedMainThreadId = false;
 
 int numProc = -1;
 
@@ -90,8 +91,11 @@ void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
 
-    if (!mainThreadId)
+    if (!hasDeterminedMainThreadId)
+    {
         mainThreadId = this_thread::get_id();
+        hasDeterminedMainThreadId = true;
+    }
 
     if (numProc == -1)
         numProc = max(DetermineNumberOfProcessors() - 1, 1);
