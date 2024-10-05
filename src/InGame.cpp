@@ -75,6 +75,7 @@ void InGameMainLoop()
             if (evt.key.keysym.sym == SDLK_F3)
             {
                 cout << "F3 pressed" << endl;
+                showingDebugInfo = !showingDebugInfo;
             }
         }
     }
@@ -111,6 +112,13 @@ void InGameMainLoop()
 #if _DEBUG
         gameStates[gameStateBeingRendered].BeingRendered = false;
 #endif
+    }
+
+    if (showingDebugInfo)
+    {
+        ostringstream oss;
+        oss << "FPS: " << currentFPS;
+        DrawText(oss.str(), Vector2(20, 20));
     }
 
     SDL_RenderPresent(rnd);
