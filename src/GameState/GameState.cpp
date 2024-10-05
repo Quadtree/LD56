@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "Bacteria.h"
 
 GameState::GameState() : NumActiveBacteria(0)
 {
