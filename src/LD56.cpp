@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	altThread = thread(AltThreadEntryPoint);
 
 	auto testSurf = IMG_Load("assets/xt1.xcf");
-	testImage = SDL_CreateTextureFromSurface(testSurf);
+	testImage = SDL_CreateTextureFromSurface(rnd, testSurf);
 
 	cout << "main() is done" << endl;
 
