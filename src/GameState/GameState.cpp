@@ -3,7 +3,7 @@
 #include "../LD56.h"
 
 #define PROCESSING_BLOCK_SIZE 20
-#define USE_MULTITHREADED_UPDATE 1
+#define USE_MULTITHREADED_UPDATE 0
 
 GameState::GameState() : NumActiveBacteria(0)
 {
