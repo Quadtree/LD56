@@ -92,6 +92,10 @@ void InGameMainLoop()
 
             SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
         }
+
+#if _DEBUG
+        gameStates[gameStateBeingRendered].BeingRendered = false;
+#endif
     }
 
     SDL_RenderPresent(rnd);
