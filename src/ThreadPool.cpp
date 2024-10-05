@@ -7,7 +7,7 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
-latch endOfOperationLatch;
+latch endOfOperationLatch(0);
 
 int DetermineNumberOfProcessors()
 {
