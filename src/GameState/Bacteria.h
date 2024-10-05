@@ -12,7 +12,7 @@ public:
     uint8_t Health;
 
 #if _DEBUG
-    uint64_t NumUpdates;
+    volatile uint64_t NumUpdates;
 #endif
 
     void Update1(Bacteria &nextState, class MutationQueue *queueMutation) const;
