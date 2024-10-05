@@ -61,8 +61,8 @@ void DrawText(std::string text, class Vector2 *pos)
     auto tex = SDL_CreateTextureFromSurface(rnd, surf);
 
     SDL_FRect trg;
-    trg.x = pos->x;
-    trg.y = pos->y;
+    trg.x = pos->X;
+    trg.y = pos->Y;
     trg.w = surf->w;
     trg.h = surf->h;
 
