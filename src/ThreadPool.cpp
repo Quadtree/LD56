@@ -11,6 +11,14 @@ void BarrierCompletionFunction()
 {
 }
 
+mutex msgMutex;
+
+#define PRINT_MSG(x)                                        \
+    {                                                       \
+        lock_guard msgMutexGuard(msgMutex);                 \
+        cout << this_thread::get_id() << ": " << x << endl; \
+    }
+
 unique_ptr<latch> endOfOperationLatch;
 unique_ptr<latch> startOfOperationLatch;
 
@@ -51,18 +59,12 @@ void ThreadPoolEntryPoint()
         }
         else if (endOfOperationLatch)
         {
-            {
-                lock_guard primaryMutexGuard(primaryMutex);
-                cout << this_thread::get_id() << " - " << endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()" << endl;
-            }
+            PRINT_MSG(endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()");
             endOfOperationLatch->arrive_and_wait();
         }
         else if (startOfOperationLatch)
         {
-            {
-                lock_guard primaryMutexGuard(primaryMutex);
-                cout << this_thread::get_id() << " - " << endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()" << endl;
-            }
+            PRINT_MSG(endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()");
             startOfOperationLatch->arrive_and_wait();
         }
         else
