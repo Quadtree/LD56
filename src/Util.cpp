@@ -24,7 +24,7 @@ shared_ptr<SDL_Texture> LoadTexture(string filename)
     return shared_ptr<SDL_Texture>(ret, SDL_DestroyTexture);
 }
 
-void _AssertOnMainThread(string line, string file)
+void _AssertOnMainThread(int line, string file)
 {
     if (this_thread::get_id() != mainThreadId)
     {
