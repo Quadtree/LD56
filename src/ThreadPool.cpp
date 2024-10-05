@@ -80,7 +80,7 @@ void WaitForThreadPoolToFinishAllTasks()
 
     endOfOperationLatch->arrive_and_wait();
 
-    cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
+    // cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
 }
 
 void ExpectThreadPoolToBeEmpty()
