@@ -1,0 +1,43 @@
+services:
+  build:
+    image: "ghcr.io/quadtree/emcc:3.1.62"
+    stop_signal: SIGKILL
+    volumes:
+      - ./:/src:ro
+      - build:/build
+      - output:/output
+      - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
+      - libs:/tmp/libs
+    environment:
+      DEBUG_MODE: "${DEBUG_MODE:-1}"
+      BUILD_DIR: /build/data
+      OUTPUT_DIR: /output/data
+      LIBS_DIR: /tmp/libs/data
+      TEST_FILE: /tmp/libs/testfile
+    command: ["/src/scripts/build.sh"]
+
+  serve:
+    image: docker.io/python:3
+    stop_signal: SIGKILL
+    volumes:
+    - output:/tmp/output:ro
+    ports:
+      - 8080:8080
+      - 7000:8080
+    working_dir: /tmp/output/data
+    command: ["python3", "-m", "http.server", "8080"]
+
+  test:
+    image: "ghcr.io/quadtree/chrome-webdriver@sha256:4c199d78af67a82ebdaff6075bfce236a5f5d48f6c0144c7709fd337f1795e23"
+    stop_signal: SIGKILL
+    volumes:
+    - ./:/app:ro
+    working_dir: /app
+    entrypoint: ["python3"]
+    command: ["tests/run.py", "--target-uri=http://serve:8080/"]
+
+volumes:
+  build:
+  output:
+  emsdk_cache2:
+  libs:
