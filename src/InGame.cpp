@@ -42,7 +42,7 @@ void GameUpdateThread()
             auto startTime = GetTimeAsDouble();
             UpdateWorldState();
             auto endTime = GetTimeAsDouble();
-            cout << "World update time: " << (int)((endTime - startTime) * 1000) << "ms" << endl;
+            // cout << "World update time: " << (int)((endTime - startTime) * 1000) << "ms" << endl;
 
             updatesLastSecond++;
         }
