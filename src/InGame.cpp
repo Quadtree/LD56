@@ -95,6 +95,11 @@ void InGameMainLoop()
         gameStates[gameStateBeingRendered].BeingRendered = true;
 #endif
 
+        int windowW, windowH;
+        SDL_GetWindowSize(wnd, &windowW, &windowH);
+
+        camera.CenterPos = Vector2(windowW, windowH);
+
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
 #if _DEBUG
