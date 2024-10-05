@@ -49,7 +49,7 @@ void SubmitToThreadPool(function<void()> func)
 
     if (threadPool.size() == 0)
     {
-        auto numProc = DetermineNumberOfProcessors() - 1;
+        auto numProc = max(DetermineNumberOfProcessors() - 1, 1);
 
         cout << "Initializing threadpool to size " << numProc << endl;
 
