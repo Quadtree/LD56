@@ -40,7 +40,7 @@ void ThreadPoolEntryPoint()
     bool hasWorkItem;
     function<void()> workItem;
 
-    startOfOperationLatch->arrive_and_wait();
+    DESC_LINE(startOfOperationLatch->arrive_and_wait());
 
     while (true)
     {
