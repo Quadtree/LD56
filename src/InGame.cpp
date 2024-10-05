@@ -72,7 +72,7 @@ void InGameMainLoop()
     {
         if (evt.type == SDL_KEYDOWN)
         {
-            if (evt.key == SDLK_F3)
+            if (evt.key.keysym == SDLK_F3)
             {
                 cout << "F3 pressed" << endl;
             }
