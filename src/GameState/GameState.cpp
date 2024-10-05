@@ -1,6 +1,8 @@
 #include "GameState.h"
 #include "Bacteria.h"
 
+#define PROCESSING_BLOCK_SIZE 5
+
 GameState::GameState() : NumActiveBacteria(0)
 {
     NumActiveBacteria = 100;
@@ -19,8 +21,12 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     std::function<void(std::function<void(class GameState &)>)> queueMutation;
 
-    for (int i = 0; i < NumActiveBacteria; ++i)
+    for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
+        SubmitToThreadPool([]() {
+
+        });
+
         BacteriaList[i].Update1(nextGameState.BacteriaList[i], queueMutation);
     }
 }
