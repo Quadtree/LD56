@@ -11,7 +11,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     auto nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
-    for (auto it & : nearbyBacteria)
+    for (auto &it : nearbyBacteria)
     {
         if (it.ID == ID)
             continue;
