@@ -16,7 +16,7 @@ class SpatialIndex
 public:
     GridCell<T> Cells[(GridSize / Radius) * (GridSize / Radius)];
 
-    int32_t CellXYToCellID(int32_t x, int32_t y)
+    int32_t CellXYToCellID(int32_t x, int32_t y) const
     {
         if (x < 0 || x >= GridSize / Radius || y < 0 || y >= GridSize / Radius)
             return -1;
@@ -24,7 +24,7 @@ public:
         return y * (GridSize / Radius) + x;
     }
 
-    int32_t Vector2ToCellID(const Vector2 &v2)
+    int32_t Vector2ToCellID(const Vector2 &v2) const
     {
         return CellXYToCellID(
             (int32_t)((v2.X / Radius) + 0.5f) + (GridSize / Radius / 2),
