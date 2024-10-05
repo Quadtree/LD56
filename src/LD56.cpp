@@ -37,7 +37,7 @@ void MainLoop()
 	trg.w = 32;
 	trg.h = 32;
 
-	SDL_RenderCopyExF(rnd, testImage, nullptr, &trg, 20, nullptr, 0);
+	SDL_RenderCopyExF(rnd, testImage, nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
 
 	SDL_RenderPresent(rnd);
 }
