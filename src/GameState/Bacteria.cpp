@@ -2,6 +2,7 @@
 #include "Bacteria.h"
 #include "../Camera.h"
 #include "../Util.h"
+#include "GameState.h"
 
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
