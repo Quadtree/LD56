@@ -53,7 +53,7 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
-        currentBacteriaList[i].Update1(nextBacteriaList[i], mutationQueuePtr);
+        currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr);
     }
 #endif
 
