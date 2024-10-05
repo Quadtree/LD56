@@ -109,8 +109,8 @@ void InGameMainLoop()
 
             trg.x = screen.X;
             trg.y = screen.Y;
-            trg.w = camera.RealToScreenScale(32);
-            trg.h = camera.RealToScreenScale(32);
+            trg.w = camera.RealToScreenScale(1);
+            trg.h = camera.RealToScreenScale(1);
 
             SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
         }
