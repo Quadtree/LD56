@@ -11,6 +11,17 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     auto nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
+    for (auto it & : nearbyBacteria)
+    {
+        if (it.ID == ID)
+            continue;
+
+        auto delta = (Position - it.Position).Normalized();
+        Velocity += delta / 20;
+    }
+
+    Position += Velocity;
+
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;
 #endif

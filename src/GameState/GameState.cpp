@@ -15,6 +15,7 @@ GameState::GameState() : NumActiveBacteria(0)
         BacteriaList[i].Health = 1;
         BacteriaList[i].Faction = 0;
         BacteriaList[i].Type = BacteriaType::Converter;
+        BacteriaList[i].ID = i;
     }
 }
 

@@ -55,6 +55,18 @@ struct Vector2
         return *this;
     }
 
+    float Length()
+    {
+        return sqrtf(powf(X, 2) + powf(Y, 2));
+    }
+
+    Vector2 Normalized()
+    {
+        auto len = Length();
+
+        return Vector2(X / len, Y / len);
+    }
+
     float DistToSquared(const Vector2 &v2)
     {
         return powf(X - v2.X, 2) + powf(Y - v2.Y, 2);
