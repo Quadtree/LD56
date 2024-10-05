@@ -1,0 +1,1 @@
+shared_ptr<SDL_Texture> LoadTexture(string filename);

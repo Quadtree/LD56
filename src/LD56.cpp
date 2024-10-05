@@ -12,12 +12,14 @@
 
 #include <thread>
 
+#include "Util.h"
+
 using namespace std;
 
 SDL_Renderer *rnd;
 SDL_Window *wnd;
 
-SDL_Texture *testImage;
+shared_ptr<SDL_Texture> testImage;
 
 thread altThread;
 
@@ -37,7 +39,7 @@ void MainLoop()
 	trg.w = 32;
 	trg.h = 32;
 
-	SDL_RenderCopyExF(rnd, testImage, nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
 
 	SDL_RenderPresent(rnd);
 }
@@ -64,10 +66,7 @@ int main(int argc, char *argv[])
 
 	altThread = thread(AltThreadEntryPoint);
 
-	auto testSurf = IMG_Load("assets/xt3.xcf");
-	DUMP(testSurf);
-	testImage = SDL_CreateTextureFromSurface(rnd, testSurf);
-	DUMP(testImage);
+	testImage = LoadTexture("assets/xt3.xcf");
 
 	cout << "main() is done" << endl;
 
