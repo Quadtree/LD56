@@ -77,6 +77,6 @@ void WaitForThreadPoolToFinishAllTasks()
                 return;
         }
 
-        SDL_Delay(1);
+        SDL_Delay(0);
     }
 }
