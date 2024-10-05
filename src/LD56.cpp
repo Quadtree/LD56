@@ -29,7 +29,7 @@ Uint64 ticksHandledByGameStateUpdates;
 
 void UpdateWorldState()
 {
-	cout << "UPDATE world state!" << endl;
+	cout << "UPDATE world state! " << ticksHandledByGameStateUpdates << endl;
 }
 
 void GameUpdateThread()
