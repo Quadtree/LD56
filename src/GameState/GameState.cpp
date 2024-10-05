@@ -25,6 +25,8 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     if (nextGameState.BeingRendered)
         throw "Cannot also be rendered!";
+
+    ExpectThreadPoolToBeEmpty();
 #endif
 
     MutationQueue mutationQueue;

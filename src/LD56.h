@@ -26,3 +26,4 @@ using namespace std;
 
 void SubmitToThreadPool(function<void()> func);
 void WaitForThreadPoolToFinishAllTasks();
+void ExpectThreadPoolToBeEmpty();
