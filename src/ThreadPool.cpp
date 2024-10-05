@@ -94,23 +94,16 @@ void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
 
-    if (!hasDeterminedMainThreadId)
+    if (threadPool.size() == 0)
     {
         threadPoolControllerThreadId = this_thread::get_id();
         hasDeterminedMainThreadId = true;
-    }
 
-    if (numProc == -1)
         numProc = max(DetermineNumberOfProcessors() - 1, 1);
 
-    if (!endOfOperationLatch)
-    {
         DESC_LINE(endOfOperationLatch = make_unique<barrier<>>(numProc + 1));
         DESC_LINE(startOfOperationLatch = make_unique<barrier<>>(numProc + 1));
-    }
 
-    if (threadPool.size() == 0)
-    {
         cout << "Initializing threadpool to size " << numProc << endl;
 
         for (auto i = 0; i < numProc; ++i)
