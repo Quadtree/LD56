@@ -14,6 +14,9 @@ GameState gameStates[2];
 int currentGameState = 0;
 int nextGameStateToUpdate = 1;
 
+bool showingDebugInfo = false;
+int currentFPS = 0;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
@@ -55,6 +58,7 @@ void GameUpdateThread()
         if (currentSecond != lastSecond)
         {
             cout << "Game Update FPS=" << updatesLastSecond << endl;
+            currentFPS = updatesLastSecond;
             updatesLastSecond = 0;
             lastSecond = currentSecond;
         }
@@ -66,6 +70,13 @@ void InGameMainLoop()
     SDL_Event evt;
     while (SDL_PollEvent(&evt))
     {
+        if (evt.type == SDL_KEYDOWN)
+        {
+            if (evt.key == SDLK_F3)
+            {
+                cout << "F3 pressed" << endl;
+            }
+        }
     }
 
     SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
