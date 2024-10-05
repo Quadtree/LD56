@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "Bacteria.h"
+#include "LD56.h"
 
 #define PROCESSING_BLOCK_SIZE 5
 
