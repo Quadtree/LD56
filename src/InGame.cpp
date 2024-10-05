@@ -44,7 +44,7 @@ void GameUpdateThread()
         }
         else
         {
-            SDL_Delay(0);
+            // SDL_Delay(0);
         }
 
         auto currentSecond = SDL_GetTicks64() / 1000;
