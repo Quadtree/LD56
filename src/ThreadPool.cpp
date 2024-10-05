@@ -83,5 +83,15 @@ void WaitForThreadPoolToFinishAllTasks()
 
 void ExpectThreadPoolToBeEmpty()
 {
-    
+    if (ActiveThreadPoolThreads != 0)
+    {
+        RAISE_ERROR("ActiveThreadPoolThreads should be zero");
+    }
+
+    lock_guard primaryMutexGuard(primaryMutex);
+
+    if (threadPoolWorkQueue.size() != 0)
+    {
+        RAISE_ERROR("threadPoolWorkQueue.size() should be zero");
+    }
 }
