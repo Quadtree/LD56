@@ -52,10 +52,13 @@ void GameState::DoUpdate(GameState &nextGameState)
 #if _DEBUG
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
-        if (nextGameState.BacteriaList[i].NumUpdates != BacteriaList[i].NumUpdates + 1)
+        auto actualNumUpdates = nextGameState.BacteriaList[i].NumUpdates;
+        auto expectedNumUpdates = BacteriaList[i].NumUpdates + 1;
+
+        if (actualNumUpdates != expectedNumUpdates)
         {
-            DUMP(nextGameState.BacteriaList[i].NumUpdates);
-            DUMP(BacteriaList[i].NumUpdates + 1);
+            DUMP(actualNumUpdates);
+            DUMP(expectedNumUpdates);
             RAISE_ERROR("NumUpdates does not match!");
         }
     }
