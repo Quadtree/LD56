@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
 
 	testImage = LoadTexture("assets/xt3.xcf");
 
+	AssertOnMainThread();
+
 	cout << "main() is done" << endl;
 
 	return 0;
