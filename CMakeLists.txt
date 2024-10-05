@@ -1,21 +1,44 @@
-﻿# CMakeList.txt : CMake project for LD56, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.9)
+project(ld56)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+file(COPY "${CMAKE_SOURCE_DIR}/web/" DESTINATION "${CMAKE_BINARY_DIR}/")
+file(COPY "${CMAKE_SOURCE_DIR}/web/" DESTINATION "${CMAKE_BINARY_DIR}/web/")
+file(COPY "${CMAKE_SOURCE_DIR}/web/" DESTINATION "${OUTPUT_DIR}/")
+file(COPY "${CMAKE_SOURCE_DIR}/assets/" DESTINATION "${CMAKE_BINARY_DIR}/assets/")
+
+file(GLOB_RECURSE src_files "*.cpp")
+add_executable(ld56 ${src_files})
+
+if("${DEBUG_MODE}" EQUAL "1")
+    target_compile_options(ld56 PRIVATE -sDISABLE_EXCEPTION_CATCHING=0 -gsource-map -O0 -D _DEBUG=1)
+    target_link_options(ld56 PRIVATE -sDISABLE_EXCEPTION_CATCHING=0 -gsource-map -sDEMANGLE_SUPPORT=1 -O0 -D _DEBUG=1)
+    set(GIT_HASH debug)
+    message("In debug mode")
+else()
+    target_compile_options(ld56 PRIVATE -O3 -flto)
+    target_link_options(ld56 PRIVATE -O3 -flto)
+    execute_process(COMMAND git config --global --add safe.directory "${CMAKE_SOURCE_DIR}")
+    execute_process(WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" COMMAND git rev-parse HEAD COMMAND head -c6 OUTPUT_VARIABLE GIT_HASH OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
+    message("Not in debug mode")
 endif()
 
-project ("LD56")
+message("GIT_HASH=${GIT_HASH}")
 
-# Add source to this project's executable.
-add_executable (LD56 "LD56.cpp" "LD56.h")
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET LD56 PROPERTY CXX_STANDARD 20)
+if(NOT "${GIT_HASH}" MATCHES "^[a-z0-9]+")
+  message(FATAL_ERROR "Unable to derive GIT_HASH")
 endif()
 
-# TODO: Add tests and install targets if needed.
+target_compile_options(ld56 PRIVATE -std=c++1z -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=[\"png\"] "-D_GIT_HASH=\"${GIT_HASH}\"" --no-heap-copy -Wno-unqualified-std-cast-call)
+
+target_link_options(ld56 PRIVATE
+  -std=c++1z -sUSE_FREETYPE=1 -sUSE_SDL=2 -sUSE_SDL_IMAGE=2
+  --embed-file assets -sSDL2_IMAGE_FORMATS=[\"png\"] --shell-file
+  web/shell.html --bind --no-heap-copy -sALLOW_MEMORY_GROWTH -Wl,-u,fileno
+)
+
+set_target_properties(ld56 PROPERTIES OUTPUT_NAME "${OUTPUT_DIR}/index")
+set_target_properties(ld56 PROPERTIES SUFFIX ".html")
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+file(MAKE_DIRECTORY "${OUTPUT_DIR}")
