@@ -12,6 +12,7 @@ void BarrierCompletionFunction()
 }
 
 unique_ptr<latch> endOfOperationLatch;
+unique_ptr<latch> startOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
