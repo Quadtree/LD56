@@ -7,7 +7,6 @@ vector<thread> threadPool;
 mutex primaryMutex;
 
 queue<function<void()>> threadPoolWorkQueue;
-atomic<int> ActiveThreadPoolThreads;
 
 thread::id threadPoolControllerThreadId;
 bool hasDeterminedMainThreadId = false;
@@ -79,9 +78,7 @@ void ThreadPoolEntryPoint()
 
         if (hasWorkItem)
         {
-            ActiveThreadPoolThreads++;
             workItem();
-            ActiveThreadPoolThreads--;
         }
         else
         {
