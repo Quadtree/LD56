@@ -8,22 +8,22 @@ struct Vector2
     float X;
     float Y;
 
-    Vector2 operator/(const float &scalar)
+    Vector2 operator/(const float &scalar) const
     {
         return Vector2(X / scalar, Y / scalar);
     }
 
-    Vector2 operator*(const float &scalar)
+    Vector2 operator*(const float &scalar) const
     {
         return Vector2(X * scalar, Y * scalar);
     }
 
-    Vector2 operator-(const Vector2 &v2)
+    Vector2 operator-(const Vector2 &v2) const
     {
         return Vector2(X - v2.X, Y - v2.Y);
     }
 
-    Vector2 operator+(const Vector2 &v2)
+    Vector2 operator+(const Vector2 &v2) const
     {
         return Vector2(X + v2.X, Y + v2.Y);
     }
