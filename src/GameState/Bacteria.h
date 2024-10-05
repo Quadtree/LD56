@@ -12,5 +12,5 @@ class Bacteria
 
     // void Update1(const Bacteria &currentState, Bacteria &nextState, function<void(function < void(class GameState &))> queueMutation);
 
-    void Update1(const Bacteria &currentState, Bacteria &nextState, function<void(int)> queueMutation);
+    void Update1(const Bacteria &currentState, Bacteria &nextState, std::function<void(int)> queueMutation);
 };
