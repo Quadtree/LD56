@@ -24,7 +24,7 @@ void ThreadPoolEntryPoint()
 
             if (threadPoolWorkQueue.size() > 0)
             {
-                workItem = threadPoolWorkQueue.pop();
+                workItem = move(threadPoolWorkQueue.pop());
                 hasWorkItem = true;
             }
         }
