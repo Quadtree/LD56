@@ -1,3 +1,4 @@
+#include "LD56.h"
 #include "Camera.h"
 
 Camera::Camera() : ZoomLevel(10)
