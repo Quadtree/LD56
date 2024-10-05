@@ -57,7 +57,7 @@ void GameUpdateThread()
         auto currentSecond = SDL_GetTicks64() / 1000;
         if (currentSecond != lastSecond)
         {
-            cout << "Game Update FPS=" << updatesLastSecond << endl;
+            // cout << "Game Update FPS=" << updatesLastSecond << endl;
             currentFPS = updatesLastSecond;
             updatesLastSecond = 0;
             lastSecond = currentSecond;
