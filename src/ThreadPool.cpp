@@ -70,7 +70,7 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    endOfOperationLatch = unique_ptr<latch>(latch(threadPool.size() + 1));
+    endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
 
     for (auto it : threadPool)
     {
