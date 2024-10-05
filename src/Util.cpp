@@ -13,7 +13,7 @@ shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
     auto tmpSurf = IMG_Load(filename.c_str());
     DUMP(tmpSurf);
-    auto ret = SDL_CreateTextureFromSurface(rnd, testSurf);
+    auto ret = SDL_CreateTextureFromSurface(rnd, tmpSurf);
     DUMP(ret);
 
     return shared_ptr<SDL_Texture>(ret, SDL_DestroyTexture);
