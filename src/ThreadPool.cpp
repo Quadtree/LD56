@@ -7,6 +7,8 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
+thread::id mainThreadId;
+
 int numProc = -1;
 
 void BarrierCompletionFunction()
@@ -15,10 +17,10 @@ void BarrierCompletionFunction()
 
 mutex msgMutex;
 
-#define PRINT_MSG(x)                                        \
-    {                                                       \
-        lock_guard msgMutexGuard(msgMutex);                 \
-        cout << this_thread::get_id() << ": " << x << endl; \
+#define PRINT_MSG(x)                                                                                           \
+    {                                                                                                          \
+        lock_guard msgMutexGuard(msgMutex);                                                                    \
+        cout << (this_thread::get_id() != mainThreadId ? this_thread::get_id() : "MAIN") << ": " << x << endl; \
     }
 
 #define DESC_LINE(x)                       \
@@ -83,6 +85,9 @@ void ThreadPoolEntryPoint()
 void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
+
+    if (!mainThreadId)
+        mainThreadId = this_thread::get_id();
 
     if (numProc == -1)
         numProc = max(DetermineNumberOfProcessors() - 1, 1);
