@@ -27,7 +27,7 @@ public:
     uint64_t NumUpdates;
 #endif
 
-    void Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const;
+    void Update1(Bacteria &nextState, const class GameState *curGameState, class MutationQueue *queueMutation) const;
 
     void Render(class SDL_Renderer *rnd, class Camera &camera) const;
 
