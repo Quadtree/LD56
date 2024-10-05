@@ -1,5 +1,5 @@
 #include "LD56.h"
-#include <latch>
+#include <barrier>
 
 vector<thread> threadPool;
 mutex primaryMutex;
@@ -7,7 +7,7 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
-unique_ptr<latch> endOfOperationLatch;
+unique_ptr<barrier> endOfOperationBarrier;
 
 int DetermineNumberOfProcessors()
 {
@@ -44,7 +44,7 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            SDL_Delay(1);
+            endOfOperationBarrier->arrive_and_wait();
         }
     }
 }
@@ -63,6 +63,8 @@ void SubmitToThreadPool(function<void()> func)
         {
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
+
+        endOfOperationBarrier = make_unique<barrier>(threadPool.size() + 1);
     }
 
     threadPoolWorkQueue.push(func);
@@ -70,17 +72,7 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
-
-    for (auto &it : threadPool)
-    {
-        SubmitToThreadPool([]()
-                           { endOfOperationLatch->arrive_and_wait(); });
-    }
-
-    endOfOperationLatch->arrive_and_wait();
-
-    SDL_Delay(1);
+    endOfOperationBarrier->arrive_and_wait();
 
     // cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
 }
