@@ -11,7 +11,7 @@ void BarrierCompletionFunction()
 {
 }
 
-unique_ptr<barrier<decltype(BarrierCompletionFunction)>> endOfOperationBarrier;
+unique_ptr<latch> endOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
@@ -48,7 +48,7 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            endOfOperationBarrier->arrive_and_wait();
+            endOfOperationLatch->arrive_and_wait();
         }
     }
 }
@@ -56,6 +56,9 @@ void ThreadPoolEntryPoint()
 void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
+
+    if (!endOfOperationLatch)
+        endOfOperationLatch = latch(threadPool.size() + 1);
 
     if (threadPool.size() == 0)
     {
@@ -67,8 +70,6 @@ void SubmitToThreadPool(function<void()> func)
         {
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
-
-        endOfOperationBarrier = unique_ptr<barrier<decltype(BarrierCompletionFunction)>>(new barrier<decltype(BarrierCompletionFunction)>(threadPool.size() + 1, &BarrierCompletionFunction));
     }
 
     threadPoolWorkQueue.push(func);
@@ -76,7 +77,8 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    endOfOperationBarrier->arrive_and_wait();
+    endOfOperationLatch->arrive_and_wait();
+    endOfOperationLatch = nullptr;
 
     // cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
 }
