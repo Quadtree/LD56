@@ -20,6 +20,8 @@ void GameState::DoUpdate(GameState &nextGameState)
 {
     // @TODO: Multithread me
 
+    MutationQueueTarget &mutationQueueTarget = nextGameState;
+
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
         auto startPos = i;
