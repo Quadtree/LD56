@@ -6,7 +6,7 @@ template <class T>
 class GridCell
 {
 public:
-    const T List[MAX_PER_CELL];
+    T List[MAX_PER_CELL];
     int NumInCell;
 };
 
