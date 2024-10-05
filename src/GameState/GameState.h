@@ -10,7 +10,7 @@ class MutationQueue
     void QueueMutation(std::function<void()> mutation);
 };
 
-class GameState : public MutationQueueTarget
+class GameState
 {
 public:
     GameState();
