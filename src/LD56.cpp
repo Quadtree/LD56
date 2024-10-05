@@ -21,9 +21,34 @@ SDL_Window *wnd;
 
 shared_ptr<SDL_Texture> testImage;
 
-thread altThread;
+thread gameUpdateThread;
 
 thread::id mainThreadId;
+
+Uint64 ticksHandledByGameStateUpdates;
+
+void UpdateWorldState()
+{
+	cout << "UPDATE world state!" << endl;
+}
+
+void GameUpdateThread()
+{
+	auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / 60;
+
+	while (true)
+	{
+		if (SDL_GetPerformanceCounter() > ticksHandledByGameStateUpdates)
+		{
+			ticksHandledByGameStateUpdates += ticksPerGameUpdate;
+			UpdateWorldState();
+		}
+		else
+		{
+			SDL_Delay(1);
+		}
+	}
+}
 
 void MainLoop()
 {
@@ -68,7 +93,7 @@ int main(int argc, char *argv[])
 
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	altThread = thread(AltThreadEntryPoint);
+	gameUpdateThread = thread(GameUpdateThread);
 
 	testImage = LoadTexture("assets/xt3.xcf");
 
