@@ -9,9 +9,14 @@ extern SDL_Window *wnd;
 
 shared_ptr<SDL_Texture> testImage;
 
+GameState gameStates[2];
+int nextGameStateToUpdate;
+
 void UpdateWorldState()
 {
-    // cout << "UPDATE world state! " << ticksHandledByGameStateUpdates << endl;
+    lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
+
+    // gameStates[nextGameStateToUpdate]
 }
 
 void GameUpdateThread()
