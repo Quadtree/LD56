@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 	cout << "About to call emscripten_set_main_loop" << endl;
 	emscripten_set_main_loop(MainLoop, 0, 0);
 
-	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED);
 
 	cout << "main() is done" << endl;
 
