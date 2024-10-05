@@ -34,4 +34,10 @@ struct Vector2
         *this = (*this - v2);
         return *this;
     }
+
+    Vector2 &operator/=(const float &scalar)
+    {
+        *this = (*this / v2);
+        return *this;
+    }
 };
