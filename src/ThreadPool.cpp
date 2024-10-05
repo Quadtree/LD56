@@ -80,6 +80,8 @@ void WaitForThreadPoolToFinishAllTasks()
 
     endOfOperationLatch->arrive_and_wait();
 
+    SDL_Delay(1);
+
     // cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
 }
 
