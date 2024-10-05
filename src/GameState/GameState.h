@@ -3,7 +3,7 @@
 #include <mutex>
 #include "Bacteria.h"
 
-#define MAX_BACTERIA 1024
+#define MAX_BACTERIA 5000
 
 class MutationQueue
 {
