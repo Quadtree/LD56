@@ -34,7 +34,7 @@ public:
         {
             for (auto x = 0; x < GridSize / Radius; ++x)
             {
-                Cells[CellXYToCellID(x, y)]->NumInCell = 0;
+                Cells[CellXYToCellID(x, y)].NumInCell = 0;
             }
         }
     }
@@ -43,10 +43,10 @@ public:
     {
         auto cellId = Vector2ToCellID(bacteria->Position);
 
-        if (Cells[cellId]->NumInCell < MAX_PER_CELL)
+        if (Cells[cellId].NumInCell < MAX_PER_CELL)
         {
-            Cells[cellId]->List[Cells[cellId]->NumInCell] = bacteria;
-            Cells[cellId]->NumInCell++;
+            Cells[cellId].List[Cells[cellId]->NumInCell] = bacteria;
+            Cells[cellId].NumInCell++;
         }
     }
 };
