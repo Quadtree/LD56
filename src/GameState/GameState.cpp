@@ -88,19 +88,42 @@ void GameState::DoUpdate(GameState &nextGameState)
 
 thread_local vector<const Bacteria *> bacteriaNearVector;
 
-vector<const Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius) const
+const Vector2 OFFSETS[] = {
+    Vector2(0, 0),
+
+    Vector2(-1, 0),
+    Vector2(1, 0),
+    Vector2(0, 1),
+    Vector2(0, -1),
+
+    Vector2(-1, -1),
+    Vector2(1, 1),
+    Vector2(-1, 1),
+    Vector2(-1, -1),
+};
+
+vector<const Bacteria *> &
+GameState::GetBacteriaNear(Vector2 point, float radius) const
 {
     bacteriaNearVector.resize(0);
 
-    auto cellId = MainSpatialIndex.Vector2ToCellID(point);
-    if (cellId == -1)
-        return bacteriaNearVector;
+    vector<int> prevCells;
 
-    for (int i = 0; i < MainSpatialIndex.Cells[cellId].NumInCell; ++i)
+    for (int offset = 0; offset < 9; ++offset)
     {
-        if (point.DistToSquared(MainSpatialIndex.Cells[cellId].List[i]->Position) <= radius)
+        auto cellId = MainSpatialIndex.Vector2ToCellID(point);
+
+        if (cellId == -1 || find(prevCells.begin(), prevCells.end(), cellId) != prevCells.end())
+            continue;
+
+        prevCells.push_back(cellId);
+
+        for (int i = 0; i < MainSpatialIndex.Cells[cellId].NumInCell; ++i)
         {
-            bacteriaNearVector.push_back(MainSpatialIndex.Cells[cellId].List[i]);
+            if (point.DistToSquared(MainSpatialIndex.Cells[cellId].List[i]->Position) <= radius)
+            {
+                bacteriaNearVector.push_back(MainSpatialIndex.Cells[cellId].List[i]);
+            }
         }
     }
 
