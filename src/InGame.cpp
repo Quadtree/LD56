@@ -38,7 +38,11 @@ void GameUpdateThread()
         if (SDL_GetPerformanceCounter() > ticksHandledByGameStateUpdates)
         {
             ticksHandledByGameStateUpdates += ticksPerGameUpdate;
+
+            auto startTime = GetTimeAsDouble();
             UpdateWorldState();
+            auto endTime = GetTimeAsDouble();
+            cout << "World update time: " << (int)((endTime - startTime) * 1000) << "ms" << endl;
 
             updatesLastSecond++;
         }
