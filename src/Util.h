@@ -1,1 +1,1 @@
-shared_ptr<SDL_Texture> LoadTexture(string filename);
+shared_ptr<SDL_Texture> LoadTexture(std::string filename);
