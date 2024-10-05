@@ -28,6 +28,17 @@ void MainLoop()
 	{
 	}
 
+	SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(rnd);
+
+	SDL_FRect trg;
+	trg.x = 20;
+	trg.y = 20;
+	trg.w = 32;
+	trg.h = 32;
+
+	SDL_RenderCopyExF(rnd, testImage, nullptr, &trg, 20, nullptr, 0);
+
 	SDL_RenderPresent(rnd);
 }
 
