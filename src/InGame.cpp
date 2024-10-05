@@ -98,6 +98,9 @@ void InGameMainLoop()
         int windowW, windowH;
         SDL_GetWindowSize(wnd, &windowW, &windowH);
 
+        DUMP(windowW);
+        DUMP(windowH);
+
         if (windowW < 10)
             DUMP(windowW);
 
