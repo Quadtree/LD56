@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
-#include "GameState/Vector2.h"
+
 
 #include <thread>
 
@@ -43,7 +43,7 @@ double GetTimeAsDouble()
     return (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 }
 
-void DrawText(std::string text, class Vector2 *pos)
+void DrawText(std::string text, Vector2 pos)
 {
     if (!defaultFont)
     {
@@ -61,8 +61,8 @@ void DrawText(std::string text, class Vector2 *pos)
     auto tex = SDL_CreateTextureFromSurface(rnd, surf);
 
     SDL_FRect trg;
-    trg.x = pos->X;
-    trg.y = pos->Y;
+    trg.x = pos.X;
+    trg.y = pos.Y;
     trg.w = surf->w;
     trg.h = surf->h;
 

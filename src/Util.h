@@ -1,3 +1,5 @@
+#include "GameState/Vector2.h"
+
 std::shared_ptr<class SDL_Texture> LoadTexture(std::string filename);
 void _AssertOnMainThread(int line, std::string file);
 
@@ -17,4 +19,4 @@ double GetTimeAsDouble();
         cout << #x << " time: " << (int)((endTime - startTime) * 1000) << "ms" << endl; \
     }
 
-void DrawText(std::string text, class Vector2* pos);
+void DrawText(std::string text, Vector2 pos);
