@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
 	altThread = thread(AltThreadEntryPoint);
 
-	auto testSurf = IMG_Load("assets/xt2.xcf");
+	auto testSurf = IMG_Load("assets/xt1.xcf");
 	DUMP(testSurf);
 	testImage = SDL_CreateTextureFromSurface(rnd, testSurf);
 	DUMP(testImage);
