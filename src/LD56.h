@@ -5,6 +5,6 @@
 
 #include <iostream>
 
-
+#define DUMP(x) cout << #x << "=" << x << endl;
 
 // TODO: Reference additional headers your program requires here.
