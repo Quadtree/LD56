@@ -32,14 +32,15 @@ mutex msgMutex;
         cout << ": " << x << endl;                                 \
     }
 
+#else
+#define PRINT_MSG(x)
+#endif
+
 #define DESC_LINE(x)                       \
     {                                      \
         PRINT_MSG(__LINE__ << ": " << #x); \
         x;                                 \
     }
-#else
-#define PRINT_MSG(x)
-#endif
 
 unique_ptr<barrier<>> endOfOperationLatch;
 unique_ptr<barrier<>> startOfOperationLatch;
