@@ -80,7 +80,7 @@ void GameState::DoUpdate(GameState &nextGameState)
 
 thread_local vector<Bacteria *> bacteriaNearVector;
 
-vector<Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius)
+vector<Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius) const
 {
     bacteriaNearVector.resize(0);
 
