@@ -104,10 +104,13 @@ void InGameMainLoop()
             }
 #endif
             SDL_FRect trg;
-            trg.x = gameStates[gameStateBeingRendered].BacteriaList[i].Position.X;
-            trg.y = gameStates[gameStateBeingRendered].BacteriaList[i].Position.Y;
-            trg.w = 32;
-            trg.h = 32;
+
+            auto screen = camera->RealToScreen(gameStates[gameStateBeingRendered].BacteriaList[i].Position);
+
+            trg.x = screen.X;
+            trg.y = screen.Y;
+            trg.w = camera->RealToScreenScale(32);
+            trg.h = camera->RealToScreenScale(32);
 
             SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
         }
