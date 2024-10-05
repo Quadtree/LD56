@@ -20,6 +20,13 @@ public:
         return y * (GridSize / Radius) + x;
     }
 
+    int32_t Vector2ToCellID(const Vector2 &v2)
+    {
+        return CellXYToCellID(
+            (int32_t)((v2.X / Radius) + 0.5f),
+            (int32_t)((v2.Y / Radius) + 0.5f));
+    }
+
     void ClearCells()
     {
         for (auto y = 0; y < GridSize / Radius; ++y)
