@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include <functional>
 
-enum class BateriaType : uint8_t
+enum class BacteriaType : uint8_t
 {
     Invalid,
     Converter,
@@ -21,7 +21,7 @@ public:
     Vector2 Velocity;
     uint8_t Faction;
     uint8_t Health;
-    BateriaType Type;
+    BacteriaType Type;
 
 #if _DEBUG
     uint64_t NumUpdates;
