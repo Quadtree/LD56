@@ -41,7 +41,7 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            this_thread::sleep_for(chrono::microseconds(10));
+            SDL_Delay(1);
         }
     }
 }
@@ -77,6 +77,6 @@ void WaitForThreadPoolToFinishAllTasks()
                 return;
         }
 
-        this_thread::sleep_for(chrono::microseconds(10));
+        SDL_Delay(1);
     }
 }
