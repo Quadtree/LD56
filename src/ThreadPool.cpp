@@ -72,7 +72,7 @@ void WaitForThreadPoolToFinishAllTasks()
 {
     endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
 
-    for (auto it : threadPool)
+    for (auto &it : threadPool)
     {
         SubmitToThreadPool([]()
                            { endOfOperationLatch->arrive_and_wait(); });
