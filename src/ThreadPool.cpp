@@ -7,7 +7,11 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
-unique_ptr<barrier> endOfOperationBarrier;
+void BarrierCompletionFunction()
+{
+}
+
+unique_ptr<barrier<void()>> endOfOperationBarrier;
 
 int DetermineNumberOfProcessors()
 {
@@ -64,7 +68,7 @@ void SubmitToThreadPool(function<void()> func)
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
 
-        endOfOperationBarrier = make_unique<barrier>(threadPool.size() + 1);
+        endOfOperationBarrier = make_unique<barrier>(threadPool.size() + 1, &BarrierCompletionFunction);
     }
 
     threadPoolWorkQueue.push(func);
