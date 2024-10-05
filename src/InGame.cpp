@@ -70,6 +70,8 @@ void InGameMainLoop()
 
 void EnterInGameState()
 {
+    emscripten_cancel_main_loop();
+
     cout << "About to call emscripten_set_main_loop" << endl;
     emscripten_set_main_loop(InGameMainLoop, 0, 0);
 
