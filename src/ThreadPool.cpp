@@ -7,7 +7,7 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
-thread::id mainThreadId;
+thread::id threadPoolControllerThreadId;
 bool hasDeterminedMainThreadId = false;
 
 int numProc = -1;
@@ -18,14 +18,14 @@ void BarrierCompletionFunction()
 
 mutex msgMutex;
 
-#define PRINT_MSG(x)                               \
-    {                                              \
-        lock_guard msgMutexGuard(msgMutex);        \
-        if (this_thread::get_id() != mainThreadId) \
-            cout << this_thread::get_id();         \
-        else                                       \
-            cout << "MAIN";                        \
-        cout << ": " << x << endl;                 \
+#define PRINT_MSG(x)                                               \
+    {                                                              \
+        lock_guard msgMutexGuard(msgMutex);                        \
+        if (this_thread::get_id() != threadPoolControllerThreadId) \
+            cout << this_thread::get_id();                         \
+        else                                                       \
+            cout << "MAIN";                                        \
+        cout << ": " << x << endl;                                 \
     }
 
 #define DESC_LINE(x)                       \
@@ -93,7 +93,7 @@ void SubmitToThreadPool(function<void()> func)
 
     if (!hasDeterminedMainThreadId)
     {
-        mainThreadId = this_thread::get_id();
+        threadPoolControllerThreadId = this_thread::get_id();
         hasDeterminedMainThreadId = true;
     }
 
