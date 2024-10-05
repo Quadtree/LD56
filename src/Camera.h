@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameState/Vector2.h"
+
 class Camera
 {
 public:
@@ -7,6 +9,4 @@ public:
 
     Vector2 CenterPos;
     float ZoomLevel;
-
-
 };
