@@ -80,3 +80,8 @@ void WaitForThreadPoolToFinishAllTasks()
         SDL_Delay(0);
     }
 }
+
+void ExpectThreadPoolToBeEmpty()
+{
+    
+}
