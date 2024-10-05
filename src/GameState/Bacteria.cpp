@@ -1,4 +1,6 @@
+#include "../LD56.h"
 #include "Bacteria.h"
+#include "../Camera.h"
 
 void Bacteria::Update1(Bacteria &nextState, class MutationQueue *queueMutation) const
 {
@@ -14,5 +16,4 @@ vector<shared_ptr<SDL_Texture>> bacteriaTextures;
 
 void Bacteria::Render(SDL_Renderer *rnd, Camera &camera)
 {
-    
 }
