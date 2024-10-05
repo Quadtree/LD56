@@ -6,7 +6,7 @@ template <class T>
 class GridCell
 {
 public:
-    T List[MAX_PER_CELL];
+    T *List[MAX_PER_CELL];
     int NumInCell;
 };
 
