@@ -4,6 +4,7 @@ vector<thread> threadPool;
 mutex primaryMutex;
 
 queue<function<void()>> threadPoolWorkQueue;
+volatile atomic<int> ActiveThreadPoolThreads;
 
 int DetermineNumberOfProcessors()
 {
@@ -34,7 +35,9 @@ void ThreadPoolEntryPoint()
 
         if (hasWorkItem)
         {
+            ActiveThreadPoolThreads++;
             workItem();
+            ActiveThreadPoolThreads--;
         }
         else
         {
@@ -60,4 +63,18 @@ void SubmitToThreadPool(function<void()> func)
     }
 
     threadPoolWorkQueue.push(func);
+}
+
+void WaithForThreadPoolToFinishAllTasks()
+{
+    while (true)
+    {
+        if (ActiveThreadPoolThreads <= 0)
+        {
+            lock_guard primaryMutexGuard(primaryMutex);
+
+            if (threadPoolWorkQueue.size() == 0)
+                return;
+        }
+    }
 }

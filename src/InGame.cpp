@@ -81,7 +81,7 @@ void InGameMainLoop()
 #if _DEBUG
             if (gameStates[gameStateBeingRendered].BeingUpdated)
             {
-                throw exception("Game state is also being updated!!!");
+                throw "Game state is also being updated!!!";
             }
 #endif
             SDL_FRect trg;
