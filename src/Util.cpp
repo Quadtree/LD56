@@ -16,7 +16,7 @@ shared_ptr<SDL_Texture> LoadTexture(string filename)
     auto ret = SDL_CreateTextureFromSurface(rnd, tmpSurf);
     DUMP(ret);
 
-    SDL_DestroySurface(tmpSurf);
+    SDL_FreeSurface(tmpSurf);
 
     return shared_ptr<SDL_Texture>(ret, SDL_DestroyTexture);
 }
