@@ -11,7 +11,7 @@ void BarrierCompletionFunction()
 {
 }
 
-unique_ptr<barrier<void()>> endOfOperationBarrier;
+unique_ptr<barrier<typeof BarrierCompletionFunction>> endOfOperationBarrier;
 
 int DetermineNumberOfProcessors()
 {
