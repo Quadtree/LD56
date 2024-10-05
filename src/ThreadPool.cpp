@@ -58,7 +58,7 @@ void SubmitToThreadPool(function<void()> func)
     lock_guard primaryMutexGuard(primaryMutex);
 
     if (!endOfOperationLatch)
-        endOfOperationLatch = latch(threadPool.size() + 1);
+        endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
 
     if (threadPool.size() == 0)
     {
