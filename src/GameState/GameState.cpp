@@ -21,6 +21,7 @@ void GameState::DoUpdate(GameState &nextGameState)
     // @TODO: Multithread me
 
     MutationQueue mutationQueue;
+    MutationQueue *mutationQueuePtr = &mutationQueue;
     auto currentBacteriaList = this->BacteriaList;
     auto nextBacteriaList = nextGameState.BacteriaList;
 
@@ -29,11 +30,11 @@ void GameState::DoUpdate(GameState &nextGameState)
         auto startPos = i;
         auto endPos = min(i + PROCESSING_BLOCK_SIZE, NumActiveBacteria);
 
-        SubmitToThreadPool([startPos, endPos, nextBacteriaList, currentBacteriaList, mutationQueue]()
+        SubmitToThreadPool([startPos, endPos, nextBacteriaList, currentBacteriaList, mutationQueuePtr]()
                            {
             for (int j = startPos; j < endPos; ++j)
             {
-                currentBacteriaList[j].Update1(nextBacteriaList[j], &mutationQueue);
+                currentBacteriaList[j].Update1(nextBacteriaList[j], mutationQueuePtr);
             } });
     }
 }
