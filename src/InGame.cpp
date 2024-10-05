@@ -98,13 +98,14 @@ void InGameMainLoop()
         int windowW, windowH;
         SDL_GetWindowSize(wnd, &windowW, &windowH);
 
-        DUMP(windowW);
-        DUMP(windowH);
-
         if (windowW < 10)
             DUMP(windowW);
 
         camera.CenterPos = Vector2(windowW, windowH);
+
+        auto camTest = camera.RealToScreen(Vector2(0, 0));
+        DUMP(camTest.X);
+        DUMP(camTest.Y);
 
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
