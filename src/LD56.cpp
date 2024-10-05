@@ -36,16 +36,29 @@ void GameUpdateThread()
 {
 	auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / 60;
 
+	Uint64 lastSecond = 0;
+	auto updatesLastSecond = 0;
+
 	while (true)
 	{
 		if (SDL_GetPerformanceCounter() > ticksHandledByGameStateUpdates)
 		{
 			ticksHandledByGameStateUpdates += ticksPerGameUpdate;
 			UpdateWorldState();
+
+			updatesLastSecond++;
 		}
 		else
 		{
 			SDL_Delay(1);
+		}
+
+		auto currentSecond = SDL_GetTicks64() / 1000;
+		if (currentSecond != lastSecond)
+		{
+			cout << "Game Update FPS=" << updatesLastSecond << endl;
+			updatesLastSecond = 0;
+			lastSecond = currentSecond;
 		}
 	}
 }
