@@ -64,7 +64,7 @@ void SubmitToThreadPool(function<void()> func)
     if (!endOfOperationLatch)
     {
         {
-            lock_guard primaryMutexGuard(primaryMutex);
+            // lock_guard primaryMutexGuard(primaryMutex);
             cout << this_thread::get_id() << " - " << ": Creating new latch" << endl;
         }
         endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
@@ -96,7 +96,7 @@ void WaitForThreadPoolToFinishAllTasks()
     endOfOperationLatch = nullptr;
 
     {
-        lock_guard primaryMutexGuard(primaryMutex);
+        // lock_guard primaryMutexGuard(primaryMutex);
         cout << this_thread::get_id() << " - " << ": Deleted old latch" << endl;
     }
 
