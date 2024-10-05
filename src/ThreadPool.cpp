@@ -7,6 +7,8 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
+int numProc = -1;
+
 void BarrierCompletionFunction()
 {
 }
@@ -82,22 +84,23 @@ void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
 
+    if (numProc == -1)
+        numProc = max(DetermineNumberOfProcessors() - 1, 1);
+
+    if (!endOfOperationLatch)
+    {
+        DESC_LINE(endOfOperationLatch = make_unique<latch>(numProc + 1));
+        DESC_LINE(startOfOperationLatch = make_unique<latch>(numProc + 1));
+    }
+
     if (threadPool.size() == 0)
     {
-        auto numProc = max(DetermineNumberOfProcessors() - 1, 1);
-
         cout << "Initializing threadpool to size " << numProc << endl;
 
         for (auto i = 0; i < numProc; ++i)
         {
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
-    }
-
-    if (!endOfOperationLatch)
-    {
-        DESC_LINE(endOfOperationLatch = make_unique<latch>(threadPool.size() + 1));
-        DESC_LINE(startOfOperationLatch = make_unique<latch>(threadPool.size() + 1));
     }
 
     threadPoolWorkQueue.push(func);
