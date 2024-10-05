@@ -6,7 +6,7 @@ file(COPY "${CMAKE_SOURCE_DIR}/web/" DESTINATION "${CMAKE_BINARY_DIR}/web/")
 file(COPY "${CMAKE_SOURCE_DIR}/web/" DESTINATION "${OUTPUT_DIR}/")
 file(COPY "${CMAKE_SOURCE_DIR}/assets/" DESTINATION "${CMAKE_BINARY_DIR}/assets/")
 
-file(GLOB_RECURSE src_files "*.cpp")
+file(GLOB_RECURSE src_files "src/*.cpp")
 add_executable(ld56 ${src_files})
 
 if("${DEBUG_MODE}" EQUAL "1")
