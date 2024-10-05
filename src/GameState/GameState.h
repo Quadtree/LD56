@@ -20,7 +20,7 @@ public:
 
     void DoUpdate(GameState &nextGameState);
 
-    Bacteria BacteriaList[MAX_BACTERIA];
+    volatile Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
 
 #if _DEBUG
