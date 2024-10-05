@@ -73,7 +73,7 @@ void WaitForThreadPoolToFinishAllTasks()
         {
             lock_guard primaryMutexGuard(primaryMutex);
 
-            if (threadPoolWorkQueue.size() == 0)
+            if (threadPoolWorkQueue.size() <= 0)
                 return;
         }
 
