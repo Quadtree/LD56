@@ -28,7 +28,7 @@ public:
 
     void Update1(Bacteria &nextState, class MutationQueue *queueMutation) const;
 
-    void Render(SDL_Renderer* rnd, class Camera& camera);
+    void Render(class SDL_Renderer* rnd, class Camera& camera);
 
     // void Update1(const Bacteria &currentState, Bacteria &nextState, std::function<void(int)> queueMutation);
 };
