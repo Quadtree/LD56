@@ -47,7 +47,7 @@ void ThreadPoolEntryPoint()
             workItem();
             ActiveThreadPoolThreads--;
         }
-        else
+        else if (endOfOperationLatch)
         {
             {
                 lock_guard primaryMutexGuard(primaryMutex);
@@ -55,10 +55,29 @@ void ThreadPoolEntryPoint()
             }
             endOfOperationLatch->arrive_and_wait();
         }
+        else if (startOfOperationLatch)
+        {
+            {
+                lock_guard primaryMutexGuard(primaryMutex);
+                cout << this_thread::get_id() << " - " << endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()" << endl;
+            }
+            endOfOperationLatch->arrive_and_wait();
+        }
+        else
+        {
+            RAISE_ERROR("We should never get here");
+        }
     }
 }
 
 void SubmitToThreadPool(function<void()> func)
+{
+    lock_guard primaryMutexGuard(primaryMutex);
+
+    threadPoolWorkQueue.push(func);
+}
+
+void PrepareThreadPool()
 {
     lock_guard primaryMutexGuard(primaryMutex);
 
@@ -81,9 +100,14 @@ void SubmitToThreadPool(function<void()> func)
             cout << this_thread::get_id() << " - " << ": Creating new latch" << endl;
         }
         endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
+        startOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
     }
+}
 
-    threadPoolWorkQueue.push(func);
+void StartProcessingThreadPool()
+{
+    startOfOperationLatch->arrive_and_wait();
+    startOfOperationLatch = nullptr;
 }
 
 void WaitForThreadPoolToFinishAllTasks()
