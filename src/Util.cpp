@@ -1,6 +1,10 @@
 #include "LD56.h"
 #include "Util.h"
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
 using namespace std;
 
 shared_ptr<SDL_Texture> LoadTexture(string filename)
