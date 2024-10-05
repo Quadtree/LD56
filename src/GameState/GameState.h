@@ -2,6 +2,7 @@
 
 #include <mutex>
 #include "Bacteria.h"
+#include "SpatialIndex.h"
 
 #define MAX_BACTERIA 5000
 
