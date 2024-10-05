@@ -8,7 +8,7 @@ struct Vector2
     float X;
     float Y;
 
-    operator/(float scalar)
+    Vector2 operator/(const float &scalar)
     {
         return Vector2(X / scalar, Y / scalar);
     }
