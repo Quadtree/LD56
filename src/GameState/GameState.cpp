@@ -3,6 +3,7 @@
 #include "../LD56.h"
 
 #define PROCESSING_BLOCK_SIZE 5
+#define USE_MULTITHREADED_UPDATE 0
 
 GameState::GameState() : NumActiveBacteria(0)
 {
@@ -32,6 +33,7 @@ void GameState::DoUpdate(GameState &nextGameState)
     auto currentBacteriaList = this->BacteriaList;
     auto nextBacteriaList = nextGameState.BacteriaList;
 
+#if USE_MULTITHREADED_UPDATE
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
         auto startPos = i;
@@ -46,11 +48,13 @@ void GameState::DoUpdate(GameState &nextGameState)
     }
 
     WaitForThreadPoolToFinishAllTasks();
+#else
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         currentBacteriaList[i].Update1(nextBacteriaList[i], mutationQueuePtr);
     }
+#endif
 
 #if _DEBUG
     for (int i = 0; i < NumActiveBacteria; ++i)
