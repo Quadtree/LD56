@@ -17,6 +17,9 @@ void BarrierCompletionFunction()
 {
 }
 
+// #define VERBOSE_LOGGING
+
+#if VERBOSE_LOGGING
 mutex msgMutex;
 
 #define PRINT_MSG(x)                                               \
@@ -34,6 +37,9 @@ mutex msgMutex;
         PRINT_MSG(__LINE__ << ": " << #x); \
         x;                                 \
     }
+#else
+#define PRINT_MSG(x)
+#endif
 
 unique_ptr<barrier<>> endOfOperationLatch;
 unique_ptr<barrier<>> startOfOperationLatch;
