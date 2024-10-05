@@ -50,7 +50,7 @@ void ThreadPoolEntryPoint()
         {
             {
                 lock_guard primaryMutexGuard(primaryMutex);
-                cout << this_thread::get_id() << ": endOfOperationLatch->arrive_and_wait()" << endl;
+                cout << this_thread::get_id() << " - " << endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()" << endl;
             }
             endOfOperationLatch->arrive_and_wait();
         }
