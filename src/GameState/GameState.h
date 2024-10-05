@@ -22,4 +22,9 @@ public:
 
     Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
+
+#if _DEBUG
+    bool BeingRendered;
+    bool BeingUpdated;
+#endif
 };

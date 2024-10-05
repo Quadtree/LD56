@@ -72,8 +72,18 @@ void InGameMainLoop()
 
         lock_guard rendererLockGuard(gameStates[gameStateBeingRendered].mutex);
 
+#if _DEBUG
+        gameStates[gameStateBeingRendered].BeingRendered = true;
+#endif
+
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
+#if _DEBUG
+            if (gameStates[gameStateBeingRendered].BeingUpdated)
+            {
+                throw exception("Game state is also being updated!!!");
+            }
+#endif
             SDL_FRect trg;
             trg.x = gameStates[gameStateBeingRendered].BacteriaList[i].Position.X;
             trg.y = gameStates[gameStateBeingRendered].BacteriaList[i].Position.Y;
