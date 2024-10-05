@@ -117,9 +117,9 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    DESC_LINE(startOfOperationLatch->arrive_and_wait());
+    TIME_COMMAND(startOfOperationLatch->arrive_and_wait());
 
-    DESC_LINE(endOfOperationLatch->arrive_and_wait());
+    TIME_COMMAND(endOfOperationLatch->arrive_and_wait());
 }
 
 void ExpectThreadPoolToBeEmpty()
