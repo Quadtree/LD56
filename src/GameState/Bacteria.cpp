@@ -20,7 +20,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         Velocity += delta / 20;
     }
 
-    Position += Velocity;
+    Position += Velocity / 60;
 
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;
