@@ -7,7 +7,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
     def end_headers(self):
-        self.send_header("X-Test-Header", "Y")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "credentialless")
         super().end_headers()
 
 server = http.server.HTTPServer(('0.0.0.0', 8080), RequestHandler)
