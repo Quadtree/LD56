@@ -23,6 +23,8 @@ shared_ptr<SDL_Texture> testImage;
 
 thread altThread;
 
+thread::id mainThreadId;
+
 void MainLoop()
 {
 	SDL_Event evt;
@@ -51,6 +53,8 @@ void AltThreadEntryPoint()
 
 int main(int argc, char *argv[])
 {
+	mainThreadId = this_thread::get_id();
+
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
