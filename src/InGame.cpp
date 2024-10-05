@@ -6,6 +6,8 @@ Uint64 ticksHandledByGameStateUpdates;
 extern SDL_Renderer *rnd;
 extern SDL_Window *wnd;
 
+shared_ptr<SDL_Texture> testImage;
+
 void UpdateWorldState()
 {
     // cout << "UPDATE world state! " << ticksHandledByGameStateUpdates << endl;
@@ -71,4 +73,6 @@ void EnterInGameState()
     emscripten_set_main_loop(InGameMainLoop, 0, 0);
 
     gameUpdateThread = thread(GameUpdateThread);
+
+    testImage = LoadTexture("assets/xt3.xcf");
 }

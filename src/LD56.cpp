@@ -19,10 +19,6 @@ using namespace std;
 SDL_Renderer *rnd;
 SDL_Window *wnd;
 
-shared_ptr<SDL_Texture> testImage;
-
-
-
 thread::id mainThreadId;
 
 void InGameMainLoop();
@@ -40,11 +36,9 @@ int main(int argc, char *argv[])
 
 	wnd = SDL_CreateWindow("LD56", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_RESIZABLE);
 
-	EnterInGameState();
-
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	testImage = LoadTexture("assets/xt3.xcf");
+	EnterInGameState();
 
 	AssertOnMainThread();
 
