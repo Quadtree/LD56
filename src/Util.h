@@ -16,3 +16,5 @@ double GetTimeAsDouble();
         auto endTime = GetTimeAsDouble();                                               \
         cout << #x << " time: " << (int)((endTime - startTime) * 1000) << "ms" << endl; \
     }
+
+void DrawText(std::string text, Vector2 pos);

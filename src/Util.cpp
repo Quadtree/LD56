@@ -12,6 +12,8 @@ using namespace std;
 extern SDL_Renderer *rnd;
 extern thread::id mainThreadId;
 
+TTF_Font *defaultFont;
+
 shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
     AssertOnMainThread();
@@ -38,4 +40,33 @@ void _AssertOnMainThread(int line, string file)
 double GetTimeAsDouble()
 {
     return (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
+}
+
+void DrawText(std::string text, Vector2 pos)
+{
+    if (!defaultFont)
+    {
+        defaultFont = TTF_OpenFont("assets/Roboto-Regular.ttf", 24);
+    }
+
+    SDL_Color color;
+    color.r = 255;
+    color.g = 255;
+    color.b = 255;
+    color.a = 255;
+
+    auto surf = TTF_RenderUTF8_Blended(defaultFont, text.c_str(), color);
+
+    auto tex = SDL_CreateTextureFromSurface(rnd, surf);
+
+    SDL_FRect trg;
+    trg.x = pos.x;
+    trg.y = pos.y;
+    trg.w = surf->w;
+    trg.h = surf->h;
+
+    SDL_RenderCopyF(rnd, tex, nullptr, &trg);
+
+    SDL_DestroyTexture(tex);
+    SDL_FreeSurface(surf);
 }
