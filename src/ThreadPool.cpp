@@ -68,7 +68,7 @@ void SubmitToThreadPool(function<void()> func)
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
 
-        endOfOperationBarrier = make_unique<barrier>(threadPool.size() + 1, BarrierCompletionFunction);
+        endOfOperationBarrier = unique_ptr<barrier>(new barrier(threadPool.size() + 1, &BarrierCompletionFunction));
     }
 
     threadPoolWorkQueue.push(func);
