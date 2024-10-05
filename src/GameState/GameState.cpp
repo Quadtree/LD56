@@ -18,8 +18,6 @@ GameState::GameState() : NumActiveBacteria(0)
 
 void GameState::DoUpdate(GameState &nextGameState)
 {
-    // @TODO: Multithread me
-
 #if _DEBUG
     nextGameState.BeingUpdated = true;
 
@@ -48,6 +46,11 @@ void GameState::DoUpdate(GameState &nextGameState)
     }
 
     WaitForThreadPoolToFinishAllTasks();
+
+    for (int i = 0; i < NumActiveBacteria; ++i)
+    {
+        currentBacteriaList[j].Update1(nextBacteriaList[j], mutationQueuePtr);
+    }
 
 #if _DEBUG
     for (int i = 0; i < NumActiveBacteria; ++i)
