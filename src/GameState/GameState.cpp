@@ -27,10 +27,11 @@ void GameState::DoUpdate(GameState &nextGameState)
         auto startPos = i;
         auto endPos = min(i + PROCESSING_BLOCK_SIZE, NumActiveBacteria);
 
-        SubmitToThreadPool([startPos, endPos]() {
-
-        });
-
-        BacteriaList[i].Update1(nextGameState.BacteriaList[i], queueMutation);
+        SubmitToThreadPool([startPos, endPos]()
+                           {
+            for (int j = startPos; j < endPos; ++j)
+            {
+                BacteriaList[j].Update1(nextGameState.BacteriaList[j], queueMutation);
+            } });
     }
 }
