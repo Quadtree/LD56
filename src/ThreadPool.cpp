@@ -17,10 +17,14 @@ void BarrierCompletionFunction()
 
 mutex msgMutex;
 
-#define PRINT_MSG(x)                                                                                           \
-    {                                                                                                          \
-        lock_guard msgMutexGuard(msgMutex);                                                                    \
-        cout << (this_thread::get_id() != mainThreadId ? this_thread::get_id() : "MAIN") << ": " << x << endl; \
+#define PRINT_MSG(x)                               \
+    {                                              \
+        lock_guard msgMutexGuard(msgMutex);        \
+        if (this_thread::get_id() != mainThreadId) \
+            cout << this_thread::get_id();         \
+        else                                       \
+            cout << "MAIN";                        \
+        cout << ": " << x << endl;                 \
     }
 
 #define DESC_LINE(x)                       \
