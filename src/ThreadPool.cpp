@@ -4,7 +4,7 @@ vector<thread> threadPool;
 mutex primaryMutex;
 
 queue<function<void()>> threadPoolWorkQueue;
-volatile atomic<int> ActiveThreadPoolThreads;
+atomic<int> ActiveThreadPoolThreads;
 
 int DetermineNumberOfProcessors()
 {
