@@ -7,7 +7,7 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
-latch endOfOperationLatch(0);
+unique_ptr<latch> endOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
@@ -70,15 +70,15 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    endOfOperationLatch = latch(threadPool.size() + 1);
+    endOfOperationLatch = unique_ptr<latch>(latch(threadPool.size() + 1));
 
     for (auto it : threadPool)
     {
         SubmitToThreadPool([]()
-                           { endOfOperationLatch.arrive_and_wait(); });
+                           { endOfOperationLatch->arrive_and_wait(); });
     }
 
-    endOfOperationLatch.arrive_and_wait();
+    endOfOperationLatch->arrive_and_wait();
 }
 
 void ExpectThreadPoolToBeEmpty()
