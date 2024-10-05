@@ -22,7 +22,7 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     MutationQueue mutationQueue;
     auto currentBacteriaList = this->BacteriaList;
-    auto nextBacteriaList = nextGameState->BacteriaList;
+    auto nextBacteriaList = nextGameState.BacteriaList;
 
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
