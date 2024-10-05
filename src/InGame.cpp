@@ -17,7 +17,7 @@ void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
 
-    // gameStates[nextGameStateToUpdate]
+    gameStates[1 - nextGameStateToUpdate].DoUpdate(gameStates[nextGameStateToUpdate]);
 }
 
 void GameUpdateThread()
