@@ -14,6 +14,8 @@ extern thread::id mainThreadId;
 
 shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
+    AssertOnMainThread();
+
     auto tmpSurf = IMG_Load(filename.c_str());
     DUMP(tmpSurf);
     auto ret = SDL_CreateTextureFromSurface(rnd, tmpSurf);
