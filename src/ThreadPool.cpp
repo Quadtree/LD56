@@ -1,4 +1,5 @@
 #include "LD56.h"
+#include <latch>
 
 vector<thread> threadPool;
 mutex primaryMutex;
