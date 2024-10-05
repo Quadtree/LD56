@@ -34,7 +34,7 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
-        MainSpatialIndex.AddToIndex(BacteriaList[i]);
+        MainSpatialIndex.AddToIndex(&BacteriaList[i]);
     }
 
     MutationQueue mutationQueue;
