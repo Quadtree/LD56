@@ -45,7 +45,7 @@ public:
 
         if (Cells[cellId].NumInCell < MAX_PER_CELL)
         {
-            Cells[cellId].List[Cells[cellId]->NumInCell] = bacteria;
+            Cells[cellId].List[Cells[cellId].NumInCell] = bacteria;
             Cells[cellId].NumInCell++;
         }
     }
