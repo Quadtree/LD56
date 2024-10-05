@@ -20,14 +20,12 @@ void GameState::DoUpdate(GameState &nextGameState)
 {
     // @TODO: Multithread me
 
-    std::function<void(std::function<void(class GameState &)>)> queueMutation;
-
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
         auto startPos = i;
         auto endPos = min(i + PROCESSING_BLOCK_SIZE, NumActiveBacteria);
 
-        SubmitToThreadPool([startPos, endPos, queueMutation, nextGameState, this]()
+        SubmitToThreadPool([startPos, endPos, nextGameState, this]()
                            {
             for (int j = startPos; j < endPos; ++j)
             {
