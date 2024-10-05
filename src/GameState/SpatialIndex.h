@@ -13,5 +13,5 @@ template <int Radius, int GridSize>
 class SpatialIndex
 {
 public:
-    GridCell Cells[(GridSize / Radius) * (GridSize / Radius)]
+    GridCell Cells[(GridSize / Radius) * (GridSize / Radius)];
 };
