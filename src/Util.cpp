@@ -7,6 +7,8 @@
 
 using namespace std;
 
+extern SDL_Renderer *rnd;
+
 shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
     auto tmpSurf = IMG_Load(filename.c_str());
