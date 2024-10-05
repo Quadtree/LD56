@@ -6,3 +6,5 @@ void _AssertOnMainThread(int line, std::string file);
 #else
 #define AssertOnMainThread()
 #endif
+
+void SubmitToThreadPool(function<void()> func);

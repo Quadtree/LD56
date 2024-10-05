@@ -34,3 +34,8 @@ void _AssertOnMainThread(int line, string file)
         exit(1);
     }
 }
+
+void SubmitToThreadPool(function<void()> func)
+{
+    
+}
