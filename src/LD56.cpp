@@ -39,6 +39,8 @@ void GameUpdateThread()
 	Uint64 lastSecond = 0;
 	auto updatesLastSecond = 0;
 
+	ticksHandledByGameStateUpdates = SDL_GetPerformanceCounter();
+
 	while (true)
 	{
 		if (SDL_GetPerformanceCounter() > ticksHandledByGameStateUpdates)
