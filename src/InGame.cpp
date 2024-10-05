@@ -68,13 +68,15 @@ void InGameMainLoop()
     SDL_RenderClear(rnd);
 
     {
-        lock_guard rendererLockGuard(gameStates[currentGameState].mutex);
+        auto gameStateBeingRendered = currentGameState;
 
-        for (auto i = 0; i < gameStates[currentGameState].NumActiveBacteria; ++i)
+        lock_guard rendererLockGuard(gameStates[gameStateBeingRendered].mutex);
+
+        for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
             SDL_FRect trg;
-            trg.x = gameStates[currentGameState].BacteriaList[i].Position.X;
-            trg.y = gameStates[currentGameState].BacteriaList[i].Position.Y;
+            trg.x = gameStates[gameStateBeingRendered].BacteriaList[i].Position.X;
+            trg.y = gameStates[gameStateBeingRendered].BacteriaList[i].Position.Y;
             trg.w = 32;
             trg.h = 32;
 
