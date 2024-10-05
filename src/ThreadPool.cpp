@@ -6,6 +6,8 @@ mutex primaryMutex;
 queue<function<void()>> threadPoolWorkQueue;
 atomic<int> ActiveThreadPoolThreads;
 
+latch endOfOperationLatch;
+
 int DetermineNumberOfProcessors()
 {
     return EM_ASM_INT({
@@ -67,18 +69,15 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    while (true)
+    endOfOperationLatch = latch(threadPool.size() + 1);
+
+    for (auto it : threadPool)
     {
-        if (ActiveThreadPoolThreads <= 0)
-        {
-            lock_guard primaryMutexGuard(primaryMutex);
-
-            if (threadPoolWorkQueue.size() <= 0)
-                return;
-        }
-
-        SDL_Delay(0);
+        SubmitToThreadPool([]()
+                           { endOfOperationLatch.arrive_and_wait(); });
     }
+
+    endOfOperationLatch.arrive_and_wait();
 }
 
 void ExpectThreadPoolToBeEmpty()
