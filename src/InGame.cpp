@@ -11,13 +11,17 @@ extern SDL_Window *wnd;
 shared_ptr<SDL_Texture> testImage;
 
 GameState gameStates[2];
-int nextGameStateToUpdate;
+int currentGameState = 0;
+int nextGameStateToUpdate = 1;
 
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
 
-    gameStates[1 - nextGameStateToUpdate].DoUpdate(gameStates[nextGameStateToUpdate]);
+    gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate]);
+
+    nextGameStateToUpdate = currentGameState;
+    currentGameState = 1 - currentGameState;
 }
 
 void GameUpdateThread()
@@ -63,13 +67,20 @@ void InGameMainLoop()
     SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
 
-    SDL_FRect trg;
-    trg.x = 20;
-    trg.y = 20;
-    trg.w = 32;
-    trg.h = 32;
+    {
+        lock_guard rendererLockGuard(gameStates[currentGameState].mutex);
 
-    SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
+        for (auto i = 0; i < gameStates[currentGameState].NumActiveBacteria; ++i)
+        {
+            SDL_FRect trg;
+            trg.x = gameStates[currentGameState].BacteriaList[i].Position.X;
+            trg.y = gameStates[currentGameState].BacteriaList[i].Position.Y;
+            trg.w = 32;
+            trg.h = 32;
+
+            SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
+        }
+    }
 
     SDL_RenderPresent(rnd);
 }
