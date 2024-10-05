@@ -49,8 +49,6 @@ void MainLoop()
 void AltThreadEntryPoint()
 {
 	cout << "some other thread" << endl;
-
-	AssertOnMainThread();
 }
 
 int main(int argc, char *argv[])
