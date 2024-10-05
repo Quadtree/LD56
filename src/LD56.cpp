@@ -17,6 +17,8 @@ using namespace std;
 SDL_Renderer *rnd;
 SDL_Window *wnd;
 
+SDL_Texture *testImage;
+
 thread altThread;
 
 void MainLoop()
@@ -50,6 +52,9 @@ int main(int argc, char *argv[])
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	altThread = thread(AltThreadEntryPoint);
+
+	auto testSurf = IMG_Load("assets/xt1.xcf");
+	testImage = SDL_CreateTextureFromSurface(testSurf);
 
 	cout << "main() is done" << endl;
 
