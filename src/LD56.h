@@ -19,3 +19,4 @@ using namespace std;
 #define DUMP(x) cout << #x << "=" << x << endl;
 
 void SubmitToThreadPool(function<void()> func);
+void WaitForThreadPoolToFinishAllTasks();

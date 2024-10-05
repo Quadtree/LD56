@@ -41,7 +41,7 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            SDL_Delay(1);
+            SDL_Delay(0);
         }
     }
 }
@@ -76,5 +76,7 @@ void WaithForThreadPoolToFinishAllTasks()
             if (threadPoolWorkQueue.size() == 0)
                 return;
         }
+
+        SDL_Delay(0);
     }
 }

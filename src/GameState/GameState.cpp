@@ -37,4 +37,6 @@ void GameState::DoUpdate(GameState &nextGameState)
                 currentBacteriaList[j].Update1(nextBacteriaList[j], mutationQueuePtr);
             } });
     }
+
+    WaitForThreadPoolToFinishAllTasks();
 }
