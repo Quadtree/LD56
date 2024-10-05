@@ -1,6 +1,7 @@
 #include "LD56.h"
 #include <latch>
 #include <barrier>
+#include "Util.h"
 
 vector<thread> threadPool;
 mutex primaryMutex;
