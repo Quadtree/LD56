@@ -39,7 +39,7 @@ public:
         }
     }
 
-    void AddToIndex(const T *bacteria)
+    void AddToIndex(T *bacteria)
     {
         auto cellId = Vector2ToCellID(bacteria->Position);
 
