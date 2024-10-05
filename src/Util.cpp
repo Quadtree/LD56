@@ -35,7 +35,3 @@ void _AssertOnMainThread(int line, string file)
     }
 }
 
-void SubmitToThreadPool(function<void()> func)
-{
-    
-}

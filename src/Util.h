@@ -7,4 +7,3 @@ void _AssertOnMainThread(int line, std::string file);
 #define AssertOnMainThread()
 #endif
 
-void SubmitToThreadPool(function<void()> func);

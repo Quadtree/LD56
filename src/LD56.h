@@ -17,3 +17,5 @@ using namespace std;
 #include <emscripten/bind.h>
 
 #define DUMP(x) cout << #x << "=" << x << endl;
+
+void SubmitToThreadPool(function<void()> func);
