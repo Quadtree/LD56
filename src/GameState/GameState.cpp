@@ -51,7 +51,7 @@ void GameState::DoUpdate(GameState &nextGameState)
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         if (nextGameState.BacteriaList[i].NumUpdates != BacteriaList[i].NumUpdates + 1)
-            throw "NumUpdates does not match!";
+            RAISE_ERROR("NumUpdates does not match!");
     }
 
     if (nextGameState.BeingRendered)

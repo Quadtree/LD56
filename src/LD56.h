@@ -18,5 +18,11 @@ using namespace std;
 
 #define DUMP(x) cout << #x << "=" << x << endl;
 
+#define RAISE_ERROR(x)                                                          \
+    {                                                                           \
+        cout << "ERROR (" << __FILE__ << ":" << __LINE__ << "): " << x << endl; \
+        exit(2);                                                                \
+    }
+
 void SubmitToThreadPool(function<void()> func);
 void WaitForThreadPoolToFinishAllTasks();
