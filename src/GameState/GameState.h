@@ -23,7 +23,7 @@ public:
     Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
 
-    vector<Bacteria *>& GetBacteriaNear(Vector2 point, float radius);
+    std::vector<Bacteria *> &GetBacteriaNear(Vector2 point, float radius);
 
 #if _DEBUG
     bool BeingRendered;
