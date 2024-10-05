@@ -22,6 +22,9 @@ void GameState::DoUpdate(GameState &nextGameState)
 
 #if _DEBUG
     nextGameState.BeingUpdated = true;
+
+    if (nextGameState.BeingRendered)
+        throw "Cannot also be rendered!";
 #endif
 
     MutationQueue mutationQueue;
@@ -45,6 +48,9 @@ void GameState::DoUpdate(GameState &nextGameState)
     WaitForThreadPoolToFinishAllTasks();
 
 #if _DEBUG
+    if (nextGameState.BeingRendered)
+        throw "Cannot also be rendered!";
+
     nextGameState.BeingUpdated = false;
 #endif
 }
