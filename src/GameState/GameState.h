@@ -7,7 +7,7 @@
 
 class MutationQueueTarget
 {
-    QueueMutation(function<void()> mutation);
+    QueueMutation(std::function<void()> mutation);
 };
 
 class GameState : public MutationQueueTarget
@@ -23,5 +23,5 @@ public:
     Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
 
-    QueueMutation(function<void()> mutation);
+    QueueMutation(std::function<void()> mutation);
 };
