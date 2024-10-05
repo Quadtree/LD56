@@ -30,7 +30,8 @@ struct Vector2
 
     Vector2 &operator+=(const Vector2 &v2)
     {
-        *this = (*this + v2);
+        X += v2.X;
+        Y += v2.Y;
         return *this;
     }
 
