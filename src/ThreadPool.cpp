@@ -39,6 +39,8 @@ unique_ptr<latch> startOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
+    return 2;
+
     return EM_ASM_INT({
         return navigator.hardwareConcurrency;
     });
