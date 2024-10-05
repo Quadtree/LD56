@@ -92,6 +92,8 @@ vector<const Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius
 {
     bacteriaNearVector.resize(0);
 
+    MainSpatialIndex.Vector2ToCellID(point);
+
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         if (point.DistToSquared(BacteriaList[i].Position) <= radius)

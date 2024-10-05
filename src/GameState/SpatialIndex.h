@@ -18,14 +18,17 @@ public:
 
     int32_t CellXYToCellID(int32_t x, int32_t y)
     {
+        if (x < 0 || x >= GridSize / Radius || y < 0 || y >= GridSize / Radius)
+            return -1;
+
         return y * (GridSize / Radius) + x;
     }
 
     int32_t Vector2ToCellID(const Vector2 &v2)
     {
         return CellXYToCellID(
-            (int32_t)((v2.X / Radius) + 0.5f),
-            (int32_t)((v2.Y / Radius) + 0.5f));
+            (int32_t)((v2.X / Radius) + 0.5f) + (GridSize / Radius / 2),
+            (int32_t)((v2.Y / Radius) + 0.5f) + (GridSize / Radius / 2));
     }
 
     void ClearCells()
@@ -42,6 +45,9 @@ public:
     void AddToIndex(T *bacteria)
     {
         auto cellId = Vector2ToCellID(bacteria->Position);
+
+        if (cellId == -1)
+            return;
 
         if (Cells[cellId].NumInCell < MAX_PER_CELL)
         {
