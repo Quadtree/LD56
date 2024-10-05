@@ -11,6 +11,6 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
-        Bacteria[i].Update1(nextGameState.Bacteria[i]);
+        BacteriaList[i].Update1(nextGameState.BacteriaList[i]);
     }
 }
