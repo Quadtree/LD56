@@ -13,6 +13,11 @@ struct Vector2
         return Vector2(X / scalar, Y / scalar);
     }
 
+    Vector2 operator*(const float &scalar)
+    {
+        return Vector2(X * scalar, Y * scalar);
+    }
+
     Vector2 operator-(const Vector2 &v2)
     {
         return Vector2(X - v2.X, Y - v2.Y);
@@ -38,6 +43,12 @@ struct Vector2
     Vector2 &operator/=(const float &scalar)
     {
         *this = (*this / scalar);
+        return *this;
+    }
+
+    Vector2 &operator*=(const float &scalar)
+    {
+        *this = (*this * scalar);
         return *this;
     }
 };
