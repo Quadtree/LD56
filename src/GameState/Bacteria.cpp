@@ -16,7 +16,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         if (it->ID == ID)
             continue;
 
-        auto delta = (Position - it.Position).Normalized();
+        auto delta = (Position - it->Position).Normalized();
         Velocity += delta / 20;
     }
 
