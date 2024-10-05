@@ -26,6 +26,7 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
 
     auto screen = camera.RealToScreen(Position);
 
+    SDL_FRect trg;
     trg.x = screen.X;
     trg.y = screen.Y;
     trg.w = camera.RealToScreenScale(1);
