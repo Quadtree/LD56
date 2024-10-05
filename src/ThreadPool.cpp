@@ -65,7 +65,7 @@ void SubmitToThreadPool(function<void()> func)
     threadPoolWorkQueue.push(func);
 }
 
-void WaithForThreadPoolToFinishAllTasks()
+void WaitForThreadPoolToFinishAllTasks()
 {
     while (true)
     {
