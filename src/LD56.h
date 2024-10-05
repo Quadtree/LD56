@@ -5,6 +5,13 @@
 
 #include <iostream>
 
-#define DUMP(x) cout << #x << "=" << x << endl;
+using namespace std;
 
-// TODO: Reference additional headers your program requires here.
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+
+#include <emscripten.h>
+#include <emscripten/bind.h>
+
+#define DUMP(x) cout << #x << "=" << x << endl;
