@@ -92,13 +92,15 @@ vector<const Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius
 {
     bacteriaNearVector.resize(0);
 
-    MainSpatialIndex.Vector2ToCellID(point);
+    auto cellId = MainSpatialIndex.Vector2ToCellID(point);
+    if (cellId == -1)
+        return bacteriaNearVector;
 
-    for (int i = 0; i < NumActiveBacteria; ++i)
+    for (int i = 0; i < MainSpatialIndex.Cells[cellId].NumInCell)
     {
-        if (point.DistToSquared(BacteriaList[i].Position) <= radius)
+        if (point.DistToSquared(MainSpatialIndex.Cells[cellId].List[i].Position) <= radius)
         {
-            bacteriaNearVector.push_back(&BacteriaList[i]);
+            bacteriaNearVector.push_back(&MainSpatialIndex.Cells[cellId].List[i]);
         }
     }
 
