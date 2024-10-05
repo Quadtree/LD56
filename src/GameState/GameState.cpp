@@ -107,7 +107,8 @@ GameState::GetBacteriaNear(Vector2 point, float radius) const
 {
     bacteriaNearVector.resize(0);
 
-    vector<int> prevCells;
+    int prevCells[9];
+    int numPrevCells = 0;
 
     for (int offset = 0; offset < 9; ++offset)
     {
@@ -115,10 +116,24 @@ GameState::GetBacteriaNear(Vector2 point, float radius) const
 
         auto cellId = MainSpatialIndex.Vector2ToCellID(effPt);
 
-        if (cellId == -1 || find(prevCells.begin(), prevCells.end(), cellId) != prevCells.end())
+        if (cellId == -1)
             continue;
 
-        prevCells.push_back(cellId);
+        bool isDuplicate = false;
+
+        for (int j = 0; j < numPrevCells; ++j)
+        {
+            if (prevCells[j] == cellId)
+            {
+                isDuplicate = true;
+                break;
+            }
+        }
+
+        if (isDuplicate)
+            continue;
+
+        prevCells[numPrevCells++] = cellId;
 
         for (int i = 0; i < MainSpatialIndex.Cells[cellId].NumInCell; ++i)
         {
