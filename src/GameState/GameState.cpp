@@ -48,6 +48,12 @@ void GameState::DoUpdate(GameState &nextGameState)
     WaitForThreadPoolToFinishAllTasks();
 
 #if _DEBUG
+    for (int i = 0; i < NumActiveBacteria; ++i)
+    {
+        if (nextGameState.BacteriaList[i].NumUpdates != BacteriaList[i].NumUpdates + 1)
+            throw "NumUpdates does not match!";
+    }
+
     if (nextGameState.BeingRendered)
         throw "Cannot also be rendered!";
 
