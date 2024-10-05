@@ -24,6 +24,10 @@ thread::id mainThreadId;
 void InGameMainLoop();
 void EnterInGameState();
 
+void FakeMainLoop()
+{
+}
+
 int main(int argc, char *argv[])
 {
 	mainThreadId = this_thread::get_id();
@@ -35,6 +39,8 @@ int main(int argc, char *argv[])
 	srand((unsigned int)time(nullptr));
 
 	wnd = SDL_CreateWindow("LD56", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_RESIZABLE);
+
+	emscripten_set_main_loop(FakeMainLoop, 0, 0);
 
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
