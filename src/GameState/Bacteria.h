@@ -6,4 +6,6 @@ class Bacteria
 {
     Vector2 Position;
     Vector2 Velocity;
+    Uint8 Faction;
+    Uint8 Health;
 };
