@@ -24,7 +24,10 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
-        SubmitToThreadPool([]() {
+        auto startPos = i;
+        auto endPos = min(i + PROCESSING_BLOCK_SIZE, NumActiveBacteria);
+
+        SubmitToThreadPool([startPos, endPos]() {
 
         });
 
