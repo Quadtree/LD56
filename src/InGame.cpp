@@ -108,16 +108,7 @@ void InGameMainLoop()
                 throw "Game state is also being updated!!!";
             }
 #endif
-            SDL_FRect trg;
-
-            auto screen = camera.RealToScreen(gameStates[gameStateBeingRendered].BacteriaList[i].Position);
-
-            trg.x = screen.X;
-            trg.y = screen.Y;
-            trg.w = camera.RealToScreenScale(1);
-            trg.h = camera.RealToScreenScale(1);
-
-            SDL_RenderCopyExF(rnd, testImage.get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
+            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera);
         }
 
 #if _DEBUG
