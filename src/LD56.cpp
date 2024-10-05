@@ -10,10 +10,14 @@
 #include <emscripten.h>
 #include <emscripten/bind.h>
 
+#include <thread>
+
 using namespace std;
 
-SDL_Renderer* rnd;
-SDL_Window* wnd;
+SDL_Renderer *rnd;
+SDL_Window *wnd;
+
+thread altThread;
 
 void MainLoop()
 {
@@ -25,20 +29,27 @@ void MainLoop()
 	SDL_RenderPresent(rnd);
 }
 
-int main(int argc, char* argv[])
+void AltThreadEntryPoint()
+{
+	cout << "some other thread" << endl;
+}
+
+int main(int argc, char *argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO);
-	//TTF_Init();
+	// TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
 
-	srand((unsigned int) time(nullptr));
+	srand((unsigned int)time(nullptr));
 
 	wnd = SDL_CreateWindow("LD56", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_RESIZABLE);
 
 	cout << "About to call emscripten_set_main_loop" << endl;
 	emscripten_set_main_loop(MainLoop, 0, 0);
 
-	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	altThread = thread(AltThreadEntryPoint);
 
 	cout << "main() is done" << endl;
 
