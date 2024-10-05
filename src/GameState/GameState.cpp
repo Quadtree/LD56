@@ -14,7 +14,7 @@ GameState::GameState() : NumActiveBacteria(0)
         BacteriaList[i].Position = Vector2(1 * i, 0);
         BacteriaList[i].Health = 1;
         BacteriaList[i].Faction = 0;
-        BacteriaList[i].Type = BateriaType::Converter;
+        BacteriaList[i].Type = BacteriaType::Converter;
     }
 }
 
