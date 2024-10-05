@@ -17,10 +17,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             continue;
 
         auto delta = (Position - it->Position).Normalized();
-        Velocity += delta / 20;
+        nextState.Velocity += delta / 20;
     }
 
-    Position += Velocity / 60;
+    nextState.Position += Velocity / 60;
 
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;
