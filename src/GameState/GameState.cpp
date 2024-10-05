@@ -111,7 +111,9 @@ GameState::GetBacteriaNear(Vector2 point, float radius) const
 
     for (int offset = 0; offset < 9; ++offset)
     {
-        auto cellId = MainSpatialIndex.Vector2ToCellID(point);
+        auto effPt = point + OFFSETS[offset] * radius;
+
+        auto cellId = MainSpatialIndex.Vector2ToCellID(effPt);
 
         if (cellId == -1 || find(prevCells.begin(), prevCells.end(), cellId) != prevCells.end())
             continue;
