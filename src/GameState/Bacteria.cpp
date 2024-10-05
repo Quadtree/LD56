@@ -15,7 +15,7 @@ void Bacteria::Update1(Bacteria &nextState, class MutationQueue *queueMutation) 
 
 vector<shared_ptr<SDL_Texture>> bacteriaTextures;
 
-void Bacteria::Render(SDL_Renderer *rnd, Camera &camera)
+void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
 {
     if (bacteriaTextures.size() == 0)
     {
@@ -23,4 +23,13 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera)
 
         bacteriaTextures[(int)BacteriaType::Converter] = LoadTexture("assets/converter1.xcf");
     }
+
+    auto screen = camera.RealToScreen(Position);
+
+    trg.x = screen.X;
+    trg.y = screen.Y;
+    trg.w = camera.RealToScreenScale(1);
+    trg.h = camera.RealToScreenScale(1);
+
+    SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
 }
