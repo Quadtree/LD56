@@ -75,17 +75,10 @@ void ThreadPoolEntryPoint()
             workItem();
             ActiveThreadPoolThreads--;
         }
-        else if (endOfOperationLatch)
-        {
-            DESC_LINE(endOfOperationLatch->arrive_and_wait());
-        }
-        else if (startOfOperationLatch)
-        {
-            DESC_LINE(startOfOperationLatch->arrive_and_wait());
-        }
         else
         {
-            RAISE_ERROR("We should never get here");
+            DESC_LINE(endOfOperationLatch->arrive_and_wait());
+            DESC_LINE(startOfOperationLatch->arrive_and_wait());
         }
     }
 }
