@@ -3,6 +3,9 @@
 thread gameUpdateThread;
 Uint64 ticksHandledByGameStateUpdates;
 
+extern SDL_Renderer *rnd;
+extern SDL_Window *wnd;
+
 void UpdateWorldState()
 {
     // cout << "UPDATE world state! " << ticksHandledByGameStateUpdates << endl;
