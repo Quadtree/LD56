@@ -13,6 +13,11 @@ Vector2 Camera::ScreenToReal(Vector2 screen)
 
 Vector2 Camera::RealToScreen(Vector2 real)
 {
+    if (ScreenPixelSize.X < 10)
+    {
+        DUMP(ScreenPixelSize.X);
+    }
+
     real *= ZoomLevel;
     real += ScreenPixelSize / 2;
     return real;
