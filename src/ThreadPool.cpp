@@ -105,8 +105,8 @@ void SubmitToThreadPool(function<void()> func)
 
     if (!endOfOperationLatch)
     {
-        DESC_LINE(endOfOperationLatch = make_unique<latch>(numProc + 1));
-        DESC_LINE(startOfOperationLatch = make_unique<latch>(numProc + 1));
+        DESC_LINE(endOfOperationLatch = make_unique<barrier<>>(numProc + 1));
+        DESC_LINE(startOfOperationLatch = make_unique<barrier<>>(numProc + 1));
     }
 
     if (threadPool.size() == 0)
