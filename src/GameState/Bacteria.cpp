@@ -13,7 +13,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     for (auto &it : nearbyBacteria)
     {
-        if (it.ID == ID)
+        if (it->ID == ID)
             continue;
 
         auto delta = (Position - it.Position).Normalized();

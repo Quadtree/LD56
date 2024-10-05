@@ -55,19 +55,19 @@ struct Vector2
         return *this;
     }
 
-    float Length()
+    float Length() const
     {
         return sqrtf(powf(X, 2) + powf(Y, 2));
     }
 
-    Vector2 Normalized()
+    Vector2 Normalized() const
     {
         auto len = Length();
 
         return Vector2(X / len, Y / len);
     }
 
-    float DistToSquared(const Vector2 &v2)
+    float DistToSquared(const Vector2 &v2) const
     {
         return powf(X - v2.X, 2) + powf(Y - v2.Y, 2);
     }
