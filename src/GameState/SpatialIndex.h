@@ -2,18 +2,19 @@
 
 #define MAX_PER_CELL 20
 
+template <class T>
 class GridCell
 {
 public:
-    Bacteria List[MAX_PER_CELL];
+    const T List[MAX_PER_CELL];
     int NumInCell;
 };
 
-template <int Radius, int GridSize>
+template <int Radius, int GridSize, class T>
 class SpatialIndex
 {
 public:
-    GridCell Cells[(GridSize / Radius) * (GridSize / Radius)];
+    GridCell<T> Cells[(GridSize / Radius) * (GridSize / Radius)];
 
     int32_t CellXYToCellID(int32_t x, int32_t y)
     {
@@ -35,6 +36,17 @@ public:
             {
                 Cells[CellXYToCellID(x, y)]->NumInCell = 0;
             }
+        }
+    }
+
+    void AddToIndex(const T *bacteria)
+    {
+        auto cellId = Vector2ToCellID(bacteria->Position);
+
+        if (Cells[cellId]->NumInCell < MAX_PER_CELL)
+        {
+            Cells[cellId]->List[Cells[cellId]->NumInCell] = bacteria;
+            Cells[cellId]->NumInCell++;
         }
     }
 };
