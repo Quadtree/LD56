@@ -24,10 +24,11 @@ shared_ptr<SDL_Texture> LoadTexture(string filename)
     return shared_ptr<SDL_Texture>(ret, SDL_DestroyTexture);
 }
 
-void AssertOnMainThread()
+void AssertOnMainThread(string line, string file)
 {
     if (this_thread::get_id() != mainThreadId)
     {
-        throw exception("Should be on main thread!");
+        cout << file << " (" << line << "): Should be on main thread, but was on " << this_thread::get_id() << " instead!" << endl;
+        exit(1);
     }
 }
