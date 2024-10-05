@@ -35,3 +35,7 @@ void _AssertOnMainThread(int line, string file)
     }
 }
 
+double GetTimeAsDouble()
+{
+    return (double)SDL_QueryPerformanceCounter() / SDL_GetPerformanceFrequency();
+}

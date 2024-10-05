@@ -7,3 +7,4 @@ void _AssertOnMainThread(int line, std::string file);
 #define AssertOnMainThread()
 #endif
 
+double GetTimeAsDouble();
