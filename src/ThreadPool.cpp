@@ -1,5 +1,6 @@
 #include "LD56.h"
 #include <latch>
+#include <barrier>
 
 vector<thread> threadPool;
 mutex primaryMutex;
@@ -34,8 +35,8 @@ mutex msgMutex;
         x;                                 \
     }
 
-unique_ptr<latch> endOfOperationLatch;
-unique_ptr<latch> startOfOperationLatch;
+unique_ptr<barrier<>> endOfOperationLatch;
+unique_ptr<barrier<>> startOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
