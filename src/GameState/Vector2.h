@@ -54,4 +54,9 @@ struct Vector2
         *this = (*this * scalar);
         return *this;
     }
+
+    float DistToSquared(const Vector2 &v2)
+    {
+        return powf(X - v2.X, 2) + powf(Y - v2.Y, 2);
+    }
 };

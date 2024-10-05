@@ -77,3 +77,20 @@ void GameState::DoUpdate(GameState &nextGameState)
     nextGameState.BeingUpdated = false;
 #endif
 }
+
+thread_local vector<Bacteria *> bacteriaNearVector;
+
+vector<Bacteria *> &GameState::GetBacteriaNear(Vector2 point, float radius)
+{
+    bacteriaNearVector.resize(0);
+
+    for (int i = 0; i < NumActiveBacteria; ++i)
+    {
+        if (point.DistToSquared(BacteriaList[i].Position) <= radius)
+        {
+            bacteriaNearVector.push_back(&BacteriaList[i]);
+        }
+    }
+
+    return bacteriaNearVector;
+}
