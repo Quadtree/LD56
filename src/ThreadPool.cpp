@@ -48,7 +48,10 @@ void ThreadPoolEntryPoint()
         }
         else
         {
-            cout << this_thread::get_id() << ": endOfOperationLatch->arrive_and_wait()" << endl;
+            {
+                lock_guard primaryMutexGuard(primaryMutex);
+                cout << this_thread::get_id() << ": endOfOperationLatch->arrive_and_wait()" << endl;
+            }
             endOfOperationLatch->arrive_and_wait();
         }
     }
@@ -78,7 +81,11 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    cout << this_thread::get_id() << " (main): endOfOperationLatch->arrive_and_wait()" << endl;
+    {
+        lock_guard primaryMutexGuard(primaryMutex);
+        cout << this_thread::get_id() << " (main): endOfOperationLatch->arrive_and_wait()" << endl;
+    }
+
     endOfOperationLatch->arrive_and_wait();
     endOfOperationLatch = nullptr;
 
