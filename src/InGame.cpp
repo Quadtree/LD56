@@ -17,6 +17,8 @@ int nextGameStateToUpdate = 1;
 bool showingDebugInfo = false;
 int currentFPS = 0;
 
+Camera camera;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
