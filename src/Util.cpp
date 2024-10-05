@@ -42,7 +42,7 @@ double GetTimeAsDouble()
     return (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 }
 
-void DrawText(std::string text, class Vector2 pos)
+void DrawText(std::string text, class Vector2 *pos)
 {
     if (!defaultFont)
     {
@@ -60,8 +60,8 @@ void DrawText(std::string text, class Vector2 pos)
     auto tex = SDL_CreateTextureFromSurface(rnd, surf);
 
     SDL_FRect trg;
-    trg.x = pos.x;
-    trg.y = pos.y;
+    trg.x = pos->x;
+    trg.y = pos->y;
     trg.w = surf->w;
     trg.h = surf->h;
 
