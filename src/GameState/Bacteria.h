@@ -5,6 +5,7 @@
 
 class Bacteria
 {
+public:
     Vector2 Position;
     Vector2 Velocity;
     uint8_t Faction;
