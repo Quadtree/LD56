@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mutex>
+#include "Bacteria.h"
 
 #define MAX_BACTERIA 1024
 
