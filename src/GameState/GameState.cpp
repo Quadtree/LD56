@@ -30,6 +30,13 @@ void GameState::DoUpdate(GameState &nextGameState)
         // ExpectThreadPoolToBeEmpty();
 #endif
 
+    MainSpatialIndex.ClearCells();
+
+    for (int i = 0; i < NumActiveBacteria; ++i)
+    {
+        MainSpatialIndex.AddToIndex(BacteriaList[i]);
+    }
+
     MutationQueue mutationQueue;
     MutationQueue *mutationQueuePtr = &mutationQueue;
     auto currentBacteriaList = this->BacteriaList;
