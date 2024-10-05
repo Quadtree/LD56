@@ -26,7 +26,7 @@ void UpdateWorldState()
 
 void GameUpdateThread()
 {
-    auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / 120;
+    auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / 20;
 
     Uint64 lastSecond = 0;
     auto updatesLastSecond = 0;
