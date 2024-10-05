@@ -24,7 +24,7 @@ public:
     int NumActiveBacteria;
 
 #if _DEBUG
-    bool BeingRendered;
-    bool BeingUpdated;
+    volatile bool BeingRendered;
+    volatile bool BeingUpdated;
 #endif
 };
