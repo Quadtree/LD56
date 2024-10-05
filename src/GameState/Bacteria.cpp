@@ -9,3 +9,10 @@ void Bacteria::Update1(Bacteria &nextState, class MutationQueue *queueMutation) 
     nextState.NumUpdates = NumUpdates + 1;
 #endif
 }
+
+vector<shared_ptr<SDL_Texture>> bacteriaTextures;
+
+void Bacteria::Render(SDL_Renderer *rnd, Camera &camera)
+{
+    
+}
