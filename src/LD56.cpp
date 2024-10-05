@@ -21,11 +21,9 @@ SDL_Window *wnd;
 
 shared_ptr<SDL_Texture> testImage;
 
-thread gameUpdateThread;
+
 
 thread::id mainThreadId;
-
-Uint64 ticksHandledByGameStateUpdates;
 
 void InGameMainLoop();
 void EnterInGameState();

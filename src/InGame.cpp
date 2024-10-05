@@ -1,5 +1,8 @@
 #include "LD56.h"
 
+thread gameUpdateThread;
+Uint64 ticksHandledByGameStateUpdates;
+
 void UpdateWorldState()
 {
     // cout << "UPDATE world state! " << ticksHandledByGameStateUpdates << endl;
@@ -62,7 +65,7 @@ void InGameMainLoop()
 void EnterInGameState()
 {
     cout << "About to call emscripten_set_main_loop" << endl;
-	emscripten_set_main_loop(InGameMainLoop, 0, 0);
+    emscripten_set_main_loop(InGameMainLoop, 0, 0);
 
     gameUpdateThread = thread(GameUpdateThread);
 }
