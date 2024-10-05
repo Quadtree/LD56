@@ -11,7 +11,7 @@ GameState::GameState() : NumActiveBacteria(0)
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
-        BacteriaList[i].Position = Vector2(1 * i, 20);
+        BacteriaList[i].Position = Vector2(1 * i, 0);
         BacteriaList[i].Health = 1;
         BacteriaList[i].Faction = 0;
     }
