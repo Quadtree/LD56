@@ -61,15 +61,6 @@ void SubmitToThreadPool(function<void()> func)
 {
     lock_guard primaryMutexGuard(primaryMutex);
 
-    if (!endOfOperationLatch)
-    {
-        {
-            // lock_guard primaryMutexGuard(primaryMutex);
-            cout << this_thread::get_id() << " - " << ": Creating new latch" << endl;
-        }
-        endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
-    }
-
     if (threadPool.size() == 0)
     {
         auto numProc = max(DetermineNumberOfProcessors() - 1, 1);
@@ -80,6 +71,15 @@ void SubmitToThreadPool(function<void()> func)
         {
             threadPool.push_back(thread(ThreadPoolEntryPoint));
         }
+    }
+
+    if (!endOfOperationLatch)
+    {
+        {
+            // lock_guard primaryMutexGuard(primaryMutex);
+            cout << this_thread::get_id() << " - " << ": Creating new latch" << endl;
+        }
+        endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
     }
 
     threadPoolWorkQueue.push(func);
