@@ -6,12 +6,16 @@ Camera::Camera() : ZoomLevel(10)
 
 Vector2 Camera::ScreenToReal(Vector2 screen)
 {
-    return Vector2();
+    screen -= ScreenPixelSize / 2;
+    screen /= ZoomLevel;
+    return screen;
 }
 
-Vector2 Camera::RealToScreen(Vector2 screen)
+Vector2 Camera::RealToScreen(Vector2 real)
 {
-    return Vector2();
+    real *= ZoomLevel;
+    real += ScreenPixelSize / 2;
+    return real;
 }
 
 float Camera::RealToScreenScale(float inputValue)
