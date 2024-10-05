@@ -19,6 +19,12 @@ mutex msgMutex;
         cout << this_thread::get_id() << ": " << x << endl; \
     }
 
+#define DESC_LINE(x)                       \
+    {                                      \
+        PRINT_MSG(__LINE__ << ": " << #x); \
+        x;                                 \
+    }
+
 unique_ptr<latch> endOfOperationLatch;
 unique_ptr<latch> startOfOperationLatch;
 
@@ -59,13 +65,11 @@ void ThreadPoolEntryPoint()
         }
         else if (endOfOperationLatch)
         {
-            PRINT_MSG(endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()");
-            endOfOperationLatch->arrive_and_wait();
+            DESC_LINE(endOfOperationLatch->arrive_and_wait());
         }
         else if (startOfOperationLatch)
         {
-            PRINT_MSG(endOfOperationLatch << ": endOfOperationLatch->arrive_and_wait()");
-            startOfOperationLatch->arrive_and_wait();
+            DESC_LINE(startOfOperationLatch->arrive_and_wait());
         }
         else
         {
@@ -92,12 +96,8 @@ void SubmitToThreadPool(function<void()> func)
 
     if (!endOfOperationLatch)
     {
-        {
-            // lock_guard primaryMutexGuard(primaryMutex);
-            cout << this_thread::get_id() << " - " << ": Creating new latch" << endl;
-        }
-        endOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
-        startOfOperationLatch = make_unique<latch>(threadPool.size() + 1);
+        DESC_LINE(endOfOperationLatch = make_unique<latch>(threadPool.size() + 1));
+        DESC_LINE(startOfOperationLatch = make_unique<latch>(threadPool.size() + 1));
     }
 
     threadPoolWorkQueue.push(func);
@@ -105,23 +105,11 @@ void SubmitToThreadPool(function<void()> func)
 
 void WaitForThreadPoolToFinishAllTasks()
 {
-    startOfOperationLatch->arrive_and_wait();
-    startOfOperationLatch = nullptr;
+    DESC_LINE(startOfOperationLatch->arrive_and_wait());
+    DESC_LINE(startOfOperationLatch = nullptr);
 
-    {
-        lock_guard primaryMutexGuard(primaryMutex);
-        cout << this_thread::get_id() << " (main): endOfOperationLatch->arrive_and_wait()" << endl;
-    }
-
-    endOfOperationLatch->arrive_and_wait();
-    endOfOperationLatch = nullptr;
-
-    {
-        // lock_guard primaryMutexGuard(primaryMutex);
-        cout << this_thread::get_id() << " - " << ": Deleted old latch" << endl;
-    }
-
-    cout << "WaitForThreadPoolToFinishAllTasks completed" << endl;
+    DESC_LINE(endOfOperationLatch->arrive_and_wait());
+    DESC_LINE(endOfOperationLatch = nullptr);
 }
 
 void ExpectThreadPoolToBeEmpty()
