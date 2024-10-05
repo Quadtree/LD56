@@ -24,7 +24,7 @@ public:
     {
         for (auto y = 0; y < GridSize / Radius; ++y)
         {
-            for (auto y = 0; y < GridSize / Radius; ++y)
+            for (auto x = 0; x < GridSize / Radius; ++x)
             {
                 Cells[CellXYToCellID(x, y)]->NumInCell = 0;
             }
