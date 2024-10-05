@@ -47,7 +47,7 @@ unique_ptr<barrier<>> startOfOperationLatch;
 
 int DetermineNumberOfProcessors()
 {
-    return 8;
+    return 2;
 
     return EM_ASM_INT({
         return navigator.hardwareConcurrency;
