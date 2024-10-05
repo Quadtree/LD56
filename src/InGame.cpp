@@ -1,6 +1,6 @@
 #include "LD56.h"
 #include "Util.h"
-#include "GameState.h"
+#include "GameState/GameState.h"
 
 thread gameUpdateThread;
 Uint64 ticksHandledByGameStateUpdates;
