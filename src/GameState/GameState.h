@@ -5,7 +5,7 @@
 
 #define MAX_BACTERIA 1024
 
-class MutationQueueTarget
+class MutationQueue
 {
     void QueueMutation(std::function<void()> mutation);
 };
@@ -22,6 +22,4 @@ public:
 
     Bacteria BacteriaList[MAX_BACTERIA];
     int NumActiveBacteria;
-
-    void QueueMutation(std::function<void()> mutation);
 };
