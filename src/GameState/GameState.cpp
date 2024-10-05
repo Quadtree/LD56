@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-void GameState::GameState() : NumActiveBacteria(0)
+GameState::GameState() : NumActiveBacteria(0)
 {
 }
 
