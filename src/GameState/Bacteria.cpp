@@ -8,10 +8,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     nextState = *this;
     // nextState.Position = Vector2(Position.X, Position.Y + 1);
 
-    auto nearbyBacteria =
+    auto nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
 #if _DEBUG
-        nextState.NumUpdates = NumUpdates + 1;
+    nextState.NumUpdates = NumUpdates + 1;
 #endif
 }
 
