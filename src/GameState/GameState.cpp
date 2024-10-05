@@ -20,6 +20,10 @@ void GameState::DoUpdate(GameState &nextGameState)
 {
     // @TODO: Multithread me
 
+#if _DEBUG
+    nextGameState.BeingUpdated = true;
+#endif
+
     MutationQueue mutationQueue;
     MutationQueue *mutationQueuePtr = &mutationQueue;
     auto currentBacteriaList = this->BacteriaList;
@@ -39,4 +43,8 @@ void GameState::DoUpdate(GameState &nextGameState)
     }
 
     WaitForThreadPoolToFinishAllTasks();
+
+#if _DEBUG
+    nextGameState.BeingUpdated = false;
+#endif
 }
