@@ -1,8 +1,9 @@
 #include "LD56.h"
 #include "Camera.h"
 
-Camera::Camera() : ZoomLevel(10), ZoomStep(7)
+Camera::Camera() : ZoomLevel(10), ZoomStep(2)
 {
+    SetZoomLevelFromZoomStep();
 }
 
 void Camera::SetZoomLevelFromZoomStep()

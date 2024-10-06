@@ -5,6 +5,7 @@
 void EnterMainMenuState();
 
 string messageGlobal;
+static function<void()> nextGlobal;
 
 static void MainLoop()
 {
@@ -13,7 +14,7 @@ static void MainLoop()
     {
         if (evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN)
         {
-            EnterMainMenuState();
+            nextGlobal();
         }
     }
 
@@ -44,6 +45,7 @@ void EnterMessageScreen(string message, function<void()> next)
     CallTearDownFunction();
 
     messageGlobal = message;
+    nextGlobal = next;
 
     emscripten_cancel_main_loop();
     emscripten_set_main_loop(MainLoop, 0, 0);

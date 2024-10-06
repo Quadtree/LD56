@@ -42,6 +42,9 @@ vector<function<void(GameState *)>> preUpdateFunctions;
 bool anyAlliesAlive = true;
 bool anyEnemiesAlive = true;
 
+int numAlliesAlive = 0;
+int numEnemiesAlive = 0;
+
 string currentLevelName;
 int currentLevelNumber;
 
@@ -61,19 +64,32 @@ void UpdateWorldState()
 
     preUpdateFunctions.resize(0);
 
-    anyAlliesAlive = false;
-    anyEnemiesAlive = false;
+    auto loc_anyAlliesAlive = false;
+    auto loc_anyEnemiesAlive = false;
+    auto loc_numAlliesAlive = 0;
+    auto loc_numEnemiesAlive = 0;
 
     for (int i = 0; i < gameStates[nextGameStateToUpdate].NumActiveBacteria; ++i)
     {
         if (gameStates[nextGameStateToUpdate].BacteriaList[i].Health > 0)
         {
             if (gameStates[nextGameStateToUpdate].BacteriaList[i].Faction == 0)
-                anyAlliesAlive = true;
+            {
+                loc_numAlliesAlive++;
+                loc_anyAlliesAlive = true;
+            }
             if (gameStates[nextGameStateToUpdate].BacteriaList[i].Faction == 1)
-                anyEnemiesAlive = true;
+            {
+                loc_numEnemiesAlive++;
+                loc_anyEnemiesAlive = true;
+            }
         }
     }
+
+    anyAlliesAlive = loc_anyAlliesAlive;
+    anyEnemiesAlive = loc_anyEnemiesAlive;
+    numAlliesAlive = loc_numAlliesAlive;
+    numEnemiesAlive = loc_numEnemiesAlive;
 
     nextGameStateToUpdate = currentGameState;
     currentGameState = 1 - currentGameState;
@@ -285,6 +301,7 @@ void InGameMainLoop()
 
     if (!anyAlliesAlive)
     {
+        cout << "Player has LOST the level" << currentLevelNumber << "!" << endl;
         EnterMessageScreen("You lose!", []()
                            { EnterInGameState(currentLevelNumber); });
     }
