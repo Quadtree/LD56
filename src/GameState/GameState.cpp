@@ -86,7 +86,7 @@ void GameState::DoUpdate(GameState &nextGameState, TerrainType terrain[TERRAIN_G
         auto actualNumUpdates = nextGameState.BacteriaList[i].NumUpdates;
         auto expectedNumUpdates = BacteriaList[i].NumUpdates + 1;
 
-        if (actualNumUpdates > 0 && actualNumUpdates != expectedNumUpdates)
+        if (nextGameState.BacteriaList[i].Health > 0 && actualNumUpdates > 0 && actualNumUpdates != expectedNumUpdates)
         {
             DUMP(actualNumUpdates);
             DUMP(expectedNumUpdates);
@@ -188,6 +188,7 @@ void GameState::AddBacteria(Bacteria bacteria)
             bacteria.ID = i;
             bacteria.Velocity = Vector2();
             bacteria.AttackCharge = 0;
+            bacteria.NumUpdates = 0;
 
             if (bacteria.Type == BacteriaType::Converter)
                 bacteria.AttackCharge = rand() % 1000;

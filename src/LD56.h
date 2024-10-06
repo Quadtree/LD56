@@ -45,3 +45,5 @@ void EnterTitleScreenState();
 void EnterMainMenuState();
 TTF_Font *GetFont(int ptSize);
 void CallTearDownFunction();
+
+#define CHEATS_ENABLED 1

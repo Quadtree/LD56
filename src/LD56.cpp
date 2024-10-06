@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
 
 	// EnterInGameState("assets/level4.xcf");
 	// EnterMainMenuState();
-	// EnterTitleScreenState();
-	EnterMessageScreen("You WIN!");
+	EnterTitleScreenState();
+	// EnterMessageScreen("You WIN!");
 
 	AssertOnMainThread();
 

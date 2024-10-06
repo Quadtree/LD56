@@ -37,6 +37,8 @@ shared_ptr<SDL_Texture> worldTexture;
 
 extern function<void()> teardownFunction;
 
+vector<function<void(GameState *)>> preUpdateFunctions;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
@@ -45,6 +47,11 @@ void UpdateWorldState()
     gameStates[currentGameState].AttractionPoints[0].Location = attractionPoint;
 
     gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate], Terrain);
+
+    for (auto &it : preUpdateFunctions)
+    {
+        it(&gameStates[nextGameStateToUpdate]);
+    }
 
     nextGameStateToUpdate = currentGameState;
     currentGameState = 1 - currentGameState;
@@ -118,6 +125,17 @@ void InGameMainLoop()
                 attractionTypes[(int)BacteriaType::Zoomer] = true;
             if (evt.key.keysym.sym == SDLK_5)
                 attractionTypes[(int)BacteriaType::Spitter] = true;
+#if CHEATS_ENABLED
+            if (evt.key.keysym.sym == SDLK_F6)
+            {
+                preUpdateFunctions.push_back([](GameState *gs)
+                                             {
+                    for (int i=0;i<gs->NumActiveBacteria;++i)
+                    {
+                        if (gs->BacteriaList[i].Faction == 1) gs->BacteriaList[i].Health = 0;
+                    } });
+            }
+#endif
         }
 
         if (evt.type == SDL_KEYUP)
@@ -277,6 +295,8 @@ void EnterInGameState(string levelName)
     int32_t clearTiles = 0;
 
     gameRunning = true;
+
+    preUpdateFunctions.resize(0);
 
     for (int y = 0; y < lvlSurf->h; ++y)
     {

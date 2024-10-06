@@ -33,8 +33,6 @@ void TitleScreenMainLoop()
         TTF_MeasureUTF8(GetFont(otherTextSize), otherText, 2000, &extent, &count);
 
         DrawText(otherText, Vector2(wndW - extent - 10, wndH - 35), otherTextSize, {255, 255, 255, 255});
-
-        SDL_RenderPresent(rnd);
     }
 
     {
@@ -44,9 +42,20 @@ void TitleScreenMainLoop()
         TTF_MeasureUTF8(GetFont(otherTextSize), otherText, 2000, &extent, &count);
 
         DrawText(otherText, Vector2(wndW / 2 - extent / 2, 450), otherTextSize, {255, 255, 255, 255});
-
-        SDL_RenderPresent(rnd);
     }
+
+#if CHEATS_ENABLED
+    {
+        const auto otherText = "Cheats enabled!";
+        const auto otherTextSize = 24;
+
+        TTF_MeasureUTF8(GetFont(otherTextSize), otherText, 2000, &extent, &count);
+
+        DrawText(otherText, Vector2(wndW / 2 - extent / 2, 500), otherTextSize, {255, 255, 255, 255});
+    }
+#endif
+
+    SDL_RenderPresent(rnd);
 }
 
 void EnterTitleScreenState()

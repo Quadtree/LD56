@@ -13,7 +13,6 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Ensure deployment works
 - Cycling through levels when you win
 - Keys to scroll and zoom
 - Interpolation
@@ -30,3 +29,4 @@
 - Basic AI
 - Main menu
 - Win screen
+- Ensure deployment works
