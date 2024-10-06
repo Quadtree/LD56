@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/src:ro
       - build:/build
-      - output:/output
+      - /mnt/k/tmp/ld56/output:/output
       - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
     environment:
       DEBUG_MODE: "${DEBUG_MODE:-1}"
