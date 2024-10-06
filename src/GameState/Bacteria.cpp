@@ -28,6 +28,10 @@
 #define ZOOMER_ATTACK_COOLDOWN 90
 #define ZOOMER_ATTACK_DAMAGE 40
 
+#define SPLIT_SOUND_VOLUME 0.2f
+#define ATTACK_SOUND_VOLUME 0.1f
+#define DEATH_SOUND_VOLUME 0.6f
+
 SDL_Color FACTION_COLORS[] = {
     {128, 128, 255, 255},
     {255, 50, 50, 255}};
@@ -79,9 +83,9 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             queueMutation->QueueMutation(1, [targetID](GameState *gs)
                                          { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE;
                                          if (gs->BacteriaList[targetID].Health <= 0){
-                                                 QueueSound("die.wav", 0.5f);
+                                                 QueueSound("die.wav", DEATH_SOUND_VOLUME);
                                              } else {
-                                                QueueSound("attack.wav", 0.5f);
+                                                QueueSound("attack.wav", ATTACK_SOUND_VOLUME);
                                              } });
 
             nextState.AttackCharge = 0;
@@ -103,7 +107,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
                                              if (!targetIsZoomer || rand() % ZOOMER_DODGE_CHANCE == 0)
                                              {
                                                  gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
-                                                 QueueSound("attack.wav", 0.2f);
+                                                 QueueSound("attack.wav", ATTACK_SOUND_VOLUME);
                                              }
                                              else
                                              {
@@ -112,9 +116,9 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
                                              }
 
                                              if (gs->BacteriaList[targetID].Health <= 0){
-                                                 QueueSound("die.wav", 0.5f);
+                                                 QueueSound("die.wav", DEATH_SOUND_VOLUME);
                                              } else {
-                                                QueueSound("attack.wav", 0.2f);
+                                                QueueSound("attack.wav", ATTACK_SOUND_VOLUME);
                                              } });
 
             nextState.AttackCharge = 0;
@@ -135,7 +139,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
                                          if (gs->BacteriaList[targetID].Health <= 0){
                                                  QueueSound("die.wav", 0.5f);
                                              } else {
-                                                QueueSound("attack.wav", 0.2f);
+                                                QueueSound("attack.wav", ATTACK_SOUND_VOLUME);
                                              } });
 
             nextState.AttackCharge = 0;
@@ -169,7 +173,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
                                          {
                                             auto numSplits = gs->BacteriaList[targetID].Type == BacteriaType::Swarmer ? 2 : 1;
 
-                                            QueueSound("split.wav", 0.5f);
+                                            QueueSound("split.wav", SPLIT_SOUND_VOLUME);
 
                                             for(auto i=0;i<numSplits;++i){
                                                 auto newBacteria = gs->BacteriaList[targetID];
