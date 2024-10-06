@@ -45,5 +45,7 @@ void EnterTitleScreenState();
 void EnterMainMenuState();
 TTF_Font *GetFont(int ptSize);
 void CallTearDownFunction();
+void EnterMessageScreen(string message, function<void()> next);
+void EnterInGameState(int levelNumber);
 
 #define CHEATS_ENABLED 1

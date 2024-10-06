@@ -2,7 +2,6 @@
 
 Button mainMenuButtons[2];
 
-void EnterInGameState(string levelName);
 void EnterLevelSelectState();
 
 void MainMenuMainLoop()
@@ -31,7 +30,7 @@ void EnterMainMenuState()
 
     cout << "EnterMainMenuState()" << endl;
     mainMenuButtons[0].Setup(0, "Start Game", []()
-                             { EnterInGameState("assets/level1.xcf"); });
+                             { EnterInGameState(1); });
     mainMenuButtons[1].Setup(1, "Level Select", []()
                              { EnterLevelSelectState(); });
 

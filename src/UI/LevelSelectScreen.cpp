@@ -4,8 +4,6 @@
 
 static Button mainMenuButtons[NUM_LEVELS];
 
-void EnterInGameState(string levelName);
-
 void MainLoop()
 {
     SDL_Event evt;
@@ -42,8 +40,8 @@ void EnterLevelSelectState()
 
         auto levelAssetNameStr = levelAssetName.str();
 
-        mainMenuButtons[i].Setup(i, buttonText.str(), [levelAssetNameStr]()
-                                 { EnterInGameState(levelAssetNameStr); });
+        mainMenuButtons[i].Setup(i, buttonText.str(), [i, levelAssetNameStr]()
+                                 { EnterInGameState(i); });
     }
 
     emscripten_cancel_main_loop();

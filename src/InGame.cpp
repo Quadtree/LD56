@@ -39,6 +39,12 @@ extern function<void()> teardownFunction;
 
 vector<function<void(GameState *)>> preUpdateFunctions;
 
+bool anyAlliesAlive = true;
+bool anyEnemiesAlive = true;
+
+string currentLevelName;
+int currentLevelNumber;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
@@ -51,6 +57,20 @@ void UpdateWorldState()
     for (auto &it : preUpdateFunctions)
     {
         it(&gameStates[nextGameStateToUpdate]);
+    }
+
+    anyAlliesAlive = false;
+    anyEnemiesAlive = false;
+
+    for (int i = 0; i < gameStates[nextGameStateToUpdate].NumActiveBacteria; ++i)
+    {
+        if (gameStates[nextGameStateToUpdate].BacteriaList[i].Health > 0)
+        {
+            if (gameStates[nextGameStateToUpdate].BacteriaList[i].Faction == 0)
+                anyAlliesAlive = true;
+            if (gameStates[nextGameStateToUpdate].BacteriaList[i].Faction == 1)
+                anyEnemiesAlive = true;
+        }
     }
 
     nextGameStateToUpdate = currentGameState;
@@ -260,12 +280,27 @@ void InGameMainLoop()
         DrawText(oss.str(), Vector2(20, 20), 24, {255, 255, 255, 255});
     }
 
+    if (!anyAlliesAlive)
+    {
+        EnterMessageScreen("You lose!", []()
+                           { EnterInGameState(currentLevelNumber); });
+    }
+
     SDL_RenderPresent(rnd);
 }
 
-void EnterInGameState(string levelName)
+void EnterInGameState(int levelNumber)
 {
     CallTearDownFunction();
+
+    currentLevelNumber = levelNumber;
+
+    {
+        ostringstream oss;
+        oss << "assets/level" << currentLevelNumber << ".xcf";
+
+        currentLevelName = oss.str();
+    }
 
     if (gameStates)
         delete gameStates;
@@ -282,7 +317,7 @@ void EnterInGameState(string levelName)
     attractionPoint = Vector2();
     memset(attractionTypes, 0, sizeof(attractionTypes));
 
-    SDL_Surface *lvlSurf = IMG_Load(levelName.c_str());
+    SDL_Surface *lvlSurf = IMG_Load(currentLevelName.c_str());
     SDL_LockSurface(lvlSurf);
 
     SDL_Surface *worldTextureSurface = SDL_CreateRGBSurface(0, TERRAIN_GRID_SIZE, TERRAIN_GRID_SIZE, 32, 0, 0, 0, 0);

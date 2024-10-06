@@ -30,8 +30,7 @@ void CallTearDownFunction()
 }
 
 void InGameMainLoop();
-void EnterInGameState(string levelName);
-void EnterMessageScreen(string message);
+
 
 void FakeMainLoop()
 {

@@ -39,7 +39,7 @@ static void MainLoop()
     }
 }
 
-void EnterMessageScreen(string message)
+void EnterMessageScreen(string message, function<void()> next)
 {
     CallTearDownFunction();
 
