@@ -52,7 +52,35 @@ TTF_Font *GetFont(int ptSize)
 
 void PlaySound(std::string filename, float volume)
 {
+    cout << "PlaySound(" << filename << ", " << volume << ")" << endl;
     EM_ASM_({ playSound(UTF8ToString($0), $1); }, filename.c_str(), volume);
+}
+
+mutex soundQueueMutex;
+
+struct SoundQueueEntry
+{
+    string Filename;
+    float Volume;
+};
+
+vector<SoundQueueEntry> soundQueue;
+
+void QueueSound(std::string filename, float volume)
+{
+    lock_guard soundQueueMutexGuard(soundQueueMutex);
+
+    soundQueue.push_back({filename, volume});
+}
+
+void FlushSoundQueue()
+{
+    for (auto &it : soundQueue)
+    {
+        PlaySound(it.Filename, it.Volume);
+    }
+
+    soundQueue.resize(0);
 }
 
 void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color)

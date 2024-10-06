@@ -198,6 +198,8 @@ void GameState::Reset()
     memset(BacteriaList, 0, sizeof(BacteriaList));
     MainSpatialIndex.ClearCells();
     memset(AttractionPoints, 0, sizeof(AttractionPoints));
+    WasDeath = false;
+    WasAttack = false;
 }
 
 void MutationQueue::QueueMutation(int priority, std::function<void(GameState *)> mutation)

@@ -23,3 +23,5 @@ void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color);
 TTF_Font *GetFont(int ptSize);
 
 void PlaySound(std::string filename, float volume);
+void QueueSound(std::string filename, float volume);
+void FlushSoundQueue();

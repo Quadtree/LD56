@@ -51,6 +51,9 @@ public:
 
     void Reset();
 
+    bool WasDeath;
+    bool WasAttack;
+
 #if _DEBUG
     bool BeingRendered;
     bool BeingUpdated;

@@ -77,7 +77,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             auto targetID = closestBacteria->ID;
 
             queueMutation->QueueMutation(1, [targetID](GameState *gs)
-                                         { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
+                                         { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE;
+                                         if (gs->BacteriaList[targetID].Health <= 0){
+                                                 QueueSound("die.wav", 0.5f);
+                                             } });
 
             nextState.AttackCharge = 0;
         }
@@ -95,11 +98,18 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
             queueMutation->QueueMutation(1, [targetID, targetIsZoomer](GameState *gs)
                                          {
-                                                if (!targetIsZoomer || rand() % ZOOMER_DODGE_CHANCE == 0){
-                                                    gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
-                                                } else {
-                                                    gs->BacteriaList[targetID].Velocity += Vector2(rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE, rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE);
-                                                } });
+                                             if (!targetIsZoomer || rand() % ZOOMER_DODGE_CHANCE == 0)
+                                             {
+                                                 gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
+                                             }
+                                             else
+                                             {
+                                                 gs->BacteriaList[targetID].Velocity += Vector2(rand() % (ZOOMER_DODGE_FORCE * 2) - ZOOMER_DODGE_FORCE, rand() % (ZOOMER_DODGE_FORCE * 2) - ZOOMER_DODGE_FORCE);
+                                             }
+
+                                             if (gs->BacteriaList[targetID].Health <= 0){
+                                                 QueueSound("die.wav", 0.5f);
+                                             } });
 
             nextState.AttackCharge = 0;
         }
@@ -115,7 +125,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             auto targetID = closestBacteria->ID;
 
             queueMutation->QueueMutation(1, [targetID](GameState *gs)
-                                         { gs->BacteriaList[targetID].Health -= ZOOMER_ATTACK_DAMAGE; });
+                                         { gs->BacteriaList[targetID].Health -= ZOOMER_ATTACK_DAMAGE;
+                                         if (gs->BacteriaList[targetID].Health <= 0){
+                                                 QueueSound("die.wav", 0.5f);
+                                             } });
 
             nextState.AttackCharge = 0;
         }

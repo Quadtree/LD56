@@ -372,6 +372,8 @@ void InGameMainLoop()
     }
 
     SDL_RenderPresent(rnd);
+
+    FlushSoundQueue();
 }
 
 void EnterInGameState(int levelNumber)
