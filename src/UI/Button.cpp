@@ -4,7 +4,7 @@
 extern SDL_Renderer *rnd;
 extern SDL_Window *wnd;
 
-#define BUTTON_HEIGHT 120
+#define BUTTON_HEIGHT 80
 
 void Button::Setup(int index, string text, function<void()> onClick)
 {
@@ -44,7 +44,7 @@ shared_ptr<SDL_Texture> Button::CreateTexture(SDL_Color edgeColor, SDL_Color bac
 
     SDL_Rect txtRect;
     txtRect.x = 200 - (extent / 2);
-    txtRect.y = 40;
+    txtRect.y = 18;
     txtRect.w = txtSurf->w;
     txtRect.h = txtSurf->h;
 
@@ -103,7 +103,7 @@ SDL_Rect Button::GetRect()
 
     SDL_Rect r;
     r.x = (wndW - 400) / 2;
-    r.y = wndH - 500 + (Index * (BUTTON_HEIGHT + 40));
+    r.y = wndH - 500 + (Index * (BUTTON_HEIGHT + 25));
     r.w = 300;
     r.h = BUTTON_HEIGHT;
 
