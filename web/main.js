@@ -25,3 +25,26 @@ function resized() {
 
 window.addEventListener("resize", () => setTimeout(resized, 0));
 setTimeout(resized, 0);
+
+const soundFiles = {};
+
+function playSound(filename) {
+    if (typeof soundFiles[filename] === "undefined") {
+        soundFiles[filename] = [];
+    }
+
+    let audioElement = null;
+    for (const it of soundFiles[filename]) {
+        if (it.ended) {
+            audioElement = it;
+            break;
+        }
+    }
+
+    if (!audioElement) {
+        console.log(`Creating new audio element for ${filename}`);
+        audioElement = new Audio(filename);
+        soundFiles[filename].push(audioElement);
+        audioElement.play();
+    }
+}
