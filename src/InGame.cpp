@@ -203,7 +203,7 @@ void InGameMainLoop()
     if (showingDebugInfo)
     {
         ostringstream oss;
-        oss << "FPS: " << currentFPS;
+        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria;
         DrawText(oss.str(), Vector2(20, 20));
     }
 

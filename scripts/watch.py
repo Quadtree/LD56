@@ -3,6 +3,7 @@
 import subprocess
 import threading
 import time
+import os
 
 inotify_proc = subprocess.Popen(["inotifywait", "-r", "-m", "-e", "move,modify,create,delete", "/src"], stdout=subprocess.PIPE)
 
