@@ -50,6 +50,9 @@ int numEnemiesAlive = 0;
 string currentLevelName;
 int currentLevelNumber;
 
+const string START_OF_LEVEL_BLURBS = {
+    "LEVEL 1!"};
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
