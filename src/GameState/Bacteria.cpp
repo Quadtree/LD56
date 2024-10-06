@@ -20,6 +20,11 @@
 #define GOBBLER_ATTACK_DAMAGE 40
 
 #define ZOOMER_DODGE_FORCE 60
+#define ZOOMER_DODGE_CHANCE 10
+#define ZOOMER_ATTACK_SPEED (2.0f / 1.0f)
+#define ZOOMER_ATTACK_RANGE 1
+#define ZOOMER_ATTACK_COOLDOWN 90
+#define ZOOMER_ATTACK_DAMAGE 40
 
 SDL_Color FACTION_COLORS[] = {
     {0, 0, 255, 255},
@@ -88,11 +93,27 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
             queueMutation->QueueMutation(1, [targetID, targetIsZoomer](GameState *gs)
                                          {
-                                                if (!targetIsZoomer && rand() % 10 == 0){
+                                                if (!targetIsZoomer && rand() % ZOOMER_DODGE_CHANCE == 0){
                                                     gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
                                                 } else {
                                                     gs->BacteriaList[targetID].Velocity += Vector2(rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE, rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE);
                                                 } });
+
+            nextState.AttackCharge = 0;
+        }
+    }
+
+    if (closestBacteria && Type == BacteriaType::Zoomer)
+    {
+        auto delta = (closestBacteria->Position - Position).Normalized();
+        nextState.Velocity += delta * ZOOMER_ATTACK_SPEED;
+
+        if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(ZOOMER_ATTACK_RANGE) && nextState.AttackCharge >= ZOOMER_ATTACK_COOLDOWN)
+        {
+            auto targetID = closestBacteria->ID;
+
+            queueMutation->QueueMutation(1, [targetID](GameState *gs)
+                                         { gs->BacteriaList[targetID].Health -= ZOOMER_ATTACK_DAMAGE; });
 
             nextState.AttackCharge = 0;
         }
