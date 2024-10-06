@@ -28,7 +28,7 @@ setTimeout(resized, 0);
 
 const soundFiles = {};
 
-function playSound(filename) {
+function playSound(filename, volume) {
     if (typeof soundFiles[filename] === "undefined") {
         soundFiles[filename] = [];
     }
@@ -45,6 +45,9 @@ function playSound(filename) {
         console.log(`Creating new audio element for ${filename}`);
         audioElement = new Audio(filename);
         soundFiles[filename].push(audioElement);
-        audioElement.play();
     }
+
+    audioElement.currentTime = 0;
+    audioElement.volume = volume;
+    audioElement.play();
 }
