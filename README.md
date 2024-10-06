@@ -15,6 +15,7 @@
 ## Remaining Tasks
 - Main menu
 - Win screen
+- Keys to scroll and zoom
 - Advanced AI
 - Sound
 - Fix DPI scaling issue

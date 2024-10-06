@@ -13,6 +13,7 @@ void Button::Setup(int index, string text, function<void()> onClick)
     OnClick = onClick;
 
     IdleTexture = CreateTexture({200, 100, 100, 255}, {150, 100, 100, 255});
+    HoverTexture = CreateTexture({220, 120, 120, 255}, {170, 120, 120, 255});
 }
 
 shared_ptr<SDL_Texture> Button::CreateTexture(SDL_Color edgeColor, SDL_Color backgroundColor)
@@ -61,7 +62,38 @@ void Button::Render()
 {
     auto r = GetRect();
 
-    SDL_RenderCopy(rnd, IdleTexture.get(), nullptr, &r);
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    SDL_Point mousePt;
+    mousePt.x = mouseX;
+    mousePt.y = mouseY;
+
+    if (SDL_PointInRect(&mousePt, &r))
+    {
+        SDL_RenderCopy(rnd, HoverTexture.get(), nullptr, &r);
+    }
+    else
+    {
+        SDL_RenderCopy(rnd, IdleTexture.get(), nullptr, &r);
+    }
+}
+
+void Button::UserClickedSomewhere()
+{
+    auto r = GetRect();
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    SDL_Point mousePt;
+    mousePt.x = mouseX;
+    mousePt.y = mouseY;
+
+    if (SDL_PointInRect(&mousePt, &r))
+    {
+        OnClick();
+    }
 }
 
 SDL_Rect Button::GetRect()

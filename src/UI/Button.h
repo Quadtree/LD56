@@ -22,5 +22,7 @@ public:
 
     void Render();
 
+    void UserClickedSomewhere();
+
     SDL_Rect GetRect();
 };

@@ -27,11 +27,15 @@ double lastGameUpdateTime = 0;
 
 double elapsedTime;
 
+bool gameRunning = true;
+
 #define TERRAIN_GRID_CELL_SIZE 1
 
 TerrainType Terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE];
 
 shared_ptr<SDL_Texture> worldTexture;
+
+extern function<void()> teardownFunction;
 
 void UpdateWorldState()
 {
@@ -55,7 +59,7 @@ void GameUpdateThread()
 
     ticksHandledByGameStateUpdates = SDL_GetPerformanceCounter();
 
-    while (true)
+    while (gameRunning)
     {
         if (SDL_GetPerformanceCounter() > ticksHandledByGameStateUpdates)
         {
@@ -241,6 +245,9 @@ void InGameMainLoop()
 
 void EnterInGameState(string levelName)
 {
+    gameRunning = false;
+    gameUpdateThread.join();
+
     if (gameStates)
         delete gameStates;
     gameStates = new GameState[2];
@@ -267,6 +274,8 @@ void EnterInGameState(string levelName)
 
     int32_t obstructedTiles = 0;
     int32_t clearTiles = 0;
+
+    gameRunning = true;
 
     for (int y = 0; y < lvlSurf->h; ++y)
     {
@@ -414,4 +423,9 @@ void EnterInGameState(string levelName)
     emscripten_set_main_loop(InGameMainLoop, 0, 0);
 
     gameUpdateThread = thread(GameUpdateThread);
+
+    teardownFunction = []()
+    {
+        gameRunning = false;
+    };
 }
