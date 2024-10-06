@@ -172,7 +172,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     if (isInWall && !wasInWall)
     {
-        cout << "WE HIT A WALL!" << endl;
+        //cout << "WE HIT A WALL!" << endl;
         nextState.Velocity = nextState.Velocity * -1;
     }
 

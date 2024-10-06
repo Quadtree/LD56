@@ -40,3 +40,5 @@ enum class TerrainType : uint8_t
     Obstructed,
     Max,
 };
+
+void EnterTitleScreenState();

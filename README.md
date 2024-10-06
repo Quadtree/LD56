@@ -18,6 +18,7 @@
 - Advanced AI
 - Sound
 - Fix DPI scaling issue
+- Prevent spawning in walls
 - Music
 
 ## DONE
