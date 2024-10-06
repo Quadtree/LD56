@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	// EnterInGameState("assets/level4.xcf");
-	EnterTitleScreenState();
+	EnterMainMenuState();
 
 	AssertOnMainThread();
 
