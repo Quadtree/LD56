@@ -13,8 +13,6 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- More levels
-- Basic AI
 - Main menu
 - Win screen
 - Advanced AI
@@ -24,3 +22,5 @@
 
 ## DONE
 - Implement walls
+- More levels
+- Basic AI

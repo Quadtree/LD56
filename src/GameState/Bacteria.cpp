@@ -95,7 +95,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
             queueMutation->QueueMutation(1, [targetID, targetIsZoomer](GameState *gs)
                                          {
-                                                if (!targetIsZoomer && rand() % ZOOMER_DODGE_CHANCE == 0){
+                                                if (!targetIsZoomer || rand() % ZOOMER_DODGE_CHANCE == 0){
                                                     gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
                                                 } else {
                                                     gs->BacteriaList[targetID].Velocity += Vector2(rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE, rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE);
