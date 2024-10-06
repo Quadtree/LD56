@@ -414,6 +414,4 @@ void EnterInGameState(string levelName)
     emscripten_set_main_loop(InGameMainLoop, 0, 0);
 
     gameUpdateThread = thread(GameUpdateThread);
-
-    testImage = LoadTexture("assets/xt3.xcf");
 }

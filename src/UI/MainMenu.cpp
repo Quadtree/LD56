@@ -1,6 +1,6 @@
 Button titleScreenButtons;
 
-void TitleScreenMainLoop()
+void MainMenuMainLoop()
 {
     SDL_Event evt;
     while (SDL_PollEvent(&evt))
@@ -11,7 +11,8 @@ void TitleScreenMainLoop()
     }
 }
 
-void EnterTitleScreenState()
+void EnterMainMenuState()
 {
     title
 }
+
