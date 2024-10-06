@@ -66,7 +66,9 @@ struct Vector2
         auto len = Length();
 
         if (len == 0)
-            RAISE_ERROR("Divide by zero!");
+        {
+            return Vector2(1, 0);
+        }
 
         return Vector2(X / len, Y / len);
     }

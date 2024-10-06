@@ -231,7 +231,7 @@ void EnterInGameState()
     {
         Bacteria b1;
         b1.Position = Vector2(i, 0);
-        b1.Type = BacteriaType::Gobbler;
+        b1.Type = BacteriaType::Swarmer;
         b1.Velocity = Vector2(0, 0);
         b1.Faction = 0;
 

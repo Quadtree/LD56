@@ -14,6 +14,7 @@ Vector2 Camera::ScreenToReal(Vector2 screen)
 {
     screen -= ScreenPixelSize / 2;
     screen /= ZoomLevel;
+    screen += CenterPos;
     return screen;
 }
 

@@ -9,6 +9,8 @@
 #define CURSOR_ATTRACTION_RADIUS 22
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
 
+#define CONVERTER_CONVERSION_TIME 1200
+
 #define SWARMER_ATTACK_SPEED (1.0f / 1.0f)
 #define SWARMER_ATTACK_RANGE 1
 #define SWARMER_ATTACK_COOLDOWN 30
@@ -27,8 +29,8 @@
 #define ZOOMER_ATTACK_DAMAGE 40
 
 SDL_Color FACTION_COLORS[] = {
-    {0, 0, 255, 255},
-    {255, 0, 0, 255}};
+    {128, 128, 255, 255},
+    {255, 50, 50, 255}};
 
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
@@ -119,6 +121,43 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         }
     }
 
+    if (Type == BacteriaType::Converter && nextState.AttackCharge >= CONVERTER_CONVERSION_TIME)
+    {
+        for (auto &it : nearbyBacteria)
+        {
+            if (it->Faction != Faction || it->ID == ID)
+                continue;
+
+            auto dist = it->Position.DistToSquared(Position);
+
+            if (it->Type == BacteriaType::Converter)
+                dist += 1000;
+
+            if (dist < bestSquaredDist)
+            {
+                bestSquaredDist = dist;
+                closestBacteria = it;
+            }
+        }
+
+        if (closestBacteria)
+        {
+            auto targetID = closestBacteria->ID;
+
+            queueMutation->QueueMutation(0, [targetID](GameState *gs)
+                                         {
+                                            auto numSplits = gs->BacteriaList[targetID].Type == BacteriaType::Swarmer ? 2 : 1;
+
+                                            for(auto i=0;i<numSplits;++i){
+                                                auto newBacteria = gs->BacteriaList[targetID];
+                                                newBacteria.Position += Vector2(rand() % 100 - 50, rand() % 100 - 50) / 1000;
+                                                gs->AddBacteria(newBacteria);
+                                            } });
+
+            nextState.AttackCharge = 0;
+        }
+    }
+
     if (curGameState->AttractionPoints[Faction].Type == Type && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
@@ -128,7 +167,8 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     nextState.Position += Velocity / 60;
 
     nextState.Velocity *= 0.9f;
-    nextState.AttackCharge++;
+    if (nextState.AttackCharge < 10000)
+        nextState.AttackCharge++;
 
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;
