@@ -140,6 +140,8 @@ bool middleButtonDown = false;
 
 auto prevMouseX = 0, prevMouseY = 0;
 
+bool scrollLeft = false, scrollRight = false, scrollUp = false, scrollDown = false;
+
 void InGameMainLoop()
 {
     SDL_Event evt;
@@ -163,6 +165,28 @@ void InGameMainLoop()
                 attractionTypes[(int)BacteriaType::Zoomer] = true;
             if (evt.key.keysym.sym == SDLK_5)
                 attractionTypes[(int)BacteriaType::Spitter] = true;
+
+            if (evt.key.keysym.sym == SDLK_LEFT)
+                scrollLeft = true;
+            if (evt.key.keysym.sym == SDLK_RIGHT)
+                scrollRight = true;
+            if (evt.key.keysym.sym == SDLK_UP)
+                scrollUp = true;
+            if (evt.key.keysym.sym == SDLK_DOWN)
+                scrollDown = true;
+
+            if (evt.key.keysym.sym == SDLK_EQUALS)
+            {
+                camera.ZoomStep++;
+                camera.SetZoomLevelFromZoomStep();
+            }
+
+            if (evt.key.keysym.sym == SDLK_MINUS)
+            {
+                camera.ZoomStep--;
+                camera.SetZoomLevelFromZoomStep();
+            }
+
 #if CHEATS_ENABLED
             if (evt.key.keysym.sym == SDLK_F6)
             {
@@ -189,6 +213,15 @@ void InGameMainLoop()
                 attractionTypes[(int)BacteriaType::Zoomer] = false;
             if (evt.key.keysym.sym == SDLK_5)
                 attractionTypes[(int)BacteriaType::Spitter] = true;
+
+            if (evt.key.keysym.sym == SDLK_LEFT)
+                scrollLeft = false;
+            if (evt.key.keysym.sym == SDLK_RIGHT)
+                scrollRight = false;
+            if (evt.key.keysym.sym == SDLK_UP)
+                scrollUp = false;
+            if (evt.key.keysym.sym == SDLK_DOWN)
+                scrollDown = false;
         }
 
         if (evt.type == SDL_MOUSEMOTION)
@@ -247,6 +280,19 @@ void InGameMainLoop()
 
     SDL_SetRenderDrawColor(rnd, 0xFF, 0xBB, 0xBB, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
+
+    auto deltaTime = GetTimeAsDouble() - elapsedTime;
+
+    const auto CAMERA_SCROLL_SPEED = 700;
+
+    if (scrollLeft)
+        camera.CenterPos += Vector2(-1, 0) * deltaTime * CAMERA_SCROLL_SPEED / camera.ZoomLevel;
+    if (scrollRight)
+        camera.CenterPos += Vector2(1, 0) * deltaTime * CAMERA_SCROLL_SPEED / camera.ZoomLevel;
+    if (scrollUp)
+        camera.CenterPos += Vector2(0, -1) * deltaTime * CAMERA_SCROLL_SPEED / camera.ZoomLevel;
+    if (scrollDown)
+        camera.CenterPos += Vector2(0, 1) * deltaTime * CAMERA_SCROLL_SPEED / camera.ZoomLevel;
 
     elapsedTime = GetTimeAsDouble();
 
