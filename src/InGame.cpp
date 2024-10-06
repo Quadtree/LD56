@@ -24,6 +24,7 @@ Vector2 attractionPoint;
 bool attractionTypes[(int)BacteriaType::Max];
 
 double lastGameUpdateTime = 0;
+double lastRenderTime = 0;
 
 atomic<double> elapsedTime;
 atomic<double> elapsedGameUpdateTime;
@@ -281,6 +282,8 @@ void InGameMainLoop()
 
     // 0xFFFFBBBB
 
+    auto renderStartTime = GetTimeAsDouble();
+
     SDL_SetRenderDrawColor(rnd, 0xFF, 0xBB, 0xBB, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
 
@@ -346,7 +349,7 @@ void InGameMainLoop()
     if (showingDebugInfo)
     {
         ostringstream oss;
-        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000) << " CP: " << camera.CenterPos.X << "x" << camera.CenterPos.Y;
+        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000) << " Render Time: " << (int64_t)(lastRenderTime * 1000000) << " CP: " << camera.CenterPos.X << "x" << camera.CenterPos.Y;
         DrawText(oss.str(), Vector2(20, 20), 24, {255, 255, 255, 255});
     }
 
@@ -374,6 +377,8 @@ void InGameMainLoop()
     }
 
     SDL_RenderPresent(rnd);
+
+    lastRenderTime = GetTimeAsDouble() - renderStartTime;
 
     FlushSoundQueue();
 }
