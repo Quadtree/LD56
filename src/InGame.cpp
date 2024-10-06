@@ -25,7 +25,8 @@ bool attractionTypes[(int)BacteriaType::Max];
 
 double lastGameUpdateTime = 0;
 
-double elapsedTime;
+atomic<double> elapsedTime;
+atomic<double> elapsedGameUpdateTime;
 
 bool gameRunning = true;
 
@@ -93,6 +94,8 @@ void UpdateWorldState()
 
     nextGameStateToUpdate = currentGameState;
     currentGameState = 1 - currentGameState;
+
+    elapsedGameUpdateTime = GetTimeAsDouble();
 }
 
 void GameUpdateThread()
@@ -330,7 +333,7 @@ void InGameMainLoop()
                 throw "Game state is also being updated!!!";
             }
 #endif
-            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera, elapsedTime);
+            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera, elapsedTime, elapsedTime - elapsedGameUpdateTime);
         }
 
 #if _DEBUG

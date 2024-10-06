@@ -31,7 +31,7 @@ public:
 
     void Update1(Bacteria &nextState, const class GameState *curGameState, class MutationQueue *queueMutation, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE]) const;
 
-    void Render(class SDL_Renderer *rnd, class Camera &camera, double elapsedTime) const;
+    void Render(class SDL_Renderer *rnd, class Camera &camera, double elapsedTime, double timeSinceLastGameUpdate) const;
 
     // void Update1(const Bacteria &currentState, Bacteria &nextState, std::function<void(int)> queueMutation);
 };

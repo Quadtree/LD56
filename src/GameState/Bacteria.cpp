@@ -172,7 +172,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     if (isInWall && !wasInWall)
     {
-        //cout << "WE HIT A WALL!" << endl;
+        // cout << "WE HIT A WALL!" << endl;
         nextState.Velocity = nextState.Velocity * -1;
     }
 
@@ -187,7 +187,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
 vector<shared_ptr<SDL_Texture>> bacteriaTextures;
 
-void Bacteria::Render(SDL_Renderer *rnd, Camera &camera, double elapsedTime) const
+void Bacteria::Render(SDL_Renderer *rnd, Camera &camera, double elapsedTime, double timeSinceLastGameUpdate) const
 {
     if (bacteriaTextures.size() == 0)
     {
@@ -200,7 +200,9 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera, double elapsedTime) con
         bacteriaTextures[(int)BacteriaType::Spitter] = LoadTexture("assets/spitter.xcf");
     }
 
-    auto screen = camera.RealToScreen(Position);
+    auto interpolatedPosition = Position + Velocity * (float)timeSinceLastGameUpdate;
+
+    auto screen = camera.RealToScreen(interpolatedPosition);
 
     SDL_FRect trg;
     trg.x = screen.X;
