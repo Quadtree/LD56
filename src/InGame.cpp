@@ -23,6 +23,8 @@ Camera camera;
 Vector2 attractionPoint;
 BacteriaType attractionType = BacteriaType::Invalid;
 
+double lastGameUpdateTime = 0;
+
 double elapsedTime;
 
 void UpdateWorldState()
@@ -56,6 +58,9 @@ void GameUpdateThread()
             auto startTime = GetTimeAsDouble();
             UpdateWorldState();
             auto endTime = GetTimeAsDouble();
+
+            lastGameUpdateTime = endTime - startTime;
+
             // cout << "World update time: " << (int)((endTime - startTime) * 1000) << "ms" << endl;
 
             updatesLastSecond++;
@@ -203,7 +208,7 @@ void InGameMainLoop()
     if (showingDebugInfo)
     {
         ostringstream oss;
-        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria;
+        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000);
         DrawText(oss.str(), Vector2(20, 20));
     }
 
