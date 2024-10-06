@@ -13,7 +13,6 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Interpolation
 - Sound
 - Clean up shell
 - Fix DPI scaling issue
@@ -30,3 +29,4 @@
 - Ensure deployment works
 - Cycling through levels when you win
 - Keys to scroll and zoom
+- Interpolation
