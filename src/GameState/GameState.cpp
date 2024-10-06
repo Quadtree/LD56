@@ -7,16 +7,17 @@
 
 GameState::GameState() : NumActiveBacteria(0)
 {
-    NumActiveBacteria = 4000;
 
-    for (int i = 0; i < NumActiveBacteria; ++i)
-    {
-        BacteriaList[i].Position = Vector2(1 * i, 0);
-        BacteriaList[i].Health = 1;
-        BacteriaList[i].Faction = 0;
-        BacteriaList[i].Type = BacteriaType::Converter;
-        BacteriaList[i].ID = i;
-    }
+    // NumActiveBacteria = 4000;
+
+    // for (int i = 0; i < NumActiveBacteria; ++i)
+    // {
+    //     BacteriaList[i].Position = Vector2(1 * i, 0);
+    //     BacteriaList[i].Health = 1;
+    //     BacteriaList[i].Faction = 0;
+    //     BacteriaList[i].Type = BacteriaType::Converter;
+    //     BacteriaList[i].ID = i;
+    // }
 }
 
 void GameState::DoUpdate(GameState &nextGameState)
@@ -145,4 +146,18 @@ GameState::GetBacteriaNear(Vector2 point, float radius) const
     }
 
     return bacteriaNearVector;
+}
+
+void GameState::AddBacteria(Bacteria bacteria)
+{
+    for (int i = 0; i < MAX_BACTERIA; ++i)
+    {
+        if (BacteriaList[i].Health <= 0 || i >= NumActiveBacteria)
+        {
+            NumActiveBacteria = max(NumActiveBacteria, i + 1);
+
+            BacteriaList[i] = bacteria;
+            return;
+        }
+    }
 }

@@ -37,6 +37,8 @@ public:
 
     AttractionPoint AttractionPoints[4];
 
+    void AddBacteria(Bacteria bacteria);
+
 #if _DEBUG
     bool BeingRendered;
     bool BeingUpdated;

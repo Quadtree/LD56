@@ -150,6 +150,20 @@ void InGameMainLoop()
 
 void EnterInGameState()
 {
+    for (int i = 0; i < 2; ++i)
+        gameStates[i] = GameState();
+
+    currentGameState = 0;
+    nextGameStateToUpdate = 1;
+
+    showingDebugInfo = false;
+    currentFPS = 0;
+
+    camera = Camera();
+
+    attractionPoint = Vector2();
+    attractionType = BacteriaType::Invalid;
+
     emscripten_cancel_main_loop();
 
     cout << "About to call emscripten_set_main_loop" << endl;

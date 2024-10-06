@@ -49,6 +49,7 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
         bacteriaTextures.resize((int)BacteriaType::Max);
 
         bacteriaTextures[(int)BacteriaType::Converter] = LoadTexture("assets/converter1.xcf");
+        bacteriaTextures[(int)BacteriaType::Swarmer] = LoadTexture("assets/swarmer1.xcf");
     }
 
     auto screen = camera.RealToScreen(Position);
