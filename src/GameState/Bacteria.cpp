@@ -14,6 +14,10 @@
 #define SWARMER_ATTACK_COOLDOWN 30
 #define SWARMER_ATTACK_DAMAGE 1
 
+SDL_Color FACTION_COLORS[] = {
+    {0, 0, 255, 255},
+    {255, 0, 0, 255}};
+
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
     nextState = *this;
@@ -65,7 +69,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             {
                 auto targetID = closestBacteria->ID;
 
-                cout << ID << " ATK " << closestBacteria->ID << " " << (int)closestBacteria->Health << endl;
+                // cout << ID << " ATK " << closestBacteria->ID << " " << (int)closestBacteria->Health << endl;
 
                 queueMutation->QueueMutation(1, [targetID](GameState *gs)
                                              { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
@@ -105,5 +109,6 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
     trg.w = camera.RealToScreenScale(1);
     trg.h = camera.RealToScreenScale(1);
 
+    SDL_SetTextureColorMod(bacteriaTextures[(int)Type].get(), FACTION_COLORS[Faction].r, FACTION_COLORS[Faction].g, FACTION_COLORS[Faction].b);
     SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
 }
