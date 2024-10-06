@@ -64,6 +64,9 @@ void GameState::DoUpdate(GameState &nextGameState)
     {
         currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr);
     }
+
+    nextGameState.NumActiveBacteria = NumActiveBacteria;
+
 #endif
 
 #if _DEBUG
@@ -160,6 +163,8 @@ void GameState::AddBacteria(Bacteria bacteria)
                 bacteria.Health = 3;
             if (bacteria.Type == BacteriaType::Swarmer)
                 bacteria.Health = 10;
+
+            bacteria.ID = i;
 
             BacteriaList[i] = bacteria;
             return;

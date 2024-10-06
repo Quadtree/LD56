@@ -4,7 +4,7 @@
 #include "../Util.h"
 #include "GameState.h"
 
-#define DEFAULT_REPULSION_RADIUS 5
+#define DEFAULT_REPULSION_RADIUS 3
 #define DEFAULT_REPULSION_POWER (1.0f / 10.0f)
 #define CURSOR_ATTRACTION_RADIUS 22
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
@@ -49,7 +49,7 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
         bacteriaTextures.resize((int)BacteriaType::Max);
 
         bacteriaTextures[(int)BacteriaType::Converter] = LoadTexture("assets/converter1.xcf");
-        bacteriaTextures[(int)BacteriaType::Swarmer] = LoadTexture("assets/swarmer1.xcf");
+        bacteriaTextures[(int)BacteriaType::Swarmer] = LoadTexture("assets/swarmer.xcf");
     }
 
     auto screen = camera.RealToScreen(Position);

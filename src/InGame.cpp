@@ -11,7 +11,7 @@ extern SDL_Window *wnd;
 
 shared_ptr<SDL_Texture> testImage;
 
-GameState gameStates[2];
+GameState *gameStates;
 int currentGameState = 0;
 int nextGameStateToUpdate = 1;
 
@@ -88,14 +88,14 @@ void InGameMainLoop()
             }
 
             if (evt.key.keysym.sym == SDLK_1)
-            {
                 attractionType = BacteriaType::Converter;
-            }
+            if (evt.key.keysym.sym == SDLK_2)
+                attractionType = BacteriaType::Swarmer;
         }
 
         if (evt.type == SDL_KEYUP)
         {
-            if (evt.key.keysym.sym == SDLK_1)
+            if (evt.key.keysym.sym == SDLK_1 || evt.key.keysym.sym == SDLK_2)
                 attractionType = BacteriaType::Invalid;
         }
     }
@@ -150,8 +150,9 @@ void InGameMainLoop()
 
 void EnterInGameState()
 {
-    for (int i = 0; i < 2; ++i)
-        gameStates[i] = GameState();
+    if (gameStates)
+        delete gameStates;
+    gameStates = new GameState[2];
 
     currentGameState = 0;
     nextGameStateToUpdate = 1;
@@ -164,15 +165,21 @@ void EnterInGameState()
     attractionPoint = Vector2();
     attractionType = BacteriaType::Invalid;
 
-    for (int i=0;i<50;++i)
+    for (int i = 0; i < 50; ++i)
     {
         Bacteria b1;
         b1.Position = Vector2(i, 0);
         b1.Type = BacteriaType::Swarmer;
-        b1.Velocity = Vector2(0,0);
-        b1.Health = 
+        b1.Velocity = Vector2(0, 0);
 
-        gameStates[0].AddBacteria();
+        gameStates[0].AddBacteria(b1);
+
+        Bacteria b2;
+        b2.Position = Vector2(i + 0.5f, 4);
+        b2.Type = BacteriaType::Converter;
+        b2.Velocity = Vector2(0, 0);
+
+        gameStates[0].AddBacteria(b2);
     }
 
     emscripten_cancel_main_loop();
