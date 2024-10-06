@@ -19,8 +19,8 @@ class Bacteria
 public:
     Vector2 Position;
     Vector2 Velocity;
-    uint8_t Faction;
-    uint8_t Health;
+    int8_t Faction;
+    int8_t Health;
     BacteriaType Type;
     uint16_t ID;
     int16_t AttackCharge;

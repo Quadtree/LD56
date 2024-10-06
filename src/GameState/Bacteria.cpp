@@ -65,7 +65,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             {
                 auto targetID = closestBacteria->ID;
 
-                cout << ID << " ATK " << closestBacteria->ID << endl;
+                cout << ID << " ATK " << closestBacteria->ID << " " << (int)closestBacteria->Health << endl;
 
                 queueMutation->QueueMutation(1, [targetID](GameState *gs)
                                              { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
