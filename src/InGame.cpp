@@ -76,6 +76,10 @@ void GameUpdateThread()
     }
 }
 
+bool middleButtonDown = false;
+
+auto prevMouseX = 0, prevMouseY = 0;
+
 void InGameMainLoop()
 {
     SDL_Event evt;
@@ -105,6 +109,30 @@ void InGameMainLoop()
         {
             if (evt.key.keysym.sym == SDLK_1 || evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_3 || evt.key.keysym.sym == SDLK_4 || evt.key.keysym.sym == SDLK_5)
                 attractionType = BacteriaType::Invalid;
+        }
+
+        if (evt.type == SDL_MOUSEMOTION)
+        {
+            auto mouseX = evt.motion.x;
+            auto mouseY = evt.motion.y;
+
+            if (middleButtonDown)
+            {
+                camera.CenterPos = camera.CenterPos - (Vector2(mouseX, mouseY) - Vector2(prevMouseX, prevMouseY)) / camera.ZoomLevel;
+            }
+
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
+        }
+
+        if (evt.type == SDL_MOUSEBUTTONDOWN && evt.button.button == SDL_BUTTON_MIDDLE)
+        {
+            middleButtonDown = true;
+        }
+
+        if (evt.type == SDL_MOUSEBUTTONUP && evt.button.button == SDL_BUTTON_MIDDLE)
+        {
+            middleButtonDown = false;
         }
     }
 
