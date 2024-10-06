@@ -11,3 +11,14 @@
   - Contol entirely consists of pressing 1-5 to move your own units toward cursor
   - One key question is if I should do this in Godot or C++
     - C++ is obviously going to be a lot faster on web
+
+## Remaining Tasks
+- Implement walls
+- More levels
+- Basic AI
+- Main menu
+- Win screen
+- Advanced AI
+- Sound
+- Fix DPI scaling issue
+- Music
