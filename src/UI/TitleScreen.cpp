@@ -13,5 +13,6 @@ void TitleScreenMainLoop()
 
 void EnterTitleScreenState()
 {
+    CallTearDownFunction();
     // title
 }

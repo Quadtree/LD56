@@ -21,7 +21,13 @@ SDL_Window *wnd;
 
 thread::id mainThreadId;
 
-function<void()> teardownFunction;
+function<void()> teardownFunction = []() {};
+
+void CallTearDownFunction()
+{
+	teardownFunction();
+	teardownFunction = []() {};
+}
 
 void InGameMainLoop();
 void EnterInGameState(string levelName);

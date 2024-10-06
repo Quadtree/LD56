@@ -2,6 +2,8 @@
 
 Button mainMenuButtons[2];
 
+void EnterInGameState(string levelName);
+
 void MainMenuMainLoop()
 {
     SDL_Event evt;
@@ -9,6 +11,8 @@ void MainMenuMainLoop()
     {
         if (evt.type == SDL_MOUSEBUTTONDOWN)
         {
+            for (int i = 0; i < 2; ++i)
+                mainMenuButtons[i].UserClickedSomewhere();
         }
     }
 
@@ -22,8 +26,11 @@ void MainMenuMainLoop()
 
 void EnterMainMenuState()
 {
+    CallTearDownFunction();
+
     cout << "EnterMainMenuState()" << endl;
-    mainMenuButtons[0].Setup(0, "Start Game", []() {});
+    mainMenuButtons[0].Setup(0, "Start Game", []()
+                             { EnterInGameState("assets/level1.xcf"); });
     mainMenuButtons[1].Setup(1, "Level Select", []() {});
 
     emscripten_cancel_main_loop();

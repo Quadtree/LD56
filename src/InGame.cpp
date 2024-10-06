@@ -245,8 +245,7 @@ void InGameMainLoop()
 
 void EnterInGameState(string levelName)
 {
-    gameRunning = false;
-    gameUpdateThread.join();
+    CallTearDownFunction();
 
     if (gameStates)
         delete gameStates;
@@ -427,5 +426,6 @@ void EnterInGameState(string levelName)
     teardownFunction = []()
     {
         gameRunning = false;
+        gameUpdateThread.join();
     };
 }
