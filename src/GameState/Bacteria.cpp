@@ -9,6 +9,8 @@
 #define CURSOR_ATTRACTION_RADIUS 22
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
 
+#define SWARMER_ATTACK_SPEED (1.0f / 1.0f)
+
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
     nextState = *this;
@@ -22,13 +24,40 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             continue;
 
         auto delta = (Position - it->Position).Normalized();
-        nextState.Velocity += (delta * (SQUARE(DEFAULT_REPULSION_RADIUS) - Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER;
+        nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER;
     }
 
     if (curGameState->AttractionPoints[Faction].Type == Type && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
         nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;
+    }
+    else
+    {
+        float bestSquaredDist = 200000;
+        const Bacteria *closestBacteria = nullptr;
+
+        if (Type == BacteriaType::Swarmer || Type == BacteriaType::Gobbler || Type == BacteriaType::Zoomer)
+        {
+            for (auto &it : nearbyBacteria)
+            {
+                if (it->Faction == Faction)
+                    continue;
+
+                auto dist = it->Position.DistToSquared(Position);
+                if (dist < bestSquaredDist)
+                {
+                    bestSquaredDist = dist;
+                    closestBacteria = it;
+                }
+            }
+        }
+
+        if (closestBacteria && Type == BacteriaType::Swarmer)
+        {
+            auto delta = (closestBacteria->Position - Position).Normalized();
+            nextState.Velocity += delta * SWARMER_ATTACK_SPEED;
+        }
     }
 
     nextState.Position += Velocity / 60;
