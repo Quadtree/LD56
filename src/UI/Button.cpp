@@ -1,6 +1,7 @@
 #include "Button.h"
 
 extern TTF_Font *defaultFont;
+extern SDL_Renderer *rnd;
 
 void Button::Setup(int index, string text, function<void()> onClick)
 {
@@ -21,7 +22,7 @@ shared_ptr<SDL_Texture> Button::CreateTexture(SDL_Color edgeColor, SDL_Color bac
     color.b = 255;
     color.a = 255;
 
-    auto txtSurf = TTF_RenderUTF8_Blended(GetFont(24), text.c_str(), color);
+    auto txtSurf = TTF_RenderUTF8_Blended(GetFont(24), Text.c_str(), color);
 
     SDL_BlitSurface(txtSurf, nullptr, surf, nullptr);
 

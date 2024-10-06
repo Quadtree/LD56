@@ -43,3 +43,4 @@ enum class TerrainType : uint8_t
 
 void EnterTitleScreenState();
 void EnterMainMenuState();
+TTF_Font *GetFont(int ptSize);

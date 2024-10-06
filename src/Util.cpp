@@ -12,7 +12,7 @@ using namespace std;
 extern SDL_Renderer *rnd;
 extern thread::id mainThreadId;
 
-unordered_map<int, TTF_Font> defaultFonts;
+unordered_map<int, TTF_Font *> defaultFonts;
 
 shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
@@ -45,7 +45,7 @@ double GetTimeAsDouble()
 TTF_Font *GetFont(int ptSize)
 {
     if (defaultFonts.find(ptSize) == defaultFonts.end())
-        defaultFonts[ptSize] = TTF_OpenFont("assets/Roboto-Regular.ttf", ptSize);
+        defaultFonts.insert(pair(ptSize, TTF_OpenFont("assets/Roboto-Regular.ttf", ptSize)));
 
     return defaultFonts[ptSize];
 }
