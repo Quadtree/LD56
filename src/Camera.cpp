@@ -3,7 +3,7 @@
 
 Camera::Camera() : ZoomLevel(10), ZoomStep(2)
 {
-    SetZoomLevelFromZoomStep();
+    Reset();
 }
 
 void Camera::SetZoomLevelFromZoomStep()
@@ -30,4 +30,11 @@ Vector2 Camera::RealToScreen(Vector2 real)
 float Camera::RealToScreenScale(float inputValue)
 {
     return inputValue * ZoomLevel;
+}
+
+void Camera::Reset()
+{
+    ZoomStep = 2;
+    CenterPos = Vector2(0, 0);
+    SetZoomLevelFromZoomStep();
 }

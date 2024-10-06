@@ -19,4 +19,6 @@ public:
     Vector2 ScreenToReal(Vector2 screen);
     Vector2 RealToScreen(Vector2 screen);
     float RealToScreenScale(float inputValue);
+
+    void Reset();
 };

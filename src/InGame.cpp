@@ -422,6 +422,8 @@ void EnterInGameState(int levelNumber)
     anyAlliesAlive = true;
     anyEnemiesAlive = true;
 
+    camera.Reset();
+
     for (int y = 0; y < lvlSurf->h; ++y)
     {
         for (int x = 0; x < lvlSurf->w; ++x)

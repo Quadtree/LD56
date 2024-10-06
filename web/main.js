@@ -1,7 +1,12 @@
 console.log(`main.js`)
 
-export function resized() {
+function resized() {
     const canvasElement = document.getElementById("canvas");
+
+    if (!canvasElement || !Module.InjectPageSize) {
+        setTimeout(resized, 10);
+        return;
+    }
 
     if (window.devicePixelRatio != 1) {
         canvasElement.width = Math.round(document.documentElement.clientWidth * window.devicePixelRatio);
@@ -10,12 +15,10 @@ export function resized() {
         canvasElement.style.height = `${canvasElement.height / window.devicePixelRatio}px`;
     }
 
-    if (typeof Module.InjectPageSize === "function") {
-        Module.InjectPageSize(
-            document.documentElement.clientWidth * window.devicePixelRatio,
-            document.documentElement.clientHeight * window.devicePixelRatio
-        );
-    }
+    Module.InjectPageSize(
+        document.documentElement.clientWidth * window.devicePixelRatio,
+        document.documentElement.clientHeight * window.devicePixelRatio
+    );
 
     console.log(`canvasElement size set to ${canvasElement.width},${canvasElement.height} ${canvasElement.width / window.devicePixelRatio}px ${canvasElement.height / window.devicePixelRatio}px`)
 }

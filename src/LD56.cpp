@@ -12,6 +12,8 @@
 
 #include <thread>
 
+#include "Camera.h"
+
 #include "Util.h"
 
 using namespace std;
@@ -31,9 +33,22 @@ void CallTearDownFunction()
 
 void InGameMainLoop();
 
-
 void FakeMainLoop()
 {
+}
+
+extern Camera camera;
+
+void InjectPageSize(int width, int height)
+{
+	cout << "InjectPageSize(" << width << ", " << height << ")" << endl;
+	SDL_SetWindowSize(wnd, width, height);
+	camera.ScreenPixelSize = Vector2(width, height);
+}
+
+EMSCRIPTEN_BINDINGS(index)
+{
+	emscripten::function("InjectPageSize", &InjectPageSize);
 }
 
 int main(int argc, char *argv[])
