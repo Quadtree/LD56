@@ -240,6 +240,8 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         // we're stuck in a wall
         // cout << "Stuck in wall!" << endl;
 
+        bool escaped = false;
+
         float range = 0;
         float angle = 0;
 
@@ -253,9 +255,13 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             {
                 nextState.Position = possPt;
                 nextState.Velocity = Vector2(0, 0);
+                escaped = true;
                 break;
             }
         }
+
+        if (!escaped)
+            nextState.Health = 0;
     }
 
     nextState.Velocity *= powf(0.9f, (60 / UPDATES_PER_SECOND));
