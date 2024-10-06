@@ -1,4 +1,6 @@
-Button mainMenuButtons;
+#include "Button.h"
+
+Button mainMenuButtons[2];
 
 void MainMenuMainLoop()
 {

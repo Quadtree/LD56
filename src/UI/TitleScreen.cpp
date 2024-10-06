@@ -1,4 +1,4 @@
-Button titleScreenButtons;
+#include "Button.h"
 
 void TitleScreenMainLoop()
 {
@@ -13,5 +13,5 @@ void TitleScreenMainLoop()
 
 void EnterTitleScreenState()
 {
-    //title
+    // title
 }

@@ -20,3 +20,4 @@ double GetTimeAsDouble();
     }
 
 void DrawText(std::string text, Vector2 pos);
+TTF_Font *GetFont(int ptSize);

@@ -5,7 +5,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
-
 #include <thread>
 
 using namespace std;
@@ -13,7 +12,7 @@ using namespace std;
 extern SDL_Renderer *rnd;
 extern thread::id mainThreadId;
 
-TTF_Font *defaultFont;
+unordered_map<int, TTF_Font> defaultFonts;
 
 shared_ptr<SDL_Texture> LoadTexture(string filename)
 {
@@ -43,20 +42,23 @@ double GetTimeAsDouble()
     return (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 }
 
+TTF_Font *GetFont(int ptSize)
+{
+    if (defaultFonts.find(ptSize) == defaultFonts.end())
+        defaultFonts[ptSize] = TTF_OpenFont("assets/Roboto-Regular.ttf", ptSize);
+
+    return defaultFonts[ptSize];
+}
+
 void DrawText(std::string text, Vector2 pos)
 {
-    if (!defaultFont)
-    {
-        defaultFont = TTF_OpenFont("assets/Roboto-Regular.ttf", 24);
-    }
-
     SDL_Color color;
     color.r = 255;
     color.g = 255;
     color.b = 255;
     color.a = 255;
 
-    auto surf = TTF_RenderUTF8_Blended(defaultFont, text.c_str(), color);
+    auto surf = TTF_RenderUTF8_Blended(GetFont(24), text.c_str(), color);
 
     auto tex = SDL_CreateTextureFromSurface(rnd, surf);
 

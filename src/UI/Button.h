@@ -1,4 +1,5 @@
 #pragma once
+#include "../LD56.h"
 
 class Button
 {
@@ -13,4 +14,6 @@ public:
     shared_ptr<SDL_Texture> IdleTexture;
     shared_ptr<SDL_Texture> HoverTexture;
     shared_ptr<SDL_Texture> ClickedTexture;
+
+    shared_ptr<SDL_Texture> CreateTexture(SDL_Color edgeColor, SDL_Color backgroundColor);
 };
