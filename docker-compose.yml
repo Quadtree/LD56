@@ -16,6 +16,25 @@ services:
       OUTPUT_DIR: /output/data
       LIBS_DIR: /tmp/libs/data
       TEST_FILE: /tmp/libs/testfile
+    command: ["/src/scripts/build.sh"]
+
+  watch:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    stop_signal: SIGKILL
+    volumes:
+      - ./:/src:ro
+      - build:/build
+      - output:/output
+      - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
+      - libs:/tmp/libs
+    environment:
+      DEBUG_MODE: "${DEBUG_MODE:-1}"
+      BUILD_DIR: /build/data
+      OUTPUT_DIR: /output/data
+      LIBS_DIR: /tmp/libs/data
+      TEST_FILE: /tmp/libs/testfile
     entrypoint: ["python3"]
     command: ["/src/scripts/watch.py"]
 
