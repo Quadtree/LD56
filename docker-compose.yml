@@ -7,7 +7,6 @@ services:
       - build:/build
       - output:/output
       - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
-      - libs:/tmp/libs
     environment:
       DEBUG_MODE: "${DEBUG_MODE:-1}"
       BUILD_DIR: /build/data
@@ -25,8 +24,6 @@ services:
       - ./:/src:ro
       - build:/build
       - output:/output
-      - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
-      - libs:/tmp/libs
     environment:
       DEBUG_MODE: "${DEBUG_MODE:-1}"
       BUILD_DIR: /build/data
