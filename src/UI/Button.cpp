@@ -103,7 +103,7 @@ SDL_Rect Button::GetRect()
 
     SDL_Rect r;
     r.x = (wndW - 400) / 2;
-    r.y = wndH - 500 + (Index * (BUTTON_HEIGHT + 25));
+    r.y = wndH - 550 + (Index * (BUTTON_HEIGHT + 25));
     r.w = 300;
     r.h = BUTTON_HEIGHT;
 

@@ -53,8 +53,13 @@ int currentLevelNumber;
 bool BlurbVisible = true;
 double BlurbLockedUntil = 0;
 
-const string START_OF_LEVEL_BLURBS = {
-    "LEVEL 1!"};
+const string START_OF_LEVEL_BLURBS[] = {
+    "Welcome to the fight, Legate of the Bacterium Imperium. For this mission, you will simply need to use your swarmers to overwhelm the enemy. Uses the middle mouse button to scroll, and the wheel to zoom. Alternately, use the arrow keys and plus and minus. Move your forces by mousing near them and pressing \"2\". Press R to restart the level.",
+    "For this mission, you have been granted some collectors. Collectors collect sunlight and provide nutrients to nearby allies, causing the allies to divide. Move the collectors by pressing \"1\".",
+    "Unfortunately, we have no collectors in this area. Overwhelm the enemy before they use their collectors to overwhelm you.",
+    "The enemy here has a large number of swarmers. To counter them, we've evolved a new type, gobblers. Gobblers hit hard but attack slowly, so they're best with hit and run attacks. Move the gobblers with \"3\". Press R to restart the level.",
+    "The enemy here has evolved a new type that is fast enough to dodge the attacks from our gobblers. We must find a way to defeat them.",
+};
 
 void UpdateWorldState()
 {
@@ -179,6 +184,11 @@ void InGameMainLoop()
             {
                 cout << "F3 pressed" << endl;
                 showingDebugInfo = !showingDebugInfo;
+            }
+
+            if (evt.key.keysym.sym == SDLK_r)
+            {
+                EnterInGameState(currentLevelNumber);
             }
 
             if (evt.key.keysym.sym == SDLK_1)
@@ -396,6 +406,18 @@ void InGameMainLoop()
             EnterInGameState(currentLevelNumber + 1);
             return;
         }
+    }
+
+    if (BlurbVisible)
+    {
+        int windowW, windowH;
+        SDL_GetWindowSize(wnd, &windowW, &windowH);
+
+        auto textBoxWidth = windowW * 0.8f;
+        auto textBoxMargin = windowW * 0.1f;
+
+        DrawTextWithWrap(START_OF_LEVEL_BLURBS[currentLevelNumber - 1], Vector2(textBoxMargin + 2, textBoxMargin + 2), min(windowW / 50, 64), {0, 0, 0, 255}, textBoxWidth);
+        DrawTextWithWrap(START_OF_LEVEL_BLURBS[currentLevelNumber - 1], Vector2(textBoxMargin, textBoxMargin), min(windowW / 50, 64), {255, 255, 255, 255}, textBoxWidth);
     }
 
     SDL_RenderPresent(rnd);

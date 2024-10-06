@@ -48,7 +48,7 @@ void CallTearDownFunction();
 void EnterMessageScreen(string message, function<void()> next);
 void EnterInGameState(int levelNumber);
 
-#define CHEATS_ENABLED 1
+#define CHEATS_ENABLED 0
 
 #define UPDATES_PER_SECOND 10
 
