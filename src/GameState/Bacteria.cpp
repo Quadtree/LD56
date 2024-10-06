@@ -47,17 +47,20 @@ static inline bool IsPointObstructed(TerrainType terrain[TERRAIN_GRID_SIZE * TER
     return terrain[xCell + yCell * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
 }
 
+#define BACTERIA_LOOP() \
+    for (int bacNum = 0; bacNum < nearbyBacteria.NumInCell; ++bacNum)
+
+#define BACTERIA_LOOP_INIT() auto &it = nearbyBacteria.List[bacNum]
+
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE]) const
 {
     nextState = *this;
 
-    // @TODO: CHANGE BACK
+    auto &nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
-    // std::vector<const Bacteria *> nearbyBacteria;
-    std::vector<const Bacteria *> &nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
-
-    for (auto &it : nearbyBacteria)
+    BACTERIA_LOOP()
     {
+        BACTERIA_LOOP_INIT();
         if (it->ID == ID)
             continue;
 
@@ -77,8 +80,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     if (Type == BacteriaType::Swarmer || Type == BacteriaType::Gobbler || Type == BacteriaType::Zoomer)
     {
-        for (auto &it : nearbyBacteria)
+        BACTERIA_LOOP()
         {
+            BACTERIA_LOOP_INIT();
+
             if (it->Faction == Faction)
                 continue;
 
@@ -171,8 +176,9 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         // @TODO: REMOVE
         // nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
-        for (auto &it : nearbyBacteria)
+        BACTERIA_LOOP()
         {
+            BACTERIA_LOOP_INIT();
             if (it->Faction != Faction || it->ID == ID)
                 continue;
 

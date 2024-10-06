@@ -116,51 +116,11 @@ const Vector2 OFFSETS[] = {
     Vector2(-1, -1),
 };
 
-GridCell &
-GameState::GetBacteriaNear(Vector2 point, float radius) const
+const GridCell<Bacteria> &GameState::GetBacteriaNear(Vector2 point, float radius) const
 {
     auto cellId = MainSpatialIndex.Vector2ToCellID(point);
 
-    bacteriaNearVector.resize(0);
-
-    int prevCells[9];
-    int numPrevCells = 0;
-
-    for (int offset = 0; offset < 9; ++offset)
-    {
-        auto effPt = point + OFFSETS[offset] * radius;
-
-        auto cellId = MainSpatialIndex.Vector2ToCellID(effPt);
-
-        if (cellId == -1)
-            continue;
-
-        bool isDuplicate = false;
-
-        for (int j = 0; j < numPrevCells; ++j)
-        {
-            if (prevCells[j] == cellId)
-            {
-                isDuplicate = true;
-                break;
-            }
-        }
-
-        if (isDuplicate)
-            continue;
-
-        prevCells[numPrevCells++] = cellId;
-
-        for (int i = 0; i < MainSpatialIndex.Cells[cellId].NumInCell; ++i)
-        {
-            if (point.DistToSquared(MainSpatialIndex.Cells[cellId].List[i]->Position) <= radius)
-            {
-                bacteriaNearVector.push_back(MainSpatialIndex.Cells[cellId].List[i]);
-            }
-        }
-    }
-
-    return bacteriaNearVector;
+    return MainSpatialIndex.Cells[cellId];
 }
 
 void GameState::AddBacteria(Bacteria bacteria)

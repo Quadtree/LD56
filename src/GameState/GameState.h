@@ -45,7 +45,7 @@ public:
 
     SpatialIndex<5, 500, Bacteria> MainSpatialIndex;
 
-    std::vector<const Bacteria *> &GetBacteriaNear(Vector2 point, float radius) const;
+    const GridCell<Bacteria> &GetBacteriaNear(Vector2 point, float radius) const;
 
     AttractionPoint AttractionPoints[4];
 

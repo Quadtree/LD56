@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_PER_CELL 20
+#define MAX_PER_CELL 80
 
 template <class T>
 class GridCell
