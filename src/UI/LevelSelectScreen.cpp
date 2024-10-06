@@ -39,9 +39,12 @@ void EnterLevelSelectState()
         buttonText << "Level " << (i + 1);
 
         auto levelAssetNameStr = levelAssetName.str();
+        auto localI = i;
 
-        mainMenuButtons[i].Setup(i, buttonText.str(), [i, levelAssetNameStr]()
-                                 { EnterInGameState(i); });
+        mainMenuButtons[i].Setup(i, buttonText.str(), [localI, levelAssetNameStr]()
+                                 {
+                                     cout << "LEVEL SELECT TO " << (localI+1) << " " << levelAssetNameStr <<  endl;
+                                     EnterInGameState(localI+1); });
     }
 
     emscripten_cancel_main_loop();
