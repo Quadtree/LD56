@@ -50,6 +50,11 @@ TTF_Font *GetFont(int ptSize)
     return defaultFonts[ptSize];
 }
 
+void PlaySound(std::string filename, float volume)
+{
+    EM_ASM_({ playSound(UTF8ToString($0), $1); }, filename.c_str(), volume);
+}
+
 void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color)
 {
     // SDL_Color color;
