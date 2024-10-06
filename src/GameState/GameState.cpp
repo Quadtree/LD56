@@ -149,7 +149,6 @@ void GameState::AddBacteria(Bacteria bacteria)
             bacteria.ID = i;
             bacteria.Velocity = Vector2();
             bacteria.AttackCharge = 0;
-            bacteria.NumUpdates = 0;
 
             if (bacteria.Type == BacteriaType::Converter)
                 bacteria.AttackCharge = rand() % 1000;

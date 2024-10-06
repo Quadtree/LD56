@@ -8,7 +8,7 @@ services:
       - /mnt/k/tmp/ld56/output:/output
       - emsdk_cache2:/root/emsdk/upstream/emscripten/cache
     environment:
-      DEBUG_MODE: "${DEBUG_MODE:-1}"
+      DEBUG_MODE: "${DEBUG_MODE:-0}"
       BUILD_DIR: /build/data
       OUTPUT_DIR: /output/data
       LIBS_DIR: /tmp/libs/data

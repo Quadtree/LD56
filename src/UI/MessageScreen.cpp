@@ -7,12 +7,14 @@ void EnterMainMenuState();
 string messageGlobal;
 static function<void()> nextGlobal;
 
+static double lockedUntil = 0;
+
 static void MainLoop()
 {
     SDL_Event evt;
     while (SDL_PollEvent(&evt))
     {
-        if (evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN)
+        if ((evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN) && GetTimeAsDouble() >= lockedUntil)
         {
             nextGlobal();
         }
@@ -43,6 +45,8 @@ static void MainLoop()
 void EnterMessageScreen(string message, function<void()> next)
 {
     CallTearDownFunction();
+
+    lockedUntil = GetTimeAsDouble() + 0.5;
 
     messageGlobal = message;
     nextGlobal = next;
