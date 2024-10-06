@@ -36,10 +36,12 @@ enum class TerrainType : uint8_t
     Max,
 };
 
-#define TERRAIN_GRID_SIZE 500
-#define TERRAIN_GRID_CELL_SIZE 2
+#define TERRAIN_GRID_SIZE 512
+#define TERRAIN_GRID_CELL_SIZE 1
 
 TerrainType Terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE];
+
+shared_ptr<SDL_Texture> worldTexture;
 
 void UpdateWorldState()
 {
@@ -201,6 +203,16 @@ void InGameMainLoop()
 
         camera.ScreenPixelSize = Vector2(windowW, windowH);
 
+        Vector2 bv2 = camera.RealToScreen(Vector2((-TERRAIN_GRID_SIZE * TERRAIN_GRID_CELL_SIZE) / 2, (-TERRAIN_GRID_SIZE * TERRAIN_GRID_CELL_SIZE) / 2));
+
+        SDL_FRect terRect;
+        terRect.x = bv2.X;
+        terRect.y = bv2.Y;
+        terRect.w = camera.RealToScreenScale(TERRAIN_GRID_CELL_SIZE * TERRAIN_GRID_SIZE);
+        terRect.h = camera.RealToScreenScale(TERRAIN_GRID_CELL_SIZE * TERRAIN_GRID_SIZE);
+
+        SDL_RenderCopyF(rnd, worldTexture.get(), nullptr, &terRect);
+
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
             if (gameStates[gameStateBeingRendered].BacteriaList[i].Health <= 0)
@@ -246,32 +258,81 @@ void EnterInGameState(string levelName)
     attractionPoint = Vector2();
     attractionType = BacteriaType::Invalid;
 
-    for (int i = 0; i < 50; ++i)
+    SDL_Surface *lvlSurf = IMG_Load(levelName.c_str());
+    SDL_LockSurface(lvlSurf);
+
+    SDL_Surface *worldTextureSurface = SDL_CreateRGBSurface(0, TERRAIN_GRID_SIZE, TERRAIN_GRID_SIZE, 32, 0, 0, 0, 0);
+    SDL_LockSurface(worldTextureSurface);
+
+    auto pixelPtr = (uint32_t *)lvlSurf->pixels;
+    auto worldTexturePixelPtr = (uint32_t *)worldTextureSurface->pixels;
+
+    int32_t obstructedTiles = 0;
+    int32_t clearTiles = 0;
+
+    for (int y = 0; y < lvlSurf->h; ++y)
     {
-        Bacteria b1;
-        b1.Position = Vector2(i, 0);
-        b1.Type = BacteriaType::Swarmer;
-        b1.Velocity = Vector2(0, 0);
-        b1.Faction = 0;
+        for (int x = 0; x < lvlSurf->w; ++x)
+        {
+            auto curPtr = pixelPtr + x + y * lvlSurf->w;
+            auto pixel = *curPtr;
 
-        gameStates[0].AddBacteria(b1);
+            auto curPtrWT = worldTexturePixelPtr + x + y * worldTextureSurface->w;
 
-        Bacteria b2;
-        b2.Position = Vector2(i + 0.5f, 4);
-        b2.Type = BacteriaType::Converter;
-        b2.Velocity = Vector2(0, 0);
-        b2.Faction = 0;
+            if (pixel == 0xFFFFFFFF)
+            {
+                Terrain[x + y * TERRAIN_GRID_SIZE] = TerrainType::Obstructed;
+                obstructedTiles++;
 
-        gameStates[0].AddBacteria(b2);
+                *curPtrWT = 0xFFFFFFFF;
+            }
+            else
+            {
+                Terrain[x + y * TERRAIN_GRID_SIZE] = TerrainType::Clear;
+                clearTiles++;
 
-        Bacteria b3;
-        b3.Position = Vector2(i + 0.5f, -10);
-        b3.Type = BacteriaType::Zoomer;
-        b3.Velocity = Vector2(0, 0);
-        b3.Faction = 1;
-
-        gameStates[0].AddBacteria(b3);
+                *curPtrWT = 0xFF333333;
+            }
+        }
     }
+
+    DUMP(obstructedTiles);
+    DUMP(clearTiles);
+
+    SDL_UnlockSurface(worldTextureSurface);
+
+    worldTexture = shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(rnd, worldTextureSurface), SDL_DestroyTexture);
+
+    SDL_FreeSurface(worldTextureSurface);
+
+    // for (int i = 0; i < 50; ++i)
+    // {
+    //     Bacteria b1;
+    //     b1.Position = Vector2(i, 0);
+    //     b1.Type = BacteriaType::Swarmer;
+    //     b1.Velocity = Vector2(0, 0);
+    //     b1.Faction = 0;
+
+    //     gameStates[0].AddBacteria(b1);
+
+    //     Bacteria b2;
+    //     b2.Position = Vector2(i + 0.5f, 4);
+    //     b2.Type = BacteriaType::Converter;
+    //     b2.Velocity = Vector2(0, 0);
+    //     b2.Faction = 0;
+
+    //     gameStates[0].AddBacteria(b2);
+
+    //     Bacteria b3;
+    //     b3.Position = Vector2(i + 0.5f, -10);
+    //     b3.Type = BacteriaType::Zoomer;
+    //     b3.Velocity = Vector2(0, 0);
+    //     b3.Faction = 1;
+
+    //     gameStates[0].AddBacteria(b3);
+    // }
+
+    SDL_FreeSurface(lvlSurf);
 
     emscripten_cancel_main_loop();
 
