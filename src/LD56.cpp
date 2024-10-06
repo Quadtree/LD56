@@ -31,6 +31,7 @@ void CallTearDownFunction()
 
 void InGameMainLoop();
 void EnterInGameState(string levelName);
+void EnterMessageScreen(string message);
 
 void FakeMainLoop()
 {
@@ -54,7 +55,8 @@ int main(int argc, char *argv[])
 
 	// EnterInGameState("assets/level4.xcf");
 	// EnterMainMenuState();
-	EnterTitleScreenState();
+	// EnterTitleScreenState();
+	EnterMessageScreen("You WIN!");
 
 	AssertOnMainThread();
 

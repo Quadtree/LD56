@@ -13,9 +13,8 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Win screen
+- Cycling through levels when you win
 - Keys to scroll and zoom
-- Advanced AI
 - Sound
 - Clean up shell
 - Fix DPI scaling issue
@@ -23,7 +22,9 @@
 - Music
 
 ## DONE
+- Advanced AI
 - Implement walls
 - More levels
 - Basic AI
 - Main menu
+- Win screen
