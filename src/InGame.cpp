@@ -191,7 +191,7 @@ void EnterInGameState()
 
         Bacteria b3;
         b3.Position = Vector2(i + 0.5f, -10);
-        b3.Type = BacteriaType::Swarmer;
+        b3.Type = BacteriaType::Zoomer;
         b3.Velocity = Vector2(0, 0);
         b3.Faction = 1;
 

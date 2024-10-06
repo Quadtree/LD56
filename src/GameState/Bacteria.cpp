@@ -19,6 +19,8 @@
 #define GOBBLER_ATTACK_COOLDOWN 90
 #define GOBBLER_ATTACK_DAMAGE 40
 
+#define ZOOMER_DODGE_FORCE 60
+
 SDL_Color FACTION_COLORS[] = {
     {0, 0, 255, 255},
     {255, 0, 0, 255}};
@@ -39,63 +41,67 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER;
     }
 
+    float bestSquaredDist = 200000;
+    const Bacteria *closestBacteria = nullptr;
+
+    if (Type == BacteriaType::Swarmer || Type == BacteriaType::Gobbler || Type == BacteriaType::Zoomer)
+    {
+        for (auto &it : nearbyBacteria)
+        {
+            if (it->Faction == Faction)
+                continue;
+
+            auto dist = it->Position.DistToSquared(Position);
+            if (dist < bestSquaredDist)
+            {
+                bestSquaredDist = dist;
+                closestBacteria = it;
+            }
+        }
+    }
+
+    if (closestBacteria && Type == BacteriaType::Swarmer)
+    {
+        auto delta = (closestBacteria->Position - Position).Normalized();
+        nextState.Velocity += delta * SWARMER_ATTACK_SPEED;
+
+        if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(SWARMER_ATTACK_RANGE) && nextState.AttackCharge >= SWARMER_ATTACK_COOLDOWN)
+        {
+            auto targetID = closestBacteria->ID;
+
+            queueMutation->QueueMutation(1, [targetID](GameState *gs)
+                                         { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
+
+            nextState.AttackCharge = 0;
+        }
+    }
+
+    if (closestBacteria && Type == BacteriaType::Gobbler && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
+    {
+        auto delta = (closestBacteria->Position - Position).Normalized();
+        nextState.Velocity += delta * GOBBLER_ATTACK_SPEED;
+
+        if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(GOBBLER_ATTACK_RANGE) && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
+        {
+            auto targetID = closestBacteria->ID;
+            auto targetIsZoomer = closestBacteria->Type == BacteriaType::Zoomer;
+
+            queueMutation->QueueMutation(1, [targetID, targetIsZoomer](GameState *gs)
+                                         {
+                                                if (!targetIsZoomer && rand() % 10 == 0){
+                                                    gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE;
+                                                } else {
+                                                    gs->BacteriaList[targetID].Velocity += Vector2(rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE, rand() % (ZOOMER_DODGE_FORCE*2) - ZOOMER_DODGE_FORCE);
+                                                } });
+
+            nextState.AttackCharge = 0;
+        }
+    }
+
     if (curGameState->AttractionPoints[Faction].Type == Type && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
         nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;
-    }
-    else
-    {
-        float bestSquaredDist = 200000;
-        const Bacteria *closestBacteria = nullptr;
-
-        if (Type == BacteriaType::Swarmer || Type == BacteriaType::Gobbler || Type == BacteriaType::Zoomer)
-        {
-            for (auto &it : nearbyBacteria)
-            {
-                if (it->Faction == Faction)
-                    continue;
-
-                auto dist = it->Position.DistToSquared(Position);
-                if (dist < bestSquaredDist)
-                {
-                    bestSquaredDist = dist;
-                    closestBacteria = it;
-                }
-            }
-        }
-
-        if (closestBacteria && Type == BacteriaType::Swarmer)
-        {
-            auto delta = (closestBacteria->Position - Position).Normalized();
-            nextState.Velocity += delta * SWARMER_ATTACK_SPEED;
-
-            if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(SWARMER_ATTACK_RANGE) && nextState.AttackCharge >= SWARMER_ATTACK_COOLDOWN)
-            {
-                auto targetID = closestBacteria->ID;
-
-                queueMutation->QueueMutation(1, [targetID](GameState *gs)
-                                             { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
-
-                nextState.AttackCharge = 0;
-            }
-        }
-
-        if (closestBacteria && Type == BacteriaType::Gobbler && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
-        {
-            auto delta = (closestBacteria->Position - Position).Normalized();
-            nextState.Velocity += delta * GOBBLER_ATTACK_SPEED;
-
-            if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(GOBBLER_ATTACK_RANGE) && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
-            {
-                auto targetID = closestBacteria->ID;
-
-                queueMutation->QueueMutation(1, [targetID](GameState *gs)
-                                             { gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE; });
-
-                nextState.AttackCharge = 0;
-            }
-        }
     }
 
     nextState.Position += Velocity / 60;
