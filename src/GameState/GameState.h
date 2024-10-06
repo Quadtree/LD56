@@ -4,7 +4,7 @@
 #include "Bacteria.h"
 #include "SpatialIndex.h"
 
-#define MAX_BACTERIA 10000
+#define MAX_BACTERIA 5000
 #define MUTATION_QUEUE_PRIORITY_LEVELS 2
 
 class MutationQueue
