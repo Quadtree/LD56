@@ -17,7 +17,13 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             continue;
 
         auto delta = (Position - it->Position).Normalized();
-        nextState.Velocity += delta / 5;
+        nextState.Velocity += (delta * ((5 * 5) - Position.DistToSquared(it->Position))) / 10;
+    }
+
+    if (curGameState->AttractionPoints[Faction].Type == Type)
+    {
+        auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
+        nextState.Velocity += (delta * ((5 * 5) - Position.DistToSquared(curGameState->AttractionPoints[Faction].Location))) / 2;
     }
 
     nextState.Position += Velocity / 60;
