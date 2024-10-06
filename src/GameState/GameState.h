@@ -11,6 +11,13 @@ class MutationQueue
     void QueueMutation(std::function<void()> mutation);
 };
 
+struct AttractionPoint
+{
+    BacteriaType Type;
+    int Faction;
+    Vector2 Location;
+};
+
 class GameState
 {
 public:
@@ -27,6 +34,8 @@ public:
     SpatialIndex<5, 500, Bacteria> MainSpatialIndex;
 
     std::vector<const Bacteria *> &GetBacteriaNear(Vector2 point, float radius) const;
+
+    AttractionPoint AttractionPoints[4];
 
 #if _DEBUG
     bool BeingRendered;

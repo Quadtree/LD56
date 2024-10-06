@@ -20,9 +20,15 @@ int currentFPS = 0;
 
 Camera camera;
 
+Vector2 attractionPoint;
+BacteriaType attractionType = BacteriaType::Invalid;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
+
+    gameStates[nextGameStateToUpdate].AttractionPoints[0].Type = attractionType;
+    gameStates[nextGameStateToUpdate].AttractionPoints[0].Location = attractionPoint;
 
     gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate]);
 
@@ -80,8 +86,18 @@ void InGameMainLoop()
                 cout << "F3 pressed" << endl;
                 showingDebugInfo = !showingDebugInfo;
             }
+
+            if (evt.key.keysym.sym == SDLK_1)
+            {
+                attractionType = BacteriaType::Converter;
+            }
         }
     }
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    attractionPoint = camera.ScreenToReal(Vector2(mouseX, mouseY));
 
     SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
