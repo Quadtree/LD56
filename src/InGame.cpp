@@ -363,7 +363,7 @@ void InGameMainLoop()
     if (!anyEnemiesAlive)
     {
         cout << "Player has WON the level" << currentLevelNumber << "!" << endl;
-        if (currentLevelNumber >= 4)
+        if (currentLevelNumber >= NUM_LEVELS)
         {
             EnterMessageScreen("You win!", []()
                                { EnterMainMenuState(); });

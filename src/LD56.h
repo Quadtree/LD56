@@ -51,3 +51,5 @@ void EnterInGameState(int levelNumber);
 #define CHEATS_ENABLED 1
 
 #define UPDATES_PER_SECOND 10
+
+#define NUM_LEVELS 5

@@ -1,6 +1,6 @@
 #include "Button.h"
 
-#define NUM_LEVELS 4
+
 
 static Button mainMenuButtons[NUM_LEVELS];
 
