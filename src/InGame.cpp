@@ -27,8 +27,8 @@ void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
 
-    gameStates[nextGameStateToUpdate].AttractionPoints[0].Type = attractionType;
-    gameStates[nextGameStateToUpdate].AttractionPoints[0].Location = attractionPoint;
+    gameStates[currentGameState].AttractionPoints[0].Type = attractionType;
+    gameStates[currentGameState].AttractionPoints[0].Location = attractionPoint;
 
     gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate]);
 
