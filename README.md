@@ -13,7 +13,6 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Sound
 - Prevent spawning in walls
 - Music
 
@@ -30,3 +29,4 @@
 - Interpolation
 - Clean up shell
 - Fix DPI scaling issue
+- Sound
