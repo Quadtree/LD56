@@ -16,6 +16,7 @@ services:
       OUTPUT_DIR: /output/data
       LIBS_DIR: /tmp/libs/data
       TEST_FILE: /tmp/libs/testfile
+    entrypoint: ["python3"]
     command: ["/src/scripts/watch.py"]
 
   serve:
