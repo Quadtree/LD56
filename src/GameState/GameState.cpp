@@ -66,6 +66,8 @@ void GameState::DoUpdate(GameState &nextGameState)
     {
         if (currentBacteriaList[i].Health > 0)
             currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr);
+        else
+            nextBacteriaList[i] = currentBacteriaList[i];
     }
 
     for (int i = 0; i < MUTATION_QUEUE_PRIORITY_LEVELS; ++i)
@@ -86,9 +88,9 @@ void GameState::DoUpdate(GameState &nextGameState)
 
         if (actualNumUpdates > 0 && actualNumUpdates != expectedNumUpdates)
         {
-            // DUMP(actualNumUpdates);
-            // DUMP(expectedNumUpdates);
-            // cout << ("NumUpdates does not match!");
+            DUMP(actualNumUpdates);
+            DUMP(expectedNumUpdates);
+            cout << ("NumUpdates does not match!");
         }
     }
 
@@ -192,7 +194,7 @@ void GameState::AddBacteria(Bacteria bacteria)
 
             BacteriaList[i] = bacteria;
 
-            //cout << "ADDED NEW ONE AT " << i << endl;
+            // cout << "ADDED NEW ONE AT " << i << endl;
 
             return;
         }
