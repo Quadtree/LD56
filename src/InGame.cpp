@@ -11,7 +11,7 @@ extern SDL_Window *wnd;
 
 shared_ptr<SDL_Texture> testImage;
 
-GameState *gameStates;
+GameState gameStates[2];
 int currentGameState = 0;
 int nextGameStateToUpdate = 1;
 
@@ -58,6 +58,8 @@ void UpdateWorldState()
     {
         it(&gameStates[nextGameStateToUpdate]);
     }
+
+    preUpdateFunctions.resize(0);
 
     anyAlliesAlive = false;
     anyEnemiesAlive = false;
@@ -150,6 +152,7 @@ void InGameMainLoop()
             {
                 preUpdateFunctions.push_back([](GameState *gs)
                                              {
+                                                cout << "Activating INSTANT WIN CHEAT!!!" << endl;
                     for (int i=0;i<gs->NumActiveBacteria;++i)
                     {
                         if (gs->BacteriaList[i].Faction == 1) gs->BacteriaList[i].Health = 0;
@@ -286,12 +289,30 @@ void InGameMainLoop()
                            { EnterInGameState(currentLevelNumber); });
     }
 
+    if (!anyEnemiesAlive)
+    {
+        cout << "Player has WON the level" << currentLevelNumber << "!" << endl;
+        if (currentLevelNumber >= 4)
+        {
+            EnterMessageScreen("You win!", []()
+                               { EnterMainMenuState(); });
+            return;
+        }
+        else
+        {
+            EnterInGameState(currentLevelNumber + 1);
+            return;
+        }
+    }
+
     SDL_RenderPresent(rnd);
 }
 
 void EnterInGameState(int levelNumber)
 {
     CallTearDownFunction();
+
+    cout << "EnterInGameState(" << levelNumber << ")" << endl;
 
     currentLevelNumber = levelNumber;
 
@@ -302,9 +323,8 @@ void EnterInGameState(int levelNumber)
         currentLevelName = oss.str();
     }
 
-    if (gameStates)
-        delete gameStates;
-    gameStates = new GameState[2];
+    for (int i = 0; i < 2; ++i)
+        gameStates[i].Reset();
 
     currentGameState = 0;
     nextGameStateToUpdate = 1;
@@ -332,6 +352,9 @@ void EnterInGameState(int levelNumber)
     gameRunning = true;
 
     preUpdateFunctions.resize(0);
+
+    anyAlliesAlive = true;
+    anyEnemiesAlive = true;
 
     for (int y = 0; y < lvlSurf->h; ++y)
     {
@@ -482,7 +505,9 @@ void EnterInGameState(int levelNumber)
 
     teardownFunction = []()
     {
+        cout << "InGame teardownFunction START" << endl;
         gameRunning = false;
         gameUpdateThread.join();
+        cout << "InGame teardownFunction DONE" << endl;
     };
 }

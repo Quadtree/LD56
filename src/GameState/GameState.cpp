@@ -5,19 +5,9 @@
 #define PROCESSING_BLOCK_SIZE 20
 #define USE_MULTITHREADED_UPDATE 0
 
-GameState::GameState() : NumActiveBacteria(0)
+GameState::GameState()
 {
-
-    // NumActiveBacteria = 4000;
-
-    // for (int i = 0; i < NumActiveBacteria; ++i)
-    // {
-    //     BacteriaList[i].Position = Vector2(1 * i, 0);
-    //     BacteriaList[i].Health = 1;
-    //     BacteriaList[i].Faction = 0;
-    //     BacteriaList[i].Type = BacteriaType::Converter;
-    //     BacteriaList[i].ID = i;
-    // }
+    Reset();
 }
 
 void GameState::DoUpdate(GameState &nextGameState, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE])
@@ -200,6 +190,14 @@ void GameState::AddBacteria(Bacteria bacteria)
             return;
         }
     }
+}
+
+void GameState::Reset()
+{
+    NumActiveBacteria = 0;
+    memset(BacteriaList, 0, sizeof(BacteriaList));
+    MainSpatialIndex.ClearCells();
+    memset(AttractionPoints, 0, sizeof(AttractionPoints));
 }
 
 void MutationQueue::QueueMutation(int priority, std::function<void(GameState *)> mutation)

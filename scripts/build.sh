@@ -21,4 +21,4 @@ embuilder build sdl2 sdl2_ttf sdl2_image
 emcmake cmake "-DDEBUG_MODE=${DEBUG_MODE}" "-DOUTPUT_DIR=${OUTPUT_DIR}" "-DLIBS_DIR=${LIBS_DIR}" "$SOURCE_DIR"
 cmake --build . -j
 
-#rsync -a "$SOURCE_DIR/" "/output/data/src/"
+rsync -a "$SOURCE_DIR/" "/output/data/src/"

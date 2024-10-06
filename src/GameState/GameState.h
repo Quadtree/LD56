@@ -49,6 +49,8 @@ public:
 
     void AddBacteria(Bacteria bacteria);
 
+    void Reset();
+
 #if _DEBUG
     bool BeingRendered;
     bool BeingUpdated;
