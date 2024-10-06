@@ -20,6 +20,8 @@ public:
     void QueueMutation(int priority, std::function<void(GameState *)> mutation);
 
     vector<std::function<void(GameState *)>> mutationQueues[MUTATION_QUEUE_PRIORITY_LEVELS];
+
+    mutex mutationQueueMutex;
 };
 
 struct AttractionPoint

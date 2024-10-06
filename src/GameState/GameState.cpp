@@ -34,17 +34,19 @@ void GameState::DoUpdate(GameState &nextGameState, TerrainType terrain[TERRAIN_G
     auto currentBacteriaList = this->BacteriaList;
     auto nextBacteriaList = nextGameState.BacteriaList;
 
+    const GameState *curGameStatePtr;
+
 #if USE_MULTITHREADED_UPDATE
     for (int i = 0; i < NumActiveBacteria; i += PROCESSING_BLOCK_SIZE)
     {
         auto startPos = i;
         auto endPos = min(i + PROCESSING_BLOCK_SIZE, NumActiveBacteria);
 
-        SubmitToThreadPool([startPos, endPos, nextBacteriaList, currentBacteriaList, mutationQueuePtr]()
+        SubmitToThreadPool([startPos, endPos, nextBacteriaList, currentBacteriaList, mutationQueuePtr, terrain, curGameStatePtr]()
                            {
             for (int j = startPos; j < endPos; ++j)
             {
-                currentBacteriaList[j].Update1(nextBacteriaList[j], mutationQueuePtr);
+                currentBacteriaList[j].Update1(nextBacteriaList[j], curGameStatePtr, mutationQueuePtr, terrain);
             } });
     }
 
@@ -212,7 +214,7 @@ void GameState::Reset()
 void MutationQueue::QueueMutation(int priority, std::function<void(GameState *)> mutation)
 {
 #if USE_MULTITHREADED_UPDATE
-#error This will not work!
+    lock_guard mutationQueueMutexGuard(mutationQueueMutex);
 #endif
     mutationQueues[priority].push_back(mutation);
 }

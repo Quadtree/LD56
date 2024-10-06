@@ -50,17 +50,26 @@ static inline bool IsPointObstructed(TerrainType terrain[TERRAIN_GRID_SIZE * TER
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE]) const
 {
     nextState = *this;
-    // nextState.Position = Vector2(Position.X, Position.Y + 1);
 
-    auto nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
+    // @TODO: CHANGE BACK
+
+    // std::vector<const Bacteria *> nearbyBacteria;
+    std::vector<const Bacteria *> &nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
 
     for (auto &it : nearbyBacteria)
     {
         if (it->ID == ID)
             continue;
 
+        auto dist = Position.DistToSquared(it->Position);
+
+        if (dist > SQUARE(3))
+            continue;
+
+        auto repulsionModifier = it->Faction == Faction ? 7 : 1;
+
         auto delta = (Position - it->Position).Normalized();
-        nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER * nearbyBacteria.size();
+        nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER * repulsionModifier;
     }
 
     float bestSquaredDist = 200000;
@@ -159,6 +168,9 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
     if (Type == BacteriaType::Converter && nextState.AttackCharge >= CONVERTER_CONVERSION_TIME)
     {
+        // @TODO: REMOVE
+        // nearbyBacteria = curGameState->GetBacteriaNear(Position, 5);
+
         for (auto &it : nearbyBacteria)
         {
             if (it->Faction != Faction || it->ID == ID)
