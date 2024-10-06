@@ -1,4 +1,5 @@
 #pragma once
+#include "../LD56.h"
 
 struct Vector2
 {
@@ -63,6 +64,9 @@ struct Vector2
     Vector2 Normalized() const
     {
         auto len = Length();
+
+        if (len == 0)
+            RAISE_ERROR("Divide by zero!");
 
         return Vector2(X / len, Y / len);
     }

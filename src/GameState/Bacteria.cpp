@@ -5,9 +5,9 @@
 #include "GameState.h"
 
 #define DEFAULT_REPULSION_RADIUS 5
-#define DEFAULT_REPULSION_POWER (1f / 10f)
-#define CURSOR_ATTRACTION_RADIUS 10
-#define CURSOR_ATTRACTION_POWER (1f / 5f)
+#define DEFAULT_REPULSION_POWER (1.0f / 10.0f)
+#define CURSOR_ATTRACTION_RADIUS 15
+#define CURSOR_ATTRACTION_POWER (1.0f / 10.0f)
 
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
