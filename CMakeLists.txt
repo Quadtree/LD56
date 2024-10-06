@@ -31,7 +31,7 @@ endif()
 target_compile_options(ld56 PRIVATE -std=c++1z -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=[\"XCF\"] "-D_GIT_HASH=\"${GIT_HASH}\"" --no-heap-copy -Wno-unqualified-std-cast-call -pthread)
 
 target_link_options(ld56 PRIVATE
-  -std=c++1z -sUSE_FREETYPE=1 -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2
+  -std=c++1z -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2
   --embed-file assets -sSDL2_IMAGE_FORMATS=[\"XCF\"]
   --bind --no-heap-copy -Wl,-u,fileno
   -pthread -sPTHREAD_POOL_SIZE=navigator.hardwareConcurrency
