@@ -1,6 +1,8 @@
 services:
   build:
-    image: "ghcr.io/quadtree/emcc:3.1.62"
+    build:
+      dockerfile: Dockerfile
+      context: .
     stop_signal: SIGKILL
     volumes:
       - ./:/src:ro
