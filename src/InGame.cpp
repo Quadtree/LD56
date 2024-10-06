@@ -101,7 +101,7 @@ void UpdateWorldState()
 
 void GameUpdateThread()
 {
-    auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / 60;
+    auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / UPDATES_PER_SECOND;
 
     Uint64 lastSecond = 0;
     auto updatesLastSecond = 0;
@@ -326,7 +326,7 @@ void InGameMainLoop()
 
         SDL_RenderCopyF(rnd, worldTexture.get(), nullptr, &terRect);
 
-        auto timeSinceLastUpdate = (elapsedTime - elapsedGameUpdateTime) * currentFPS / 60;
+        auto timeSinceLastUpdate = (elapsedTime - elapsedGameUpdateTime) * currentFPS / UPDATES_PER_SECOND;
 
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {

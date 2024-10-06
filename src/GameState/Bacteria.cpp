@@ -9,7 +9,7 @@
 #define CURSOR_ATTRACTION_RADIUS 22
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
 
-#define CONVERTER_CONVERSION_TIME 60 // 1200
+#define CONVERTER_CONVERSION_TIME 1200
 
 #define SWARMER_ATTACK_SPEED (1.0f / 1.0f)
 #define SWARMER_ATTACK_RANGE 1
@@ -31,6 +31,8 @@
 #define SPLIT_SOUND_VOLUME 0.03f
 #define ATTACK_SOUND_VOLUME 0.03f
 #define DEATH_SOUND_VOLUME 0.4f
+
+#define DELTA_TIME_MODIFIER 60.0f / UPDATES_PER_SECOND
 
 SDL_Color FACTION_COLORS[] = {
     {128, 128, 255, 255},
@@ -69,7 +71,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         if (dist > SQUARE(3))
             continue;
 
-        auto repulsionModifier = it->Faction == Faction ? 7 : 1;
+        auto repulsionModifier = it->Faction == Faction ? 3 : 1;
 
         auto delta = (Position - it->Position).Normalized();
         nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER * repulsionModifier;
@@ -99,7 +101,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     if (closestBacteria && Type == BacteriaType::Swarmer)
     {
         auto delta = (closestBacteria->Position - Position).Normalized();
-        nextState.Velocity += delta * SWARMER_ATTACK_SPEED;
+        nextState.Velocity += delta * SWARMER_ATTACK_SPEED * DELTA_TIME_MODIFIER;
 
         if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(SWARMER_ATTACK_RANGE) && nextState.AttackCharge >= SWARMER_ATTACK_COOLDOWN)
         {
@@ -120,7 +122,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     if (closestBacteria && Type == BacteriaType::Gobbler && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
     {
         auto delta = (closestBacteria->Position - Position).Normalized();
-        nextState.Velocity += delta * GOBBLER_ATTACK_SPEED;
+        nextState.Velocity += delta * GOBBLER_ATTACK_SPEED * DELTA_TIME_MODIFIER;
 
         if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(GOBBLER_ATTACK_RANGE) && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
         {
@@ -153,7 +155,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     if (closestBacteria && Type == BacteriaType::Zoomer)
     {
         auto delta = (closestBacteria->Position - Position).Normalized();
-        nextState.Velocity += delta * ZOOMER_ATTACK_SPEED;
+        nextState.Velocity += delta * ZOOMER_ATTACK_SPEED * DELTA_TIME_MODIFIER;
 
         if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(ZOOMER_ATTACK_RANGE) && nextState.AttackCharge >= ZOOMER_ATTACK_COOLDOWN)
         {
@@ -219,12 +221,12 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     if (curGameState->AttractionPoints[Faction].Types[(int)Type] && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
-        nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;
+        nextState.Velocity += delta * CURSOR_ATTRACTION_POWER * DELTA_TIME_MODIFIER;
     }
 
     auto wasInWall = IsPointObstructed(terrain, nextState.Position);
 
-    nextState.Position += Velocity / 60;
+    nextState.Position += Velocity / 60 * DELTA_TIME_MODIFIER;
 
     auto isInWall = IsPointObstructed(terrain, nextState.Position);
 
@@ -256,9 +258,10 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         }
     }
 
-    nextState.Velocity *= 0.9f;
+    nextState.Velocity *= powf(0.9f, (60 / UPDATES_PER_SECOND));
+
     if (nextState.AttackCharge < 10000)
-        nextState.AttackCharge++;
+        nextState.AttackCharge += (60 / UPDATES_PER_SECOND);
 
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;
