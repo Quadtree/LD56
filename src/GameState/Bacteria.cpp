@@ -4,6 +4,11 @@
 #include "../Util.h"
 #include "GameState.h"
 
+#define DEFAULT_REPULSION_RADIUS 5
+#define DEFAULT_REPULSION_POWER (1f / 10f)
+#define CURSOR_ATTRACTION_RADIUS 10
+#define CURSOR_ATTRACTION_POWER (1f / 5f)
+
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
     nextState = *this;
@@ -17,13 +22,13 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             continue;
 
         auto delta = (Position - it->Position).Normalized();
-        nextState.Velocity += (delta * ((5 * 5) - Position.DistToSquared(it->Position))) / 10;
+        nextState.Velocity += (delta * (SQUARE(DEFAULT_REPULSION_RADIUS) - Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER;
     }
 
-    if (curGameState->AttractionPoints[Faction].Type == Type)
+    if (curGameState->AttractionPoints[Faction].Type == Type && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
-        nextState.Velocity += (delta * ((5 * 5) - Position.DistToSquared(curGameState->AttractionPoints[Faction].Location))) / 2;
+        nextState.Velocity += (delta * (SQUARE(CURSOR_ATTRACTION_RADIUS) - Position.DistToSquared(curGameState->AttractionPoints[Faction].Location))) * CURSOR_ATTRACTION_POWER;
     }
 
     nextState.Position += Velocity / 60;

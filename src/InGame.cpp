@@ -92,6 +92,12 @@ void InGameMainLoop()
                 attractionType = BacteriaType::Converter;
             }
         }
+
+        if (evt.type == SDL_KEYUP)
+        {
+            if (evt.key.keysym.sym == SDLK_1)
+                attractionType = BacteriaType::Invalid;
+        }
     }
 
     int mouseX, mouseY;

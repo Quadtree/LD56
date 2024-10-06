@@ -24,6 +24,8 @@ using namespace std;
         exit(2);                                                                \
     }
 
+#define SQUARE(x)   (x*x)
+
 void SubmitToThreadPool(function<void()> func);
 void WaitForThreadPoolToFinishAllTasks();
 void ExpectThreadPoolToBeEmpty();
