@@ -116,9 +116,11 @@ const Vector2 OFFSETS[] = {
     Vector2(-1, -1),
 };
 
-vector<const Bacteria *> &
+GridCell &
 GameState::GetBacteriaNear(Vector2 point, float radius) const
 {
+    auto cellId = MainSpatialIndex.Vector2ToCellID(point);
+
     bacteriaNearVector.resize(0);
 
     int prevCells[9];

@@ -44,15 +44,32 @@ public:
 
     void AddToIndex(T *bacteria)
     {
-        auto cellId = Vector2ToCellID(bacteria->Position);
+        const Vector2 OFFSETS[] = {
+            Vector2(0, 0),
 
-        if (cellId == -1)
-            return;
+            Vector2(-1, 0),
+            Vector2(1, 0),
+            Vector2(0, 1),
+            Vector2(0, -1),
 
-        if (Cells[cellId].NumInCell < MAX_PER_CELL)
+            Vector2(-1, -1),
+            Vector2(1, 1),
+            Vector2(-1, 1),
+            Vector2(-1, -1),
+        };
+
+        for (auto &it : OFFSETS)
         {
-            Cells[cellId].List[Cells[cellId].NumInCell] = bacteria;
-            Cells[cellId].NumInCell++;
+            auto cellId = Vector2ToCellID(bacteria->Position + it * Radius);
+
+            if (cellId == -1)
+                return;
+
+            if (Cells[cellId].NumInCell < MAX_PER_CELL)
+            {
+                Cells[cellId].List[Cells[cellId].NumInCell] = bacteria;
+                Cells[cellId].NumInCell++;
+            }
         }
     }
 };
