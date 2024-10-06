@@ -91,11 +91,17 @@ void InGameMainLoop()
                 attractionType = BacteriaType::Converter;
             if (evt.key.keysym.sym == SDLK_2)
                 attractionType = BacteriaType::Swarmer;
+            if (evt.key.keysym.sym == SDLK_3)
+                attractionType = BacteriaType::Gobbler;
+            if (evt.key.keysym.sym == SDLK_4)
+                attractionType = BacteriaType::Zoomer;
+            if (evt.key.keysym.sym == SDLK_5)
+                attractionType = BacteriaType::Spitter;
         }
 
         if (evt.type == SDL_KEYUP)
         {
-            if (evt.key.keysym.sym == SDLK_1 || evt.key.keysym.sym == SDLK_2)
+            if (evt.key.keysym.sym == SDLK_1 || evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_3 || evt.key.keysym.sym == SDLK_4 || evt.key.keysym.sym == SDLK_5)
                 attractionType = BacteriaType::Invalid;
         }
     }
@@ -171,7 +177,7 @@ void EnterInGameState()
     {
         Bacteria b1;
         b1.Position = Vector2(i, 0);
-        b1.Type = BacteriaType::Swarmer;
+        b1.Type = BacteriaType::Gobbler;
         b1.Velocity = Vector2(0, 0);
 
         gameStates[0].AddBacteria(b1);

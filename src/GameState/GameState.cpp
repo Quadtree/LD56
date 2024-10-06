@@ -170,6 +170,12 @@ void GameState::AddBacteria(Bacteria bacteria)
                 bacteria.Health = 3;
             if (bacteria.Type == BacteriaType::Swarmer)
                 bacteria.Health = 10;
+            if (bacteria.Type == BacteriaType::Gobbler)
+                bacteria.Health = 20;
+            if (bacteria.Type == BacteriaType::Zoomer)
+                bacteria.Health = 6;
+            if (bacteria.Type == BacteriaType::Spitter)
+                bacteria.Health = 7;
 
             bacteria.ID = i;
 

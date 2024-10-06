@@ -14,6 +14,11 @@
 #define SWARMER_ATTACK_COOLDOWN 30
 #define SWARMER_ATTACK_DAMAGE 1
 
+#define GOBBLER_ATTACK_SPEED (2.0f / 1.0f)
+#define GOBBLER_ATTACK_RANGE 1
+#define GOBBLER_ATTACK_COOLDOWN 90
+#define GOBBLER_ATTACK_DAMAGE 40
+
 SDL_Color FACTION_COLORS[] = {
     {0, 0, 255, 255},
     {255, 0, 0, 255}};
@@ -69,10 +74,24 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             {
                 auto targetID = closestBacteria->ID;
 
-                // cout << ID << " ATK " << closestBacteria->ID << " " << (int)closestBacteria->Health << endl;
-
                 queueMutation->QueueMutation(1, [targetID](GameState *gs)
                                              { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
+
+                nextState.AttackCharge = 0;
+            }
+        }
+
+        if (closestBacteria && Type == BacteriaType::Gobbler && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
+        {
+            auto delta = (closestBacteria->Position - Position).Normalized();
+            nextState.Velocity += delta * GOBBLER_ATTACK_SPEED;
+
+            if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(GOBBLER_ATTACK_RANGE) && nextState.AttackCharge >= GOBBLER_ATTACK_COOLDOWN)
+            {
+                auto targetID = closestBacteria->ID;
+
+                queueMutation->QueueMutation(1, [targetID](GameState *gs)
+                                             { gs->BacteriaList[targetID].Health -= GOBBLER_ATTACK_DAMAGE; });
 
                 nextState.AttackCharge = 0;
             }
@@ -99,6 +118,9 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
 
         bacteriaTextures[(int)BacteriaType::Converter] = LoadTexture("assets/converter1.xcf");
         bacteriaTextures[(int)BacteriaType::Swarmer] = LoadTexture("assets/swarmer.xcf");
+        bacteriaTextures[(int)BacteriaType::Gobbler] = LoadTexture("assets/gobbler.xcf");
+        bacteriaTextures[(int)BacteriaType::Zoomer] = LoadTexture("assets/zoomer.xcf");
+        bacteriaTextures[(int)BacteriaType::Spitter] = LoadTexture("assets/spitter.xcf");
     }
 
     auto screen = camera.RealToScreen(Position);
@@ -110,5 +132,5 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
     trg.h = camera.RealToScreenScale(1);
 
     SDL_SetTextureColorMod(bacteriaTextures[(int)Type].get(), FACTION_COLORS[Faction].r, FACTION_COLORS[Faction].g, FACTION_COLORS[Faction].b);
-    SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, 20, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, 0, nullptr, SDL_FLIP_NONE);
 }
