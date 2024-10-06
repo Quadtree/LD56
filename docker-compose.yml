@@ -16,7 +16,7 @@ services:
       OUTPUT_DIR: /output/data
       LIBS_DIR: /tmp/libs/data
       TEST_FILE: /tmp/libs/testfile
-    command: ["/src/scripts/build.sh"]
+    command: ["/src/scripts/watch.py"]
 
   serve:
     image: docker.io/python:3
