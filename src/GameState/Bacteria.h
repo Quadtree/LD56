@@ -31,7 +31,7 @@ public:
 
     void Update1(Bacteria &nextState, const class GameState *curGameState, class MutationQueue *queueMutation) const;
 
-    void Render(class SDL_Renderer *rnd, class Camera &camera) const;
+    void Render(class SDL_Renderer *rnd, class Camera &camera, double elapsedTime) const;
 
     // void Update1(const Bacteria &currentState, Bacteria &nextState, std::function<void(int)> queueMutation);
 };

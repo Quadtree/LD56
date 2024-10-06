@@ -23,6 +23,8 @@ Camera camera;
 Vector2 attractionPoint;
 BacteriaType attractionType = BacteriaType::Invalid;
 
+double elapsedTime;
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
@@ -114,6 +116,8 @@ void InGameMainLoop()
     SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
 
+    elapsedTime = GetTimeAsDouble();
+
     {
         auto gameStateBeingRendered = currentGameState;
 
@@ -138,7 +142,7 @@ void InGameMainLoop()
                 throw "Game state is also being updated!!!";
             }
 #endif
-            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera);
+            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera, elapsedTime);
         }
 
 #if _DEBUG

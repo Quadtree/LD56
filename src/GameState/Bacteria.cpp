@@ -137,7 +137,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
 vector<shared_ptr<SDL_Texture>> bacteriaTextures;
 
-void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
+void Bacteria::Render(SDL_Renderer *rnd, Camera &camera, double elapsedTime) const
 {
     if (bacteriaTextures.size() == 0)
     {
@@ -158,6 +158,13 @@ void Bacteria::Render(SDL_Renderer *rnd, Camera &camera) const
     trg.w = camera.RealToScreenScale(1);
     trg.h = camera.RealToScreenScale(1);
 
+    float rotation = 0;
+
+    if (Type == BacteriaType::Zoomer)
+    {
+        rotation = fmod(elapsedTime, 0.3) / 0.3 * 360;
+    }
+
     SDL_SetTextureColorMod(bacteriaTextures[(int)Type].get(), FACTION_COLORS[Faction].r, FACTION_COLORS[Faction].g, FACTION_COLORS[Faction].b);
-    SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, 0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyExF(rnd, bacteriaTextures[(int)Type].get(), nullptr, &trg, rotation, nullptr, SDL_FLIP_NONE);
 }
