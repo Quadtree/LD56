@@ -5,10 +5,21 @@
 #include "SpatialIndex.h"
 
 #define MAX_BACTERIA 5000
+#define MUTATION_QUEUE_PRIORITY_LEVELS  2
 
 class MutationQueue
 {
-    void QueueMutation(std::function<void()> mutation);
+public:
+    // mutations need to happen in order in order to avoid some very odd situations
+    // such as bacteria getting hit twice in one turn, but the first one kills it
+    // then another bacteria replaces it
+    // and the second hit hits the new one
+    // thus, priority is a set of phases
+    // 0 - Creation
+    // 1 - Damage
+    void QueueMutation(int priority, std::function<void(GameState *)> mutation);
+
+    vector<std::function<void(GameState *)>> mutationQueues[MUTATION_QUEUE_PRIORITY_LEVELS];
 };
 
 struct AttractionPoint

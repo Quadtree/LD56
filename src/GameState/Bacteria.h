@@ -23,6 +23,7 @@ public:
     uint8_t Health;
     BacteriaType Type;
     uint16_t ID;
+    int16_t AttackCharge;
 
 #if _DEBUG
     uint64_t NumUpdates;

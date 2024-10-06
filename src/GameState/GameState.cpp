@@ -59,13 +59,20 @@ void GameState::DoUpdate(GameState &nextGameState)
 
     WaitForThreadPoolToFinishAllTasks();
 #else
+    nextGameState.NumActiveBacteria = NumActiveBacteria;
 
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr);
     }
 
-    nextGameState.NumActiveBacteria = NumActiveBacteria;
+    for (int i = 0; i < MUTATION_QUEUE_PRIORITY_LEVELS; ++i)
+    {
+        for (auto &it : mutationQueue.mutationQueues[i])
+        {
+            it(&nextGameState);
+        }
+    }
 
 #endif
 
@@ -170,4 +177,12 @@ void GameState::AddBacteria(Bacteria bacteria)
             return;
         }
     }
+}
+
+void MutationQueue::QueueMutation(int priority, std::function<void(GameState *)> mutation)
+{
+#if USE_MULTITHREADED_UPDATE
+#error This will not work!
+#endif
+    mutationQueues[priority].push_back(mutation);
 }

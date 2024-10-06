@@ -10,6 +10,9 @@
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
 
 #define SWARMER_ATTACK_SPEED (1.0f / 1.0f)
+#define SWARMER_ATTACK_RANGE 1
+#define SWARMER_ATTACK_COOLDOWN 30
+#define SWARMER_ATTACK_DAMAGE 1
 
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
 {
@@ -57,12 +60,25 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         {
             auto delta = (closestBacteria->Position - Position).Normalized();
             nextState.Velocity += delta * SWARMER_ATTACK_SPEED;
+
+            if (closestBacteria->Position.DistToSquared(Position) <= SQUARE(SWARMER_ATTACK_RANGE) && nextState.AttackCharge >= SWARMER_ATTACK_COOLDOWN)
+            {
+                auto targetID = closestBacteria->ID;
+
+                cout << ID << " ATK " << closestBacteria->ID << endl;
+
+                queueMutation->QueueMutation(1, [targetID](GameState *gs)
+                                             { gs->BacteriaList[targetID].Health -= SWARMER_ATTACK_DAMAGE; });
+
+                nextState.AttackCharge = 0;
+            }
         }
     }
 
     nextState.Position += Velocity / 60;
 
     nextState.Velocity *= 0.9f;
+    nextState.AttackCharge++;
 
 #if _DEBUG
     nextState.NumUpdates = NumUpdates + 1;

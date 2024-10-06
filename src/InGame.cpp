@@ -124,6 +124,8 @@ void InGameMainLoop()
 
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
+            if (gameStates[gameStateBeingRendered].BacteriaList[i].Health <= 0)
+                continue;
 #if _DEBUG
             if (gameStates[gameStateBeingRendered].BeingUpdated)
             {
