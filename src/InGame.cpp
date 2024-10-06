@@ -234,7 +234,7 @@ void InGameMainLoop()
     if (showingDebugInfo)
     {
         ostringstream oss;
-        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000);
+        oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000) << " CP: " << camera.CenterPos.X << "x" << camera.CenterPos.Y;
         DrawText(oss.str(), Vector2(20, 20));
     }
 
@@ -284,7 +284,7 @@ void EnterInGameState(string levelName)
                 Terrain[x + y * TERRAIN_GRID_SIZE] = TerrainType::Obstructed;
                 obstructedTiles++;
 
-                *curPtrWT = 0xFFFFFFFF;
+                *curPtrWT = 0xFFFFBBBB;
             }
             else
             {
@@ -292,6 +292,82 @@ void EnterInGameState(string levelName)
                 clearTiles++;
 
                 *curPtrWT = 0xFF333333;
+            }
+
+            auto pp = Vector2(x - TERRAIN_GRID_SIZE / 2, y - TERRAIN_GRID_SIZE / 2);
+
+            // ALLIED
+            if (pixel == 0xff0059ff)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Swarmer;
+                b.Faction = 0;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xff0000ff)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Converter;
+                b.Faction = 0;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xff00aaff)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Gobbler;
+                b.Faction = 0;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xff00ffff)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Zoomer;
+                b.Faction = 0;
+                gameStates[0].AddBacteria(b);
+            }
+
+            // ENEMY
+            if (pixel == 0xffff5900)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Swarmer;
+                b.Faction = 1;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xffff0000)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Converter;
+                b.Faction = 1;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xffffaa00)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Gobbler;
+                b.Faction = 1;
+                gameStates[0].AddBacteria(b);
+            }
+
+            if (pixel == 0xffffff00)
+            {
+                Bacteria b;
+                b.Position = pp;
+                b.Type = BacteriaType::Zoomer;
+                b.Faction = 1;
+                gameStates[0].AddBacteria(b);
             }
         }
     }
