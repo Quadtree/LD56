@@ -191,6 +191,9 @@ void GameState::AddBacteria(Bacteria bacteria)
                 bacteria.AttackCharge = rand() % 1000;
 
             BacteriaList[i] = bacteria;
+
+            //cout << "ADDED NEW ONE AT " << i << endl;
+
             return;
         }
     }
