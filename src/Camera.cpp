@@ -1,8 +1,13 @@
 #include "LD56.h"
 #include "Camera.h"
 
-Camera::Camera() : ZoomLevel(10)
+Camera::Camera() : ZoomLevel(10), ZoomStep(7)
 {
+}
+
+void Camera::SetZoomLevelFromZoomStep()
+{
+    ZoomLevel = powf(1.4f, ZoomStep);
 }
 
 Vector2 Camera::ScreenToReal(Vector2 screen)

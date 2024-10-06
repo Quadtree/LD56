@@ -134,6 +134,28 @@ void InGameMainLoop()
         {
             middleButtonDown = false;
         }
+
+        if (evt.type == SDL_MOUSEWHEEL && evt.wheel.y != 0)
+        {
+            int mouseX, mouseY;
+            SDL_GetMouseState(&mouseX, &mouseY);
+
+            float oldZoom = camera.ZoomLevel;
+            camera.ZoomStep += evt.wheel.y / abs(evt.wheel.y);
+            camera.SetZoomLevelFromZoomStep();
+            float newZoom = camera.ZoomLevel;
+
+            int wndW, wndH;
+
+            SDL_GetWindowSize(wnd, &wndW, &wndH);
+
+            float zoomRatio = newZoom / oldZoom;
+
+            float expectedMoveX = (mouseX - wndW / 2) * zoomRatio - (mouseX - wndW / 2);
+            float expectedMoveY = (mouseY - wndH / 2) * zoomRatio - (mouseY - wndH / 2);
+
+            camera.CenterPos = camera.CenterPos + Vector2(expectedMoveX, expectedMoveY) / newZoom;
+        }
     }
 
     int mouseX, mouseY;
@@ -211,6 +233,7 @@ void EnterInGameState()
         b1.Position = Vector2(i, 0);
         b1.Type = BacteriaType::Gobbler;
         b1.Velocity = Vector2(0, 0);
+        b1.Faction = 0;
 
         gameStates[0].AddBacteria(b1);
 
@@ -218,6 +241,7 @@ void EnterInGameState()
         b2.Position = Vector2(i + 0.5f, 4);
         b2.Type = BacteriaType::Converter;
         b2.Velocity = Vector2(0, 0);
+        b2.Faction = 0;
 
         gameStates[0].AddBacteria(b2);
 

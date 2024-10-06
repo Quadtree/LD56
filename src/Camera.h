@@ -10,6 +10,10 @@ public:
     Vector2 CenterPos;
     float ZoomLevel;
 
+    int ZoomStep;
+
+    void SetZoomLevelFromZoomStep();
+
     Vector2 ScreenPixelSize;
 
     Vector2 ScreenToReal(Vector2 screen);
