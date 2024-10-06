@@ -20,7 +20,7 @@ GameState::GameState() : NumActiveBacteria(0)
     // }
 }
 
-void GameState::DoUpdate(GameState &nextGameState)
+void GameState::DoUpdate(GameState &nextGameState, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE])
 {
 #if _DEBUG
     nextGameState.BeingUpdated = true;
@@ -65,7 +65,7 @@ void GameState::DoUpdate(GameState &nextGameState)
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         if (currentBacteriaList[i].Health > 0)
-            currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr);
+            currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr, terrain);
         else
             nextBacteriaList[i] = currentBacteriaList[i];
     }

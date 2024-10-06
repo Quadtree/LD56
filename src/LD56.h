@@ -24,8 +24,19 @@ using namespace std;
         exit(2);                                                                \
     }
 
-#define SQUARE(x)   (x*x)
+#define SQUARE(x) (x * x)
 
 void SubmitToThreadPool(function<void()> func);
 void WaitForThreadPoolToFinishAllTasks();
 void ExpectThreadPoolToBeEmpty();
+
+#define TERRAIN_GRID_SIZE 512
+
+enum class TerrainType : uint8_t
+{
+    Invalid,
+    Clear,
+    Rough,
+    Obstructed,
+    Max,
+};

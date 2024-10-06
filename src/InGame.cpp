@@ -27,16 +27,6 @@ double lastGameUpdateTime = 0;
 
 double elapsedTime;
 
-enum class TerrainType : uint8_t
-{
-    Invalid,
-    Clear,
-    Rough,
-    Obstructed,
-    Max,
-};
-
-#define TERRAIN_GRID_SIZE 512
 #define TERRAIN_GRID_CELL_SIZE 1
 
 TerrainType Terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE];
@@ -50,7 +40,7 @@ void UpdateWorldState()
     memcpy(gameStates[currentGameState].AttractionPoints[0].Types, attractionTypes, sizeof(attractionTypes));
     gameStates[currentGameState].AttractionPoints[0].Location = attractionPoint;
 
-    gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate]);
+    gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate], Terrain);
 
     nextGameStateToUpdate = currentGameState;
     currentGameState = 1 - currentGameState;

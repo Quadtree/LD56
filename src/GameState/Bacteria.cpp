@@ -32,7 +32,7 @@ SDL_Color FACTION_COLORS[] = {
     {128, 128, 255, 255},
     {255, 50, 50, 255}};
 
-void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation) const
+void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE]) const
 {
     nextState = *this;
     // nextState.Position = Vector2(Position.X, Position.Y + 1);
@@ -164,7 +164,17 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;
     }
 
+    auto wasInWall = terrain[((int)(nextState.Position.X + 0.5f) + (TERRAIN_GRID_SIZE / 2)) + ((int)(nextState.Position.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2)) * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
+
     nextState.Position += Velocity / 60;
+
+    auto isInWall = terrain[((int)(nextState.Position.X + 0.5f) + (TERRAIN_GRID_SIZE / 2)) + ((int)(nextState.Position.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2)) * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
+
+    if (isInWall && !wasInWall)
+    {
+        cout << "WE HIT A WALL!" << endl;
+        nextState.Velocity = nextState.Velocity * -1;
+    }
 
     nextState.Velocity *= 0.9f;
     if (nextState.AttackCharge < 10000)

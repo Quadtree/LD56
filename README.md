@@ -13,7 +13,6 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Implement walls
 - More levels
 - Basic AI
 - Main menu
@@ -22,3 +21,6 @@
 - Sound
 - Fix DPI scaling issue
 - Music
+
+## DONE
+- Implement walls
