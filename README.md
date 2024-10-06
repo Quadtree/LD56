@@ -14,8 +14,6 @@
 
 ## Remaining Tasks
 - Sound
-- Clean up shell
-- Fix DPI scaling issue
 - Prevent spawning in walls
 - Music
 
@@ -30,3 +28,5 @@
 - Cycling through levels when you win
 - Keys to scroll and zoom
 - Interpolation
+- Clean up shell
+- Fix DPI scaling issue
