@@ -42,3 +42,4 @@ enum class TerrainType : uint8_t
 };
 
 void EnterTitleScreenState();
+void EnterMainMenuState();

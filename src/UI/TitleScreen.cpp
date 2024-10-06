@@ -13,5 +13,5 @@ void TitleScreenMainLoop()
 
 void EnterTitleScreenState()
 {
-    title
+    //title
 }

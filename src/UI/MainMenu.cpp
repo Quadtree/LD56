@@ -1,4 +1,4 @@
-Button titleScreenButtons;
+Button mainMenuButtons;
 
 void MainMenuMainLoop()
 {
@@ -13,6 +13,7 @@ void MainMenuMainLoop()
 
 void EnterMainMenuState()
 {
-    title
+    mainMenuButtons[0].Index = 0;
+
 }
 
