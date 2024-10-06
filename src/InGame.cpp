@@ -50,6 +50,9 @@ int numEnemiesAlive = 0;
 string currentLevelName;
 int currentLevelNumber;
 
+bool BlurbVisible = true;
+double BlurbLockedUntil = 0;
+
 const string START_OF_LEVEL_BLURBS = {
     "LEVEL 1!"};
 
@@ -104,6 +107,13 @@ void UpdateWorldState()
 
 void GameUpdateThread()
 {
+    while (BlurbVisible)
+    {
+        if (!gameRunning)
+            return;
+        SDL_Delay(10);
+    }
+
     auto ticksPerGameUpdate = SDL_GetPerformanceFrequency() / UPDATES_PER_SECOND;
 
     Uint64 lastSecond = 0;
@@ -154,8 +164,17 @@ void InGameMainLoop()
     SDL_Event evt;
     while (SDL_PollEvent(&evt))
     {
+        if ((evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN) && GetTimeAsDouble() > BlurbVisible)
+        {
+            BlurbVisible = false;
+        }
+
+        if (BlurbVisible)
+            continue;
+
         if (evt.type == SDL_KEYDOWN)
         {
+
             if (evt.key.keysym.sym == SDLK_F3)
             {
                 cout << "F3 pressed" << endl;
@@ -435,6 +454,9 @@ void EnterInGameState(int levelNumber)
     anyEnemiesAlive = true;
 
     camera.Reset();
+
+    BlurbVisible = true;
+    BlurbLockedUntil = GetTimeAsDouble() + 0.5;
 
     for (int y = 0; y < lvlSurf->h; ++y)
     {

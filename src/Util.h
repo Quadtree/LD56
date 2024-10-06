@@ -20,6 +20,7 @@ double GetTimeAsDouble();
     }
 
 void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color);
+void DrawTextWithWrap(std::string text, Vector2 pos, int ptSize, SDL_Color color, int wrapPixels);
 TTF_Font *GetFont(int ptSize);
 
 void PlaySound(std::string filename, float volume);

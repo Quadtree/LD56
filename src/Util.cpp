@@ -106,3 +106,27 @@ void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color)
     SDL_DestroyTexture(tex);
     SDL_FreeSurface(surf);
 }
+
+void DrawTextWithWrap(std::string text, Vector2 pos, int ptSize, SDL_Color color, int wrapPixels)
+{
+    // SDL_Color color;
+    // color.r = 255;
+    // color.g = 255;
+    // color.b = 255;
+    // color.a = 255;
+
+    auto surf = TTF_RenderUTF8_Blended_Wrapped(GetFont(ptSize), text.c_str(), color, wrapPixels);
+
+    auto tex = SDL_CreateTextureFromSurface(rnd, surf);
+
+    SDL_FRect trg;
+    trg.x = pos.X;
+    trg.y = pos.Y;
+    trg.w = surf->w;
+    trg.h = surf->h;
+
+    SDL_RenderCopyF(rnd, tex, nullptr, &trg);
+
+    SDL_DestroyTexture(tex);
+    SDL_FreeSurface(surf);
+}
