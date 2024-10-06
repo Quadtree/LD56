@@ -239,7 +239,7 @@ void InGameMainLoop()
     {
         ostringstream oss;
         oss << "FPS: " << currentFPS << " N: " << gameStates[currentGameState].NumActiveBacteria << " Update Time: " << (int64_t)(lastGameUpdateTime * 1000000) << " CP: " << camera.CenterPos.X << "x" << camera.CenterPos.Y;
-        DrawText(oss.str(), Vector2(20, 20));
+        DrawText(oss.str(), Vector2(20, 20), 24, {255, 255, 255, 255});
     }
 
     SDL_RenderPresent(rnd);

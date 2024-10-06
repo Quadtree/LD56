@@ -19,5 +19,5 @@ double GetTimeAsDouble();
         cout << #x << " time: " << (int)((endTime - startTime) * 1000) << "ms" << endl; \
     }
 
-void DrawText(std::string text, Vector2 pos);
+void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color);
 TTF_Font *GetFont(int ptSize);

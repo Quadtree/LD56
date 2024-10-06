@@ -50,15 +50,15 @@ TTF_Font *GetFont(int ptSize)
     return defaultFonts[ptSize];
 }
 
-void DrawText(std::string text, Vector2 pos)
+void DrawText(std::string text, Vector2 pos, int ptSize, SDL_Color color)
 {
-    SDL_Color color;
-    color.r = 255;
-    color.g = 255;
-    color.b = 255;
-    color.a = 255;
+    // SDL_Color color;
+    // color.r = 255;
+    // color.g = 255;
+    // color.b = 255;
+    // color.a = 255;
 
-    auto surf = TTF_RenderUTF8_Blended(GetFont(24), text.c_str(), color);
+    auto surf = TTF_RenderUTF8_Blended(GetFont(ptSize), text.c_str(), color);
 
     auto tex = SDL_CreateTextureFromSurface(rnd, surf);
 
