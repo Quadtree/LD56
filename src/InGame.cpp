@@ -323,6 +323,8 @@ void InGameMainLoop()
 
         SDL_RenderCopyF(rnd, worldTexture.get(), nullptr, &terRect);
 
+        auto timeSinceLastUpdate = (elapsedTime - elapsedGameUpdateTime) * currentFPS / 60;
+
         for (auto i = 0; i < gameStates[gameStateBeingRendered].NumActiveBacteria; ++i)
         {
             if (gameStates[gameStateBeingRendered].BacteriaList[i].Health <= 0)
@@ -333,7 +335,7 @@ void InGameMainLoop()
                 throw "Game state is also being updated!!!";
             }
 #endif
-            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera, elapsedTime, elapsedTime - elapsedGameUpdateTime);
+            gameStates[gameStateBeingRendered].BacteriaList[i].Render(rnd, camera, elapsedTime, timeSinceLastUpdate);
         }
 
 #if _DEBUG

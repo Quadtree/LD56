@@ -54,6 +54,8 @@ public:
     bool WasDeath;
     bool WasAttack;
 
+    int LivingBacteriaLastFrame;
+
 #if _DEBUG
     bool BeingRendered;
     bool BeingUpdated;

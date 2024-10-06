@@ -52,7 +52,7 @@ TTF_Font *GetFont(int ptSize)
 
 void PlaySound(std::string filename, float volume)
 {
-    cout << "PlaySound(" << filename << ", " << volume << ")" << endl;
+    // cout << "PlaySound(" << filename << ", " << volume << ")" << endl;
     EM_ASM_({ playSound(UTF8ToString($0), $1); }, filename.c_str(), volume);
 }
 

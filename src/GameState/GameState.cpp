@@ -52,12 +52,19 @@ void GameState::DoUpdate(GameState &nextGameState, TerrainType terrain[TERRAIN_G
 #else
     nextGameState.NumActiveBacteria = NumActiveBacteria;
 
+    nextGameState.LivingBacteriaLastFrame = 0;
+
     for (int i = 0; i < NumActiveBacteria; ++i)
     {
         if (currentBacteriaList[i].Health > 0)
+        {
             currentBacteriaList[i].Update1(nextBacteriaList[i], this, mutationQueuePtr, terrain);
+            nextGameState.LivingBacteriaLastFrame++;
+        }
         else
+        {
             nextBacteriaList[i] = currentBacteriaList[i];
+        }
     }
 
     for (int i = 0; i < MUTATION_QUEUE_PRIORITY_LEVELS; ++i)

@@ -42,6 +42,8 @@ function playSound(filename, volume) {
     }
 
     if (!audioElement) {
+        if (soundFiles[filename].length >= 4) return;
+
         console.log(`Creating new audio element for ${filename}`);
         audioElement = new Audio(filename);
         soundFiles[filename].push(audioElement);

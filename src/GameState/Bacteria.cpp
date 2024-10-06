@@ -9,7 +9,7 @@
 #define CURSOR_ATTRACTION_RADIUS 22
 #define CURSOR_ATTRACTION_POWER (1.0f / 1.0f)
 
-#define CONVERTER_CONVERSION_TIME 1200
+#define CONVERTER_CONVERSION_TIME 60 // 1200
 
 #define SWARMER_ATTACK_SPEED (1.0f / 1.0f)
 #define SWARMER_ATTACK_RANGE 1
@@ -28,7 +28,7 @@
 #define ZOOMER_ATTACK_COOLDOWN 90
 #define ZOOMER_ATTACK_DAMAGE 40
 
-#define SPLIT_SOUND_VOLUME 0.2f
+#define SPLIT_SOUND_VOLUME 0.03f
 #define ATTACK_SOUND_VOLUME 0.03f
 #define DEATH_SOUND_VOLUME 0.4f
 
@@ -36,7 +36,7 @@ SDL_Color FACTION_COLORS[] = {
     {128, 128, 255, 255},
     {255, 50, 50, 255}};
 
-bool IsPointObstructed(TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE], Vector2 point)
+static inline bool IsPointObstructed(TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE], Vector2 point)
 {
     auto xCell = ((int)(point.X + 0.5f) + (TERRAIN_GRID_SIZE / 2));
     auto yCell = ((int)(point.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2));
@@ -182,6 +182,8 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
 
             queueMutation->QueueMutation(0, [targetID](GameState *gs)
                                          {
+                                            if (gs->LivingBacteriaLastFrame >= MAX_BACTERIA) return;
+
                                             auto numSplits = gs->BacteriaList[targetID].Type == BacteriaType::Swarmer ? 2 : 1;
 
                                             QueueSound("split.wav", SPLIT_SOUND_VOLUME);
@@ -211,6 +213,29 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
     if (isInWall && !wasInWall)
     {
         nextState.Velocity = nextState.Velocity * -1;
+    }
+
+    if (isInWall && wasInWall)
+    {
+        // we're stuck in a wall
+        // cout << "Stuck in wall!" << endl;
+
+        float range = 0;
+        float angle = 0;
+
+        while (range < 20)
+        {
+            angle += 0.25f;
+            range += 0.25f;
+
+            auto possPt = nextState.Position + (Vector2(cosf(angle), sinf(angle)) * range);
+            if (!IsPointObstructed(terrain, possPt))
+            {
+                nextState.Position = possPt;
+                nextState.Velocity = Vector2(0, 0);
+                break;
+            }
+        }
     }
 
     nextState.Velocity *= 0.9f;
