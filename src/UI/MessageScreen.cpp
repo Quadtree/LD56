@@ -46,7 +46,7 @@ void EnterMessageScreen(string message, function<void()> next)
 {
     CallTearDownFunction();
 
-    lockedUntil = GetTimeAsDouble() + 0.5;
+    lockedUntil = GetTimeAsDouble() + 1.5;
 
     messageGlobal = message;
     nextGlobal = next;
