@@ -156,6 +156,11 @@ void GameState::AddBacteria(Bacteria bacteria)
         {
             NumActiveBacteria = max(NumActiveBacteria, i + 1);
 
+            if (bacteria.Type == BacteriaType::Converter)
+                bacteria.Health = 3;
+            if (bacteria.Type == BacteriaType::Swarmer)
+                bacteria.Health = 10;
+
             BacteriaList[i] = bacteria;
             return;
         }

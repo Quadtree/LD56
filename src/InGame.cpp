@@ -164,6 +164,17 @@ void EnterInGameState()
     attractionPoint = Vector2();
     attractionType = BacteriaType::Invalid;
 
+    for (int i=0;i<50;++i)
+    {
+        Bacteria b1;
+        b1.Position = Vector2(i, 0);
+        b1.Type = BacteriaType::Swarmer;
+        b1.Velocity = Vector2(0,0);
+        b1.Health = 
+
+        gameStates[0].AddBacteria();
+    }
+
     emscripten_cancel_main_loop();
 
     cout << "About to call emscripten_set_main_loop" << endl;
