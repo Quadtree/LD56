@@ -22,7 +22,7 @@ SDL_Window *wnd;
 thread::id mainThreadId;
 
 void InGameMainLoop();
-void EnterInGameState();
+void EnterInGameState(string levelName);
 
 void FakeMainLoop()
 {
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
 	rnd = SDL_CreateRenderer(wnd, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	EnterInGameState();
+	EnterInGameState("assets/level1.xcf");
 
 	AssertOnMainThread();
 

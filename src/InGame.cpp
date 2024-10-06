@@ -27,6 +27,20 @@ double lastGameUpdateTime = 0;
 
 double elapsedTime;
 
+enum class TerrainType : uint8_t
+{
+    Invalid,
+    Clear,
+    Rough,
+    Obstructed,
+    Max,
+};
+
+#define TERRAIN_GRID_SIZE 500
+#define TERRAIN_GRID_CELL_SIZE 2
+
+TerrainType Terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE];
+
 void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
@@ -215,7 +229,7 @@ void InGameMainLoop()
     SDL_RenderPresent(rnd);
 }
 
-void EnterInGameState()
+void EnterInGameState(string levelName)
 {
     if (gameStates)
         delete gameStates;
