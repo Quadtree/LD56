@@ -13,11 +13,11 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
-- Main menu
 - Win screen
 - Keys to scroll and zoom
 - Advanced AI
 - Sound
+- Clean up shell
 - Fix DPI scaling issue
 - Prevent spawning in walls
 - Music
@@ -26,3 +26,4 @@
 - Implement walls
 - More levels
 - Basic AI
+- Main menu

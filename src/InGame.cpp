@@ -186,7 +186,9 @@ void InGameMainLoop()
 
     attractionPoint = camera.ScreenToReal(Vector2(mouseX, mouseY));
 
-    SDL_SetRenderDrawColor(rnd, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    // 0xFFFFBBBB
+
+    SDL_SetRenderDrawColor(rnd, 0xFF, 0xBB, 0xBB, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(rnd);
 
     elapsedTime = GetTimeAsDouble();
