@@ -13,6 +13,7 @@
     - C++ is obviously going to be a lot faster on web
 
 ## Remaining Tasks
+- Start of level blurbs
 - Prevent spawning in walls
 - Music
 
