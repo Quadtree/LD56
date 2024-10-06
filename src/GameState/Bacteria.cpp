@@ -60,7 +60,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
             continue;
 
         auto delta = (Position - it->Position).Normalized();
-        nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER;
+        nextState.Velocity += (delta * min(40.f, 1.f / Position.DistToSquared(it->Position))) * DEFAULT_REPULSION_POWER * nearbyBacteria.size();
     }
 
     float bestSquaredDist = 200000;
