@@ -30,6 +30,7 @@ if [ ! -d "$OUTPUT_DIR" ]; then
 fi
 
 cd "$BUILD_DIR"
+embuilder build sdl2 sdl2_ttf sdl2_image
 emcmake cmake "-DDEBUG_MODE=${DEBUG_MODE}" "-DOUTPUT_DIR=${OUTPUT_DIR}" "-DLIBS_DIR=${LIBS_DIR}" "$SOURCE_DIR"
 cmake --build . -j
 
