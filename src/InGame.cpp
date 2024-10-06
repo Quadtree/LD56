@@ -21,7 +21,7 @@ int currentFPS = 0;
 Camera camera;
 
 Vector2 attractionPoint;
-BacteriaType attractionType = BacteriaType::Invalid;
+bool attractionTypes[(int)BacteriaType::Max];
 
 double lastGameUpdateTime = 0;
 
@@ -47,7 +47,7 @@ void UpdateWorldState()
 {
     lock_guard gameStateLock(gameStates[nextGameStateToUpdate].mutex);
 
-    gameStates[currentGameState].AttractionPoints[0].Type = attractionType;
+    memcpy(gameStates[currentGameState].AttractionPoints[0].Types, attractionTypes, sizeof(attractionTypes));
     gameStates[currentGameState].AttractionPoints[0].Location = attractionPoint;
 
     gameStates[currentGameState].DoUpdate(gameStates[nextGameStateToUpdate]);
@@ -115,21 +115,29 @@ void InGameMainLoop()
             }
 
             if (evt.key.keysym.sym == SDLK_1)
-                attractionType = BacteriaType::Converter;
+                attractionTypes[(int)BacteriaType::Converter] = true;
             if (evt.key.keysym.sym == SDLK_2)
-                attractionType = BacteriaType::Swarmer;
+                attractionTypes[(int)BacteriaType::Swarmer] = true;
             if (evt.key.keysym.sym == SDLK_3)
-                attractionType = BacteriaType::Gobbler;
+                attractionTypes[(int)BacteriaType::Gobbler] = true;
             if (evt.key.keysym.sym == SDLK_4)
-                attractionType = BacteriaType::Zoomer;
+                attractionTypes[(int)BacteriaType::Zoomer] = true;
             if (evt.key.keysym.sym == SDLK_5)
-                attractionType = BacteriaType::Spitter;
+                attractionTypes[(int)BacteriaType::Spitter] = true;
         }
 
         if (evt.type == SDL_KEYUP)
         {
-            if (evt.key.keysym.sym == SDLK_1 || evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_3 || evt.key.keysym.sym == SDLK_4 || evt.key.keysym.sym == SDLK_5)
-                attractionType = BacteriaType::Invalid;
+            if (evt.key.keysym.sym == SDLK_1)
+                attractionTypes[(int)BacteriaType::Converter] = false;
+            if (evt.key.keysym.sym == SDLK_2)
+                attractionTypes[(int)BacteriaType::Swarmer] = false;
+            if (evt.key.keysym.sym == SDLK_3)
+                attractionTypes[(int)BacteriaType::Gobbler] = false;
+            if (evt.key.keysym.sym == SDLK_4)
+                attractionTypes[(int)BacteriaType::Zoomer] = false;
+            if (evt.key.keysym.sym == SDLK_5)
+                attractionTypes[(int)BacteriaType::Spitter] = true;
         }
 
         if (evt.type == SDL_MOUSEMOTION)
@@ -256,7 +264,7 @@ void EnterInGameState(string levelName)
     camera = Camera();
 
     attractionPoint = Vector2();
-    attractionType = BacteriaType::Invalid;
+    memset(attractionTypes, 0, sizeof(attractionTypes));
 
     SDL_Surface *lvlSurf = IMG_Load(levelName.c_str());
     SDL_LockSurface(lvlSurf);

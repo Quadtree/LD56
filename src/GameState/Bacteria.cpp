@@ -158,7 +158,7 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         }
     }
 
-    if (curGameState->AttractionPoints[Faction].Type == Type && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
+    if (curGameState->AttractionPoints[Faction].Types[(int)Type] && curGameState->AttractionPoints[Faction].Location.DistToSquared(Position) <= SQUARE(CURSOR_ATTRACTION_RADIUS))
     {
         auto delta = (curGameState->AttractionPoints[Faction].Location - Position).Normalized();
         nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;

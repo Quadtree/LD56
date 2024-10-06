@@ -24,8 +24,7 @@ public:
 
 struct AttractionPoint
 {
-    BacteriaType Type;
-    int Faction;
+    bool Types[(int)BacteriaType::Max];
     Vector2 Location;
 };
 
