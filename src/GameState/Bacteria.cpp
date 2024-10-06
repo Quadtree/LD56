@@ -36,6 +36,17 @@ SDL_Color FACTION_COLORS[] = {
     {128, 128, 255, 255},
     {255, 50, 50, 255}};
 
+bool IsPointObstructed(TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE], Vector2 point)
+{
+    auto xCell = ((int)(point.X + 0.5f) + (TERRAIN_GRID_SIZE / 2));
+    auto yCell = ((int)(point.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2));
+
+    if (xCell < 0 || yCell < 0 || xCell >= TERRAIN_GRID_SIZE || yCell >= TERRAIN_GRID_SIZE)
+        return true;
+
+    return terrain[xCell + yCell * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
+}
+
 void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class MutationQueue *queueMutation, TerrainType terrain[TERRAIN_GRID_SIZE * TERRAIN_GRID_SIZE]) const
 {
     nextState = *this;
@@ -191,15 +202,14 @@ void Bacteria::Update1(Bacteria &nextState, const GameState *curGameState, class
         nextState.Velocity += delta * CURSOR_ATTRACTION_POWER;
     }
 
-    auto wasInWall = terrain[((int)(nextState.Position.X + 0.5f) + (TERRAIN_GRID_SIZE / 2)) + ((int)(nextState.Position.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2)) * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
+    auto wasInWall = IsPointObstructed(terrain, nextState.Position);
 
     nextState.Position += Velocity / 60;
 
-    auto isInWall = terrain[((int)(nextState.Position.X + 0.5f) + (TERRAIN_GRID_SIZE / 2)) + ((int)(nextState.Position.Y + 0.5f) + (TERRAIN_GRID_SIZE / 2)) * TERRAIN_GRID_SIZE] == TerrainType::Obstructed;
+    auto isInWall = IsPointObstructed(terrain, nextState.Position);
 
     if (isInWall && !wasInWall)
     {
-        // cout << "WE HIT A WALL!" << endl;
         nextState.Velocity = nextState.Velocity * -1;
     }
 
