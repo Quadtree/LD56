@@ -169,7 +169,7 @@ void InGameMainLoop()
     SDL_Event evt;
     while (SDL_PollEvent(&evt))
     {
-        if ((evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN) && GetTimeAsDouble() > BlurbVisible)
+        if ((evt.type == SDL_KEYDOWN || evt.type == SDL_MOUSEBUTTONDOWN) && GetTimeAsDouble() > BlurbLockedUntil)
         {
             BlurbVisible = false;
         }
@@ -478,7 +478,7 @@ void EnterInGameState(int levelNumber)
     camera.Reset();
 
     BlurbVisible = true;
-    BlurbLockedUntil = GetTimeAsDouble() + 0.5;
+    BlurbLockedUntil = GetTimeAsDouble() + 1.0;
 
     for (int y = 0; y < lvlSurf->h; ++y)
     {
