@@ -75,6 +75,8 @@ void QueueSound(std::string filename, float volume)
 
 void FlushSoundQueue()
 {
+    lock_guard soundQueueMutexGuard(soundQueueMutex);
+    
     for (auto &it : soundQueue)
     {
         PlaySound(it.Filename, it.Volume);
